@@ -1,0 +1,143 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Pynoptic</title>
+
+		<meta name="description" content="overview &amp; stats" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- basic styles -->
+
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/bootstrap-responsive.css" rel="stylesheet" />
+		<link href="css/docs.css" rel="stylesheet" />
+
+	</head>
+
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="navbar-inner">
+	        <div class="container">
+	          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="brand" href="#">Pynoptic</a>
+	          <div class="nav-collapse collapse">
+	            <ul class="nav">
+	              <li class="active"><a href="#">Home</a></li>
+	              <li><a href="#about">About</a></li>
+	              <li><a href="#contact">Contact</a></li>
+	            </ul>
+	          </div><!--/.nav-collapse -->
+	        </div>
+	      </div>
+	    </div>
+
+    <div class="container" style="padding-top: 50px;">
+    <div class="row">
+    	<div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+          <li class="active"><a href="index.html"><i class="icon-chevron-right"></i> Input</a></li>
+          <li><a href="invarient.html"><i class="icon-chevron-right"></i> Invarients</a></li>
+          <li><a href="model.html"><i class="icon-chevron-right"></i> Model</a></li>
+          <li><a href="#forms"><i class="icon-chevron-right"></i> Tutorial</a></li>
+          <li><a href="#buttons"><i class="icon-chevron-right"></i>Example</a></li>
+        </ul>
+      	</div>
+      	<div class="span9" style="">
+      		<form class="bs-docs-example form-horizontal">
+					<fieldset>
+					<!-- Textarea -->
+					<div class="control-group">
+					  <label class="control-label" for="textarea">Log</label>
+					  <div class="controls">                     
+					    <textarea id="textarea" name="textarea" rows="5">1 0 c
+2 0 b
+3 0 a
+4 0 d
+1 1 f
+2 1 b
+3 1 a
+4 1 e
+1 2 f
+2 2 b
+3 2 a
+4 2 d
+					</textarea>
+					  </div>
+					</div>
+
+					<!-- Text input-->
+					<div class="control-group">
+					  <label class="control-label" for="regEx">Regular expression</label>
+					  <div class="controls">
+					    <input id="regEx" name="regEx" type="text" placeholder="^(?&lt;TIME&gt;)(?&lt;nodename&gt;)(?&lt;TYPE&gt;)$" class="input-xlarge">
+					    
+					  </div>
+					</div>
+
+					<!-- Text input-->
+					<div class="control-group">
+					  <label class="control-label" for="partEx">Partition Expression</label>
+					  <div class="controls">
+					    <input id="partEx" name="partEx" type="text" placeholder="\k&lt;nodename&gt;" class="input-xlarge">
+					    
+					  </div>
+					</div>
+
+					<!-- Text input-->
+					<div class="control-group">
+					  <label class="control-label" for="sepEx">Separator expression</label>
+					  <div class="controls">
+					    <input id="sepEx" name="sepEx" type="text" placeholder="" class="input-xlarge">
+					    
+					  </div>
+					</div>
+
+					<!-- Multiple Radios -->
+					<div class="control-group">
+					  <label class="control-label" for="parsing">Parsing Option</label>
+					  <div class="controls">
+					    <label class="radio" for="parsing-0">
+					      <input type="radio" name="parsing" id="parsing-0" value="Ignore non-matched lines" checked="checked">
+					      Ignore non-matched lines
+					    </label>
+					  </div>
+					</div>
+
+					<!-- Multiple Checkboxes -->
+					<div class="control-group">
+					  <label class="control-label" for="checkboxes">Debugging Option</label>
+					  <div class="controls">
+					    <label class="checkbox" for="checkboxes-0">
+					      <input type="checkbox" name="checkboxes" id="checkboxes-0" value="Manual refinement/coarsening">
+					      Manual refinement/coarsening
+					    </label>
+					    <label class="checkbox" for="checkboxes-1">
+					      <input type="checkbox" name="checkboxes" id="checkboxes-1" value="Only mine invariants">
+					      Only mine invariants
+					    </label>
+					  </div>
+					</div>
+
+					<!-- Button (Double) -->
+					<div class="control-group">
+					  <label class="control-label" for="button1id"></label>
+					  <div class="controls">
+					    <button id="button1id" name="button1id" class="btn btn-primary"><a href="model.html" style="color: #fff;">Parse Log</a></button>
+					    <button id="button2id" name="button2id" class="btn btn-danger">Clear</button>
+					  </div>
+					</div>
+
+					</fieldset>
+					</form>
+
+      	</div>
+    </div>
+    </div>
+		
+
+	</body>
+</html>
