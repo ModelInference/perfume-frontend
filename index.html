@@ -11,7 +11,29 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet" />
 		<link href="css/bootstrap-responsive.css" rel="stylesheet" />
 		<link href="css/docs.css" rel="stylesheet" />
+        <!--jquery-->
+        <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js "></script>
+		<script type="text/javascript" src="js/raphael.js"></script>
+		<script type="text/javascript" src="js/graffle.js"></script>
+        <script type="text/javascript" src="frontend.js"></script>
 
+        <style type="text/css">
+            #holder{
+                width: 720px;
+                height: 480px;
+                position: relative;
+                }
+            .tab-content {
+                border-left: 1px solid #ddd;
+                border-right: 1px solid #ddd;
+                padding: 10px;
+            }
+
+            .nav-tabs {
+                margin-bottom: 0;
+            }
+    </style>
 	</head>
 
 	<body>
@@ -36,24 +58,24 @@
 	    </div>
 
     <div class="container" style="padding-top: 50px;">
-    <div class="row">
-    	<div class="span3 bs-docs-sidebar">
-        <ul class="nav nav-list bs-docs-sidenav">
-          <li class="active"><a href="index.html"><i class="icon-chevron-right"></i> Input</a></li>
-          <li><a href="invariant.html"><i class="icon-chevron-right"></i> Invariants</a></li>
-          <li><a href="model.html"><i class="icon-chevron-right"></i> Model</a></li>
-          <li><a href="#forms"><i class="icon-chevron-right"></i> Tutorial</a></li>
-          <li><a href="#buttons"><i class="icon-chevron-right"></i>Example</a></li>
-        </ul>
-      	</div>
-      	<div class="span9" style="">
-      		<form class="bs-docs-example form-horizontal">
-					<fieldset>
-					<!-- Textarea -->
-					<div class="control-group">
-					  <label class="control-label" for="textarea">Log</label>
-					  <div class="controls">                     
-					    <textarea id="textarea" name="textarea" rows="5">1 0 c
+        <div class="row">
+            <div class="span1">
+            </div>
+            <div class="span9" >
+            <div id="tabbable">
+  <ul id="tabs" class="nav nav-tabs">
+    <li class="active"><a href="#inputtab" data-toggle="tab">Input</a></li>
+    <li><a href="#invarianttab" data-toggle="tab">Invariants</a></li>
+    <li><a href="#modeltab" data-toggle="tab">Model</a></li>
+  </ul>
+    <div class="tab-content">
+        <div id="inputtab" class="tab-pane active">
+                            <!-- Textarea -->
+                            <div class="control-group">
+                            <label class="control-label" for="textarea">Log</label>
+                            <div class="controls">                     
+                                <textarea id="textarea" name="textarea" rows="5">
+1 0 c
 2 0 b
 3 0 a
 4 0 d
@@ -65,79 +87,84 @@
 2 2 b
 3 2 a
 4 2 d
-					</textarea>
-					  </div>
-					</div>
+                            </textarea>
+                            </div>
+                            </div>
 
-					<!-- Text input-->
-					<div class="control-group">
-					  <label class="control-label" for="regEx">Regular expression</label>
-					  <div class="controls">
-					    <input id="regEx" name="regEx" type="text" placeholder="^(?&lt;TIME&gt;)(?&lt;nodename&gt;)(?&lt;TYPE&gt;)$" class="input-xlarge">
-					    
-					  </div>
-					</div>
+                            <!-- Text input-->
+                            <div class="control-group">
+                            <label class="control-label" for="regEx">Regular expression</label>
+                            <div class="controls">
+                                <input id="regEx" name="regEx" type="text" placeholder="^(?&lt;TIME&gt;)(?&lt;nodename&gt;)(?&lt;TYPE&gt;)$" class="input-xlarge">
+                                
+                            </div>
+                            </div>
 
-					<!-- Text input-->
-					<div class="control-group">
-					  <label class="control-label" for="partEx">Partition Expression</label>
-					  <div class="controls">
-					    <input id="partEx" name="partEx" type="text" placeholder="\k&lt;nodename&gt;" class="input-xlarge">
-					    
-					  </div>
-					</div>
+                            <!-- Text input-->
+                            <div class="control-group">
+                            <label class="control-label" for="partEx">Partition Expression</label>
+                            <div class="controls">
+                                <input id="partEx" name="partEx" type="text" placeholder="\k&lt;nodename&gt;" class="input-xlarge">
+                                
+                            </div>
+                            </div>
 
-					<!-- Text input-->
-					<div class="control-group">
-					  <label class="control-label" for="sepEx">Separator expression</label>
-					  <div class="controls">
-					    <input id="sepEx" name="sepEx" type="text" placeholder="" class="input-xlarge">
-					    
-					  </div>
-					</div>
+                            <!-- Text input-->
+                            <div class="control-group">
+                            <label class="control-label" for="sepEx">Separator expression</label>
+                            <div class="controls">
+                                <input id="sepEx" name="sepEx" type="text" placeholder="" class="input-xlarge">
+                                
+                            </div>
+                            </div>
 
-					<!-- Multiple Radios -->
-					<div class="control-group">
-					  <label class="control-label" for="parsing">Parsing Option</label>
-					  <div class="controls">
-					    <label class="radio" for="parsing-0">
-					      <input type="radio" name="parsing" id="parsing-0" value="Ignore non-matched lines" checked="checked">
-					      Ignore non-matched lines
-					    </label>
-					  </div>
-					</div>
+                            <!-- Multiple Radios -->
+                            <div class="control-group">
+                            <label class="control-label" for="parsing">Parsing Option</label>
+                            <div class="controls">
+                                <label class="radio" for="parsing-0">
+                                <input type="radio" name="parsing" id="parsing-0" value="Ignore non-matched lines" checked="checked">
+                                Ignore non-matched lines
+                                </label>
+                            </div>
+                            </div>
 
-					<!-- Multiple Checkboxes -->
-					<div class="control-group">
-					  <label class="control-label" for="checkboxes">Debugging Option</label>
-					  <div class="controls">
-					    <label class="checkbox" for="checkboxes-0">
-					      <input type="checkbox" name="checkboxes" id="checkboxes-0" value="Manual refinement/coarsening">
-					      Manual refinement/coarsening
-					    </label>
-					    <label class="checkbox" for="checkboxes-1">
-					      <input type="checkbox" name="checkboxes" id="checkboxes-1" value="Only mine invariants">
-					      Only mine invariants
-					    </label>
-					  </div>
-					</div>
+                            <!-- Multiple Checkboxes -->
+                            <div class="control-group">
+                            <label class="control-label" for="checkboxes">Debugging Option</label>
+                            <div class="controls">
+                                <label class="checkbox" for="checkboxes-0">
+                                <input type="checkbox" name="checkboxes" id="checkboxes-0" value="Manual refinement/coarsening">
+                                Manual refinement/coarsening
+                                </label>
+                                <label class="checkbox" for="checkboxes-1">
+                                <input type="checkbox" name="checkboxes" id="checkboxes-1" value="Only mine invariants">
+                                Only mine invariants
+                                </label>
+                            </div>
+                            </div>
 
-					<!-- Button (Double) -->
-					<div class="control-group">
-					  <label class="control-label" for="button1id"></label>
-					  <div class="controls">
-					    <button id="button1id" name="button1id" class="btn btn-primary"><a href="model.html" style="color: #fff;">Parse Log</a></button>
-					    <button id="button2id" name="button2id" class="btn btn-danger">Clear</button>
-					  </div>
-					</div>
+                            <!-- Button (Double) -->
+                            <div class="control-group">
+                            <label class="control-label" for="button1id"></label>
+                            <div class="controls">
+                                <button id="parselog" name="parselog" class="btn btn-primary">Parse Log</button>
+                                <button id="clear" name="clear" class="btn btn-danger">Clear</button>
+                            </div>
+                            </div>
+                        </div>
 
-					</fieldset>
-					</form>
-
-      	</div>
-    </div>
+                        <div id="invarianttab" class="tab-pane"  >
+                        </div>
+                        <div id="modeltab" class="tab-pane"  >
+                            <div id="holder">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 		
-
 	</body>
 </html>
