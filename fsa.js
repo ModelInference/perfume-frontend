@@ -1,7 +1,7 @@
 var graph = new joint.dia.Graph;
 
 var paper = new joint.dia.Paper({
-    el: $('#graph'),
+    el: $('#paper'),
     width: 800,
     height: 600,
     gridSize: 1,
@@ -17,7 +17,7 @@ function state(x, y, label) {
     });
     graph.addCell(cell);
     return cell;
-}
+};
 
 function link(source, target, label, vertices) {
     
@@ -31,13 +31,8 @@ function link(source, target, label, vertices) {
     return cell;
 }
 
-function g() {
 var start = new joint.shapes.fsa.StartState({ position: { x: 50, y: 530 } });
-try {
 graph.addCell(start);
-} catch (e) {
-alert(e);
-}
 
 var code  = state(180, 390, 'code');
 var slash = state(340, 220, 'slash');
@@ -56,4 +51,4 @@ link(star,  block, 'other', [{x: 650, y: 290}]);
 link(star,  code,  '/',     [{x: 490, y: 310}]);
 link(line,  line,  'other', [{x: 115,y: 100}, {x: 250, y: 50}]);
 link(block, block, 'other', [{x: 485,y: 140}, {x: 620, y: 90}]);
-link(code,  code,  'other', [{x: 180,y: 500}, {x: 305, y: 450}]);}
+link(code,  code,  'other', [{x: 180,y: 500}, {x: 305, y: 450}]);

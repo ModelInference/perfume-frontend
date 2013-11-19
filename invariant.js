@@ -1,22 +1,3 @@
-$(document).ready(function() {
-    $("#parselog").click( function() {
-        getInvaraints(null);
-    });
-    $("#clear").click( function() {
-        
-    });
-
-});
-
-function fetchGraph() {
-    $.ajax()
-}
-
-function drawGraph(graphData) {
-    var FSA = new Raphael(document.getElementById('holder'), 720, 480);
-
- 
-}
 
 function getInvaraints(data) {
 //Debugging code, example json. Parameter data will be used in final version
@@ -25,9 +6,14 @@ var invariant ={"log":[{"traceID":0,"events":[{"eventIndex":0,"eventType":"c","t
 var msg = "";
  for (var i = 0; i < invariant.invariants.length; i++) {
         var inv = invariant.invariants[i];
-        msg = inv.invariantType.replace(/([A-Z])/g, ' $1');
+        msg = inv.invariantType.replace(/([A-Z])/g, ' $1'); //Split words into strings
         msg =  inv.predicates[0] + " is" + msg + " " + inv.predicates[1];
-        $("#invarianttab").append(msg+"<br>");
+        constraintText = "";
+        for (var j = 0; j < inv.constraints.length; j++) {
+            constraintText += inv.constraints[j] + "\n"; //Add information about bounds
+        }
+        $("#invarianttab").append("<li>" +  msg + "<div title=\"hover\">" + constraintText + "</div></li>");
      }
 }
 
+getInvaraints(null);
