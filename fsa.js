@@ -39,9 +39,7 @@ function link(source, target, label, vertices) {
 
 
 
-function generateStates() {
-    var init  = state(10, 10, { "eventType": "init", "events": [] });
-    var term = state(340, 340, {"eventType": "term", "events": [] });
+function generateStates(data) {
     var states = [];
     var startx = 10;
     var starty = 70;
@@ -53,33 +51,37 @@ function generateStates() {
                 startx = 10;
             }
         }
+    return states;
 }
 
-function generateTransitions() {
+function generateTransitions(data) {
+    for (var i = 0; i < data.log.length; i++) {
+        var trace = data.partitions[i];
+        link(init, findState(i, trace.events[0], ''));
+        link(findState(i, trace.events[trace.events.length - 1]), term, ''); //Last state in trace
+        for (var j = 0; j < trace.events.length - 1; j++) {
+            var sourceEvent = trace.events[j];
+            var targetEvent = trace.events[j+1];
+            link(findState(i, sourceEvent), findState(i, targetEvent));
+        }
+    }
 
 }
 
-function getRandomInt (min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
-function findState(eventType, traceid, index) {
+
+function findState(traceid, eventData) {
     for (var i = 0; i < states.length; i++) {
+        if(isMatchingState(states[i], traceid, eventData))
+            return states[i];
     }
     return null;
 }
 
-// function findState(eventData) {
-//     for (var i = 0; i < states.length; i++) {
-//         if(isMatchingState(states[i], eventData))
-//     }
-//     return null;
-// }
-
-function isMatchingState(state, eventData) {
+function isMatchingState(state, traceid, eventData) {
     for (var i = 0; i < state.events.length; i++) {
          if (state.events[i].eventType == eventData.eventType) {
-            if (state.events[i].traceID == eventData.traceID) {
+            if (state.events[i].traceID == traceid) {
                 if (state.events[i].eventIndex == eventData.eventIndex) {
                     return true;
                 }
@@ -90,5 +92,8 @@ function isMatchingState(state, eventData) {
 }
 
 var start = new joint.shapes.fsa.StartState({ position: { x: 50, y: 530 } });
+var init  = state(10, 10, { "eventType": "init", "events": [] });
+var term = state(340, 340, {"eventType": "term", "events": [] });
 graph.addCell(start);
-generateStates();
+var states = generateStates(data);
+generateTransitions(data);
