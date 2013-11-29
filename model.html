@@ -9,16 +9,13 @@
 		<!-- basic styles -->
 
 		<link href="css/bootstrap.min.css" rel="stylesheet" />
-		<link href="css/bootstrap-responsive.css" rel="stylesheet" />
-		<link href="css/docs.css" rel="stylesheet" />
-		<script type="text/javascript" src="js/raphael.js"></script>
-		<script type="text/javascript" src="js/graffle.js"></script>
-        <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
-		<script type="text/javascript" src="frontend.js"></script>
+    <link href="css/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="css/docs.css" rel="stylesheet" />
+    <link href="css/joint.min.css" rel="stylesheet" />
     <style type="text/css">
-    #holder{
-			width: 720px;
-			height: 480px;
+    .paper{
+			width: 800px;
+			height: 600px;
 			position: relative;
 		}
 		</style>
@@ -59,13 +56,16 @@
       	</div>
       	<div class="span9">
       		<div class="model-text bs-docs-example">
-      		<div id="holder"></div>
+              <div id="paper" class="paper"> </div>
       		</div>
       	</div>
     </div>
     </div>
 		
-
+      <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
     	<script type="text/javascript" src="js/bootstrap.js"></script>
+      <script type="text/javascript" src="js/joint.min.js"></script>
+      <script type="text/javascript" src="js/joint.shapes.fsa.min.js"></script>
+      <script type="text/javascript" src="fsa.js"></script>
 	</body>
 </html>
