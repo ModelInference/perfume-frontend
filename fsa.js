@@ -4,17 +4,18 @@ var data = { "log": [ { "traceID": 0, "events": [ { "eventIndex": 0, "eventType"
 
 var paper = new joint.dia.Paper({
     el: $('#paper'),
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 1600,
     gridSize: 1,
     model: graph
 });
 
+//Constructor for state objects. Borrowed from the FSA demo, added in eventType and events attributes.
 function state(x, y, eventdata) {
         
     var cell = new joint.shapes.fsa.State({
         position: { x: x, y: y },
-        size: { width: 10, height: 10 },
+        size: { width: 50, height: 50 },
         attrs: { text : { text: eventdata.eventType }}
     });
     cell.eventType = eventdata.eventType;
@@ -22,10 +23,10 @@ function state(x, y, eventdata) {
     for (var i = 0; i < eventdata.events.length; i ++) {
         cell.events.push(eventdata.events[i]);
     }
-    // graph.addCell(cell);
     return cell;
 };
 
+//Constructor for transition objects. Borrowed from the FSA demo.
 function link(source, target, label, vertices) {
     
     var cell = new joint.shapes.fsa.Arrow({
@@ -38,15 +39,19 @@ function link(source, target, label, vertices) {
     return cell;
 }
 
+//Uses the partitions array to decide what states are generated. 
+//Location is part of my algorthim. Ycoordinate
 function generateStates(data) {
     var states = [];
     var startx = 10;
-    var starty = 70;
+    var starty = 120;
     for (var i = 0; i < data.partitions.length; i++  ){
-            states.push(state(startx,starty,data.partitions[i]));
+            var VertMultiplier = getStateVerticalPositionMultiplier(data.partitions[i]);
+            var HorizMultiplier = parseInt( getStateHorizontalPositionMultiplier(data.partitions[i]) );
+
+            states.push(state(100*HorizMultiplier+15, starty*VertMultiplier+100-(15*HorizMultiplier), data.partitions[i]));
             startx += 100;
             if (startx > 550 ){
-                starty += 75;
                 startx = 10;
             }
         }
@@ -58,15 +63,25 @@ function generateStates(data) {
     return states;
 }
 
-function doesStateHaveTransition(state) {
+//Uses the average number of transitions a state has 
+function getStateVerticalPositionMultiplier(state) {
+    sum  = 0;
+    items = 0;
     for (var i = 0; i < data.log.length; i++) {
         for (var j = 0; j < data.log[i].events.length; j++) {
             if(isMatchingState(state, i ,data.log[i].events[j])) {
-                return true;
+                sum += j;
+                items++;
             }
         }
     }
-    return false;
+    return sum/items;
+}
+function getStateHorizontalPositionMultiplier(state) {
+        for (var i = 0; i < state.events.length; i++) {
+            return state.events[i].traceID;
+        }
+        return 1;
 }
 
 function generateTransitions(data) {
@@ -105,9 +120,7 @@ function isMatchingState(state, traceid, eventData) {
     return false;
 }
 
-var start = new joint.shapes.fsa.StartState({ position: { x: 50, y: 530 } });
 var init  = state(10, 10, { "eventType": "init", "events": [] });
-var term = state(340, 340, {"eventType": "term", "events": [] });
-graph.addCell(start);
+var term = state(600, 550, {"eventType": "term", "events": [] });
 var states = generateStates(data);
 generateTransitions(data);
