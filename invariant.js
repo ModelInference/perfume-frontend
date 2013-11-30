@@ -331,24 +331,25 @@ function getCol(data){
 }
 
 getCol(null);
-var path = [];
-var left = [];
-var right = [];
-var mid = [];
+// var path = [];
+// var left = [];
+// var right = [];
+// var mid = [];
 window.onload = function() {  
     var offset = 0;
-    // var left = [];
-    // var mid = [];
-    // var right = [];
-    // var path = [];
+    var left = [];
+    var mid = [];
+    var right = [];
+    var path = [];
     var paper = Raphael("holder", 600, 600);
     var attr = {font: "50px Helvetica", opacity: 0.5};
+    var text ="";
     for(var i=0; i<leftCol.length;i++){
-        var dot = paper.text(50,40+offset, leftCol[i]).attr(attr);
+        var dot = paper.text(50,100+offset, leftCol[i]).attr(attr);
         var property = {
             "dot":dot,
             "x":50,
-            "y":40+offset,
+            "y":100+offset,
             "content": leftCol[i]
         };
         left.push(property);
@@ -356,11 +357,11 @@ window.onload = function() {
     }
     offset = 0;
     for(var i=0; i<midCol.length;i++){
-        var dot = paper.text(250,40+offset, midCol[i]).attr(attr);
+        var dot = paper.text(250,100+offset, midCol[i]).attr(attr);
         var property = {
             "dot":dot,
             "x":250,
-            "y":40+offset,
+            "y":100+offset,
             "content": midCol[i]
         };
         mid.push(property);
@@ -368,11 +369,11 @@ window.onload = function() {
     }
     offset = 0;
     for(var i=0; i<rightCol.length;i++){
-        var dot = paper.text(450,40+offset, rightCol[i]).attr(attr);
+        var dot = paper.text(450,100+offset, rightCol[i]).attr(attr);
         var property = {
             "dot":dot,
             "x":450,
-            "y":40+offset,
+            "y":100+offset,
             "content": rightCol[i]
         };
         right.push(property);
@@ -388,25 +389,40 @@ window.onload = function() {
         return myNode;
     }
     var hoverIn = function() {
-        this.attr({"stroke": "#E3E3E3"});
+        this.attr({"stroke": "#ff0000","stroke-width":4});
+        var title = paper.text(200, 40, text).attr(attr);
     };
     var hoverOut = function() {
-        this.attr({"stroke": "#000"});    
+        this.attr({"stroke": "#E3E3E3","stroke-width":2}); 
+        var title = paper.text(200, 40, text).attr(attr);
     };
+    var arrow = function (x1, y1, x2, y2, size) {
+        var angle = Math.atan2(x1-x2,y2-y1);
+        angle = (angle / (2 * Math.PI)) * 360;
+        var arrowPath = paper.path("M" + x2 + " " + y2 + " L" + (x2 - size) + " " + (y2 - size) + " L" + (x2 - size) + " " + (y2 + size) + " L" + x2 + " " + y2).attr("stroke","#E3E3E3").rotate((90+angle),x2,y2);
+        var linePath = paper.path(["M", x1,y1,"L",x2,y2]).attr({"stroke-width":2,"stroke":"#E3E3E3"});
+        return [linePath,arrowPath];
+    }
+
     for(var i=0; i<alwaysPrecedes.length;i++){
         var leftNode = findNode(alwaysPrecedes[i].predicates[0], left);
         var rightNode = findNode(alwaysPrecedes[i].predicates[1],mid);
-        var link = paper.path(["M",leftNode.x+15,leftNode.y,"L",rightNode.x-15,rightNode.y]).attr("stroke-width",2);
-        leftNode.dot.hover(hoverIn,hoverOut,link,link);
-        rightNode.dot.hover(hoverIn,hoverOut,link,link);
+        // var link = paper.path(["M",leftNode.x+15,leftNode.y,"L",rightNode.x-15,rightNode.y]).attr("stroke-width",2);
+        var link = arrow(leftNode.x+15,leftNode.y,rightNode.x-15,rightNode.y,7);
+        leftNode.dot.hover(hoverIn,hoverOut,link[0],link[0]);
+        rightNode.dot.hover(hoverIn,hoverOut,link[0],link[0]);
+        leftNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
+        rightNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
         path.push(link);
     }
     for(var i=0; i<alwaysFollowedBy.length;i++){
         var leftNode = findNode(alwaysFollowedBy[i].predicates[0], mid);
         var rightNode = findNode(alwaysFollowedBy[i].predicates[1], right);
-        var link = paper.path(["M",leftNode.x+15,leftNode.y,"L",rightNode.x-15,rightNode.y]).attr("stroke-width",2);
-        leftNode.dot.hover(hoverIn,hoverOut,link,link);
-        rightNode.dot.hover(hoverIn,hoverOut,link,link);
+        var link = arrow(leftNode.x+15,leftNode.y,rightNode.x-15,rightNode.y,7);
+        leftNode.dot.hover(hoverIn,hoverOut,link[0],link[0]);
+        rightNode.dot.hover(hoverIn,hoverOut,link[0],link[0]);
+        leftNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
+        rightNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
         path.push(link);
     }
 
