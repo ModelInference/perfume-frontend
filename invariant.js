@@ -1,4 +1,3 @@
-//For Debuging purpose and local usage
 var invariant = {
     "invariants": [
         {
@@ -244,7 +243,6 @@ var invariant = {
     ]
 };
 
-
 //Organizing the data into managable arrays
 
 var alwaysPrecedes = [];
@@ -284,68 +282,134 @@ function getPredicates(data){
         }
     }
 }
-
+getPredicates(null);
 //Printing and Graphing the invariants
 
-var graph = new joint.dia.Graph;
+var leftCol = [];
+var midCol = [];
+var rightCol = [];
 
-var paper = new joint.dia.Paper({
-    el: $('#myholder'),
-    width: 600,
-    height: 600,
-    model: graph
-});
+function checkExistsCol(col, data){
+    var result = false;
+    for(var i=0; i<col.length;i++){
+        if(col[i]=== data){
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
 
-function drawGraph(){
-    var space = 10;
+function getCol(data){
     for(var i=0; i<alwaysPrecedes.length; i++){
-        $("#alwaysPrecedes").append("<tr><td>" + alwaysPrecedes[i].predicates[0] + "<--" + 
-            alwaysPrecedes[i].predicates[1] + "</td></tr>")
-        var box1 = new joint.shapes.basic.Rect({
-        position: { x: 20, y: 10 +space},
-        size: { width: 100, height: 30 },
-        attrs: { rect: { fill: 'blue' }, text: { text: alwaysPrecedes[i].predicates[0], fill: 'white' } }
-        });
-        var box2 = new joint.shapes.basic.Rect({
-        position: { x: 420, y: 10 +space},
-        size: { width: 100, height: 30 },
-        attrs: { rect: { fill: 'blue' }, text: { text: alwaysPrecedes[i].predicates[1], fill: 'white' } }
-        });
-        var link = new joint.dia.Link({
-        source: { id: box1.id },
-        target: { id: box2.id }
-        }); 
-        link.attr({
-        '.connection': { stroke: 'blue' },
-        '.marker-source': { fill: 'red', d: 'M 10 0 L 0 5 L 10 10 z' },
-        }); 
-        graph.addCells([box1,box2,link]);
-        space +=50;
+        $("#alwaysPrecedes").append("<tr><td>" + alwaysPrecedes[i].predicates[0] +" <-- "+
+            alwaysPrecedes[i].predicates[1] + "</td></tr>");
+        if(checkExistsCol(leftCol, alwaysPrecedes[i].predicates[0]) === false){
+            leftCol.push(alwaysPrecedes[i].predicates[0]);
+        }
     }
     for(var i=0; i<alwaysFollowedBy.length; i++){
-        $("#alwaysFollowedBy").append("<tr><td>" + alwaysFollowedBy[i].predicates[0] + "-->" + 
-            alwaysFollowedBy[i].predicates[1] + "</td></tr>")
-        var box1 = new joint.shapes.basic.Rect({
-        position: { x: 20, y: 10 +space},
-        size: { width: 100, height: 30 },
-        attrs: { rect: { fill: 'blue' }, text: { text: alwaysFollowedBy[i].predicates[0], fill: 'white' } }
-        });
-        var box2 = new joint.shapes.basic.Rect({
-        position: { x: 420, y: 10 +space},
-        size: { width: 100, height: 30 },
-        attrs: { rect: { fill: 'blue' }, text: { text: alwaysFollowedBy[i].predicates[1], fill: 'white' } }
-        });
-        var link = new joint.dia.Link({
-        source: { id: box2.id },
-        target: { id: box1.id }
-        }); 
-        link.attr({
-        '.connection': { stroke: 'blue' },
-        '.marker-source': { fill: 'red', d: 'M 10 0 L 0 5 L 10 10 z' },
-        }); 
-        graph.addCells([box1,box2,link]);
-        space +=50;
+        $("#alwaysFollowedBy").append("<tr><td>" + alwaysFollowedBy[i].predicates[0] +" --> "+
+            alwaysFollowedBy[i].predicates[1] + "</td></tr>");
+        if(checkExistsCol(rightCol, alwaysFollowedBy[i].predicates[1]) === false){
+            rightCol.push(alwaysFollowedBy[i].predicates[1]);
+        }
     }
+    for(var i=0; i<alwaysPrecedes.length; i++){
+        if(checkExistsCol(midCol, alwaysPrecedes[i].predicates[1])===false){
+            midCol.push(alwaysPrecedes[i].predicates[1]);
+        }
+    }
+    for(var i=0; i<alwaysFollowedBy.length; i++){
+        if(checkExistsCol(midCol, alwaysFollowedBy[i].predicates[0])===false){
+            midCol.push(alwaysFollowedBy[i].predicates[0]);
+        }
+    }
+    leftCol.sort();
+    midCol.sort();
+    rightCol.sort();
+}
+
+getCol(null);
+var path = [];
+var left = [];
+var right = [];
+var mid = [];
+window.onload = function() {  
+    var offset = 0;
+    // var left = [];
+    // var mid = [];
+    // var right = [];
+    // var path = [];
+    var paper = Raphael("holder", 600, 600);
+    var attr = {font: "50px Helvetica", opacity: 0.5};
+    for(var i=0; i<leftCol.length;i++){
+        var dot = paper.text(50,40+offset, leftCol[i]).attr(attr);
+        var property = {
+            "dot":dot,
+            "x":50,
+            "y":40+offset,
+            "content": leftCol[i]
+        };
+        left.push(property);
+        offset +=70;
+    }
+    offset = 0;
+    for(var i=0; i<midCol.length;i++){
+        var dot = paper.text(250,40+offset, midCol[i]).attr(attr);
+        var property = {
+            "dot":dot,
+            "x":250,
+            "y":40+offset,
+            "content": midCol[i]
+        };
+        mid.push(property);
+        offset +=70;
+    }
+    offset = 0;
+    for(var i=0; i<rightCol.length;i++){
+        var dot = paper.text(450,40+offset, rightCol[i]).attr(attr);
+        var property = {
+            "dot":dot,
+            "x":450,
+            "y":40+offset,
+            "content": rightCol[i]
+        };
+        right.push(property);
+        offset +=70;
+    }
+    function findNode(node, array){
+        var myNode;
+        for(var i=0; i<array.length;i++){
+            if(array[i].content === node){
+                myNode = array[i];
+            }
+        }
+        return myNode;
+    }
+    var hoverIn = function() {
+        this.attr({"stroke": "#E3E3E3"});
+    };
+    var hoverOut = function() {
+        this.attr({"stroke": "#000"});    
+    };
+    for(var i=0; i<alwaysPrecedes.length;i++){
+        var leftNode = findNode(alwaysPrecedes[i].predicates[0], left);
+        var rightNode = findNode(alwaysPrecedes[i].predicates[1],mid);
+        var link = paper.path(["M",leftNode.x+15,leftNode.y,"L",rightNode.x-15,rightNode.y]).attr("stroke-width",2);
+        leftNode.dot.hover(hoverIn,hoverOut,link,link);
+        rightNode.dot.hover(hoverIn,hoverOut,link,link);
+        path.push(link);
+    }
+    for(var i=0; i<alwaysFollowedBy.length;i++){
+        var leftNode = findNode(alwaysFollowedBy[i].predicates[0], mid);
+        var rightNode = findNode(alwaysFollowedBy[i].predicates[1], right);
+        var link = paper.path(["M",leftNode.x+15,leftNode.y,"L",rightNode.x-15,rightNode.y]).attr("stroke-width",2);
+        leftNode.dot.hover(hoverIn,hoverOut,link,link);
+        rightNode.dot.hover(hoverIn,hoverOut,link,link);
+        path.push(link);
+    }
+
 }
 
 
@@ -371,5 +435,3 @@ function drawGraph(){
 // 	}
 // 	}
 // }
-getPredicates(null);
-drawGraph();
