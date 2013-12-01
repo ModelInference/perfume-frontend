@@ -1,3 +1,4 @@
+//Preloaded invariants for debugging purpose
 var invariant = {
     "invariants": [
         {
@@ -245,9 +246,10 @@ var invariant = {
 
 //Organizing the data into managable arrays
 
-var alwaysPrecedes = [];
+var alwaysPrecedes = [];  
 var alwaysFollowedBy = [];
 
+//To get rid of the duplicates in the invariants
 function checkExistsPrecedes(data){
     var result = false;
     for(var i=0; i<alwaysPrecedes.length;i++){
@@ -259,7 +261,7 @@ function checkExistsPrecedes(data){
     }
     return result;
 }
-
+//To get rid of the duplicates in the invariants
 function checkExistsFollowed(data){
     var result = false;
     for(var i=0; i<alwaysFollowedBy.length;i++){
@@ -271,7 +273,7 @@ function checkExistsFollowed(data){
     }
     return result;
 }
-
+//Push the predicates into thier corresponding array
 function getPredicates(data){
     for(var i=0; i<invariant.invariants.length; i++){
         if(invariant.invariants[i].invariantType === "AlwaysPrecedes"){
@@ -283,8 +285,8 @@ function getPredicates(data){
     }
 }
 getPredicates(null);
-//Printing and Graphing the invariants
 
+//Split the predicates into 3 arrays for easier management
 var leftCol = [];
 var midCol = [];
 var rightCol = [];
@@ -300,6 +302,7 @@ function checkExistsCol(col, data){
     return result;
 }
 
+//Splits the predicates into the 3 columns and prints the them
 function getCol(data){
     for(var i=0; i<alwaysPrecedes.length; i++){
         $("#alwaysPrecedes").append("<tr><td>" + alwaysPrecedes[i].predicates[0] +" <-- "+
@@ -329,12 +332,9 @@ function getCol(data){
     midCol.sort();
     rightCol.sort();
 }
-
 getCol(null);
-// var path = [];
-// var left = [];
-// var right = [];
-// var mid = [];
+
+//Main graphing 
 window.onload = function() {  
     var offset = 0;
     var left = [];
@@ -344,6 +344,7 @@ window.onload = function() {
     var paper = Raphael("holder", 600, 600);
     var attr = {font: "50px Helvetica", opacity: 0.5};
     var text ="";
+    //Draw the left column of the graph
     for(var i=0; i<leftCol.length;i++){
         var dot = paper.text(50,100+offset, leftCol[i]).attr(attr);
         var property = {
@@ -355,6 +356,7 @@ window.onload = function() {
         left.push(property);
         offset +=70;
     }
+    //Draw the mid column of the graph
     offset = 0;
     for(var i=0; i<midCol.length;i++){
         var dot = paper.text(250,100+offset, midCol[i]).attr(attr);
@@ -368,6 +370,7 @@ window.onload = function() {
         offset +=70;
     }
     offset = 0;
+    //Draw the right column of the graph
     for(var i=0; i<rightCol.length;i++){
         var dot = paper.text(450,100+offset, rightCol[i]).attr(attr);
         var property = {
@@ -379,6 +382,7 @@ window.onload = function() {
         right.push(property);
         offset +=70;
     }
+    //Function to find the predicate in given array
     function findNode(node, array){
         var myNode;
         for(var i=0; i<array.length;i++){
@@ -388,6 +392,7 @@ window.onload = function() {
         }
         return myNode;
     }
+    //Functions to take care of the hover effect
     var hoverIn = function() {
         this.attr({"stroke": "#ff0000","stroke-width":4});
         var title = paper.text(200, 40, text).attr(attr);
@@ -396,6 +401,7 @@ window.onload = function() {
         this.attr({"stroke": "#E3E3E3","stroke-width":2}); 
         var title = paper.text(200, 40, text).attr(attr);
     };
+    //Draw arrows between the predicates
     var arrow = function (x1, y1, x2, y2, size) {
         var angle = Math.atan2(x1-x2,y2-y1);
         angle = (angle / (2 * Math.PI)) * 360;
@@ -403,7 +409,7 @@ window.onload = function() {
         var linePath = paper.path(["M", x1,y1,"L",x2,y2]).attr({"stroke-width":2,"stroke":"#E3E3E3"});
         return [linePath,arrowPath];
     }
-
+    //Drawing the always precedes
     for(var i=0; i<alwaysPrecedes.length;i++){
         var leftNode = findNode(alwaysPrecedes[i].predicates[0], left);
         var rightNode = findNode(alwaysPrecedes[i].predicates[1],mid);
@@ -415,6 +421,7 @@ window.onload = function() {
         rightNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
         path.push(link);
     }
+    //Drawing the always followed by
     for(var i=0; i<alwaysFollowedBy.length;i++){
         var leftNode = findNode(alwaysFollowedBy[i].predicates[0], mid);
         var rightNode = findNode(alwaysFollowedBy[i].predicates[1], right);
@@ -427,27 +434,3 @@ window.onload = function() {
     }
 
 }
-
-
-// function getInvaraints(data) {
-// var alwaysPrecedes = "";
-// var alwaysFollowedBy = "";
-// var constraintText="";
-// for (var i = 0; i < invariant.invariants.length; i++) {
-//     if(invariant.invariants[i].invariantType === "AlwaysPrecedes"){
-//       alwaysPrecedes = invariant.invariants[i].predicates[0] + " <--- " + invariant.invariants[i].predicates[1] + " " + constraintText;
-//       constraintText = "";
-//       for (var j = 0; j < invariant.invariants[i].constraints.length; j++) {
-//           constraintText += invariant.invariants[i].constraints[j] + "\n"; //Add information about bounds
-//       }
-//       $("#alwaysPrecedes").append("<tr><td>" + alwaysPrecedes + "</td></tr>");
-//     }else if(invariant.invariants[i].invariantType === "AlwaysFollowedBy"){
-//       constraintText = "";
-//       for (var j = 0; j < invariant.invariants[i].constraints.length; j++) {
-//           constraintText += invariant.invariants[i].constraints[j] + "\n"; //Add information about bounds
-//       }
-//       alwaysFollowedBy = invariant.invariants[i].predicates[0] + " ---> " + invariant.invariants[i].predicates[1] + " " + constraintText;
-//       $("#alwaysFollowedBy").append("<tr><td>" + alwaysFollowedBy + "</td></tr>");
-// 	}
-// 	}
-// }
