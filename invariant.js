@@ -288,8 +288,11 @@ getPredicates(null);
 
 //Split the predicates into 3 arrays for easier management
 var leftCol = [];
+leftCol.constraints = [];
 var midCol = [];
+midCol.constraints = [];
 var rightCol = [];
+rightCol.constraints = [];
 
 function checkExistsCol(col, data){
     var result = false;
@@ -305,27 +308,31 @@ function checkExistsCol(col, data){
 //Splits the predicates into the 3 columns and prints the them
 function getCol(data){
     for(var i=0; i<alwaysPrecedes.length; i++){
-        $("#alwaysPrecedes").append("<tr><td>" + alwaysPrecedes[i].predicates[0] +" <-- "+
+        $("#alwaysPrecedes").append("<tr><td>" + alwaysPrecedes[i].predicates[0] +" <i class='icon-arrow-left'></i> "+
             alwaysPrecedes[i].predicates[1] + "</td></tr>");
         if(checkExistsCol(leftCol, alwaysPrecedes[i].predicates[0]) === false){
             leftCol.push(alwaysPrecedes[i].predicates[0]);
+            leftCol.constraints.push(alwaysPrecedes[i].constraints);
         }
     }
     for(var i=0; i<alwaysFollowedBy.length; i++){
-        $("#alwaysFollowedBy").append("<tr><td>" + alwaysFollowedBy[i].predicates[0] +" --> "+
+        $("#alwaysFollowedBy").append("<tr><td>" + alwaysFollowedBy[i].predicates[0] +" <i class='icon-arrow-right'></i>  "+
             alwaysFollowedBy[i].predicates[1] + "</td></tr>");
         if(checkExistsCol(rightCol, alwaysFollowedBy[i].predicates[1]) === false){
             rightCol.push(alwaysFollowedBy[i].predicates[1]);
+            rightCol.constraints.push(alwaysFollowedBy.constraints);
         }
     }
     for(var i=0; i<alwaysPrecedes.length; i++){
         if(checkExistsCol(midCol, alwaysPrecedes[i].predicates[1])===false){
             midCol.push(alwaysPrecedes[i].predicates[1]);
+            midCol.constraints.push(alwaysPrecedes[i].constraints);
         }
     }
     for(var i=0; i<alwaysFollowedBy.length; i++){
         if(checkExistsCol(midCol, alwaysFollowedBy[i].predicates[0])===false){
             midCol.push(alwaysFollowedBy[i].predicates[0]);
+            midCol.constraints.push(alwaysFollowedBy[i].constraints);
         }
     }
     leftCol.sort();
@@ -335,15 +342,17 @@ function getCol(data){
 getCol(null);
 
 //Main graphing 
-window.onload = function() {  
-    var offset = 0;
-    var left = [];
+ var left = [];
     var mid = [];
     var right = [];
+window.onload = function() {  
+    var offset = 0;
+    // var left = [];
+    // var mid = [];
+    // var right = [];
     var path = [];
     var paper = Raphael("holder", 600, 600);
     var attr = {font: "50px Helvetica", opacity: 0.5};
-    var text ="";
     //Draw the left column of the graph
     for(var i=0; i<leftCol.length;i++){
         var dot = paper.text(50,100+offset, leftCol[i]).attr(attr);
@@ -351,7 +360,8 @@ window.onload = function() {
             "dot":dot,
             "x":50,
             "y":100+offset,
-            "content": leftCol[i]
+            "content": leftCol[i],
+            "constraints":leftCol.constraints[i]
         };
         left.push(property);
         offset +=70;
@@ -364,7 +374,8 @@ window.onload = function() {
             "dot":dot,
             "x":250,
             "y":100+offset,
-            "content": midCol[i]
+            "content": midCol[i],
+            "constraints":midCol.constraints[i]
         };
         mid.push(property);
         offset +=70;
@@ -377,7 +388,8 @@ window.onload = function() {
             "dot":dot,
             "x":450,
             "y":100+offset,
-            "content": rightCol[i]
+            "content": rightCol[i],
+            "constraints":rightCol.constraints[i]
         };
         right.push(property);
         offset +=70;
@@ -395,11 +407,9 @@ window.onload = function() {
     //Functions to take care of the hover effect
     var hoverIn = function() {
         this.attr({"stroke": "#ff0000","stroke-width":4});
-        var title = paper.text(200, 40, text).attr(attr);
     };
     var hoverOut = function() {
         this.attr({"stroke": "#E3E3E3","stroke-width":2}); 
-        var title = paper.text(200, 40, text).attr(attr);
     };
     //Draw arrows between the predicates
     var arrow = function (x1, y1, x2, y2, size) {
@@ -419,6 +429,9 @@ window.onload = function() {
         rightNode.dot.hover(hoverIn,hoverOut,link[0],link[0]);
         leftNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
         rightNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
+        leftNode.dot.click(function(){
+            var text = paper.text(200, 40, leftNode.constraints[0]+ " " + leftNode.constraints[1]).attr({font: "20px Helvetica"});
+        });
         path.push(link);
     }
     //Drawing the always followed by
@@ -430,6 +443,9 @@ window.onload = function() {
         rightNode.dot.hover(hoverIn,hoverOut,link[0],link[0]);
         leftNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
         rightNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
+        leftNode.dot.click(function(){
+            paper.text(200, 40, leftNode.constraints[0]+ " " + leftNode.constraints[1]).attr({font: "20px Helvetica"});
+        });
         path.push(link);
     }
 
