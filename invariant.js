@@ -408,6 +408,12 @@ window.onload = function() {
     var hoverIn = function() {
         this.attr({"stroke": "#ff0000","stroke-width":4});
     };
+    var hoverInLetter = function(){
+        this.attr({"opacity": 1});
+    };
+    var hoverOutLetter = function(){
+        this.attr({"opacity":0.5})
+    };
     var hoverOut = function() {
         this.attr({"stroke": "#E3E3E3","stroke-width":2}); 
     };
@@ -425,6 +431,12 @@ window.onload = function() {
         var rightNode = findNode(alwaysPrecedes[i].predicates[1],mid);
         // var link = paper.path(["M",leftNode.x+15,leftNode.y,"L",rightNode.x-15,rightNode.y]).attr("stroke-width",2);
         var link = arrow(leftNode.x+15,leftNode.y,rightNode.x-15,rightNode.y,7);
+        //For the predicates
+        leftNode.dot.hover(hoverInLetter,hoverOutLetter,leftNode.dot,leftNode.dot);
+        leftNode.dot.hover(hoverInLetter,hoverOutLetter,rightNode.dot,rightNode.dot);
+        rightNode.dot.hover(hoverInLetter,hoverOutLetter,leftNode.dot,leftNode.dot);
+        rightNode.dot.hover(hoverInLetter,hoverOutLetter,rightNode.dot,rightNode.dot);
+        //For links and arrows etc..
         leftNode.dot.hover(hoverIn,hoverOut,link[0],link[0]);
         rightNode.dot.hover(hoverIn,hoverOut,link[0],link[0]);
         leftNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
@@ -439,6 +451,12 @@ window.onload = function() {
         var leftNode = findNode(alwaysFollowedBy[i].predicates[0], mid);
         var rightNode = findNode(alwaysFollowedBy[i].predicates[1], right);
         var link = arrow(leftNode.x+15,leftNode.y,rightNode.x-15,rightNode.y,7);
+        //For the predicates
+        leftNode.dot.hover(hoverInLetter,hoverOutLetter,leftNode.dot,leftNode.dot);
+        leftNode.dot.hover(hoverInLetter,hoverOutLetter,rightNode.dot,rightNode.dot);
+        rightNode.dot.hover(hoverInLetter,hoverOutLetter,leftNode.dot,leftNode.dot);
+        rightNode.dot.hover(hoverInLetter,hoverOutLetter,rightNode.dot,rightNode.dot);
+        //For links and arrows etc..
         leftNode.dot.hover(hoverIn,hoverOut,link[0],link[0]);
         rightNode.dot.hover(hoverIn,hoverOut,link[0],link[0]);
         leftNode.dot.hover(hoverIn,hoverOut,link[1],link[1]);
