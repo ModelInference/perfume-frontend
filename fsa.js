@@ -53,7 +53,7 @@ function generateStates(data) {
             var VertMultiplier = getStateVerticalPositionMultiplier(data.partitions[i]);
             var HorizMultiplier = parseInt( getStateHorizontalPositionMultiplier(data.partitions[i]) );
 
-            states.push(state(100*HorizMultiplier+15, starty*VertMultiplier+100-(15*HorizMultiplier), data.partitions[i]));
+            states.push(state(100*HorizMultiplier+15, starty*VertMultiplier+100-(20*(HorizMultiplier-1)), data.partitions[i]));
             startx += 100;
             if (startx > 550 ){
                 startx = 10;
@@ -97,11 +97,38 @@ function generateTransitions(data) {
         for (var j = 0; j < trace.events.length - 1; j++) {
             var sourceEvent = trace.events[j];
             var targetEvent = trace.events[j+1];
-            link(findState(i, sourceEvent), findState(i, targetEvent));
+            var sourceState = findState(i, sourceEvent);  
+            var targetState = findState(i, targetEvent);
+            var invariant = findInvariant(sourceEvent.eventType, targetEvent.eventType);
+            var weight = "[";
+            if(invariant) {
+                var invariantBounds= invariant.constraints;
+                for (var k = 0; k < invariantBounds.length; k++) {
+                    var b = invariantBounds[k];
+                    b = b.substr(b.indexOf('=')+ 1, b.length);//Get evreything after the =
+                    weight += "," + b; 
+                }
+                weight += "]";
+                weight = weight.charAt(0) + weight.substr(2,weight.length);
+            }
+            else {
+               weight = "]";
+            }
+            link(sourceState, targetState, weight);
         }
     }
 
 }
+
+function findInvariant(eventA, eventB) {
+    for (var i = 0; i < data.invariants.length; i++) {
+        var predicates =  data.invariants [i].predicates;
+        if(predicates.indexOf(eventA) !== -1 && predicates.indexOf(eventB) !== -1)
+            return data.invariants[i];
+    }
+    return null;
+}
+
 
 
 function findState(traceid, eventData) {
@@ -126,7 +153,7 @@ function isMatchingState(state, traceid, eventData) {
 }
 
 var init  = state(10, 10, { "eventType": "init", "events": [] });
-var term = state(600, 550, {"eventType": "term", "events": [] });
+var term = state(500, 550, {"eventType": "term", "events": [] });
 var states = generateStates(data);
 generateTransitions(data);
 $(".link-tools").empty(); //Gets rid of ability to delete states.
