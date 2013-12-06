@@ -93,7 +93,7 @@ function generateTransitions(data) {
     var prevTime = 0;
     for (var i = 0; i < data.log.length; i++) {
         var trace = data.log[i];
-        link(init, findState(i, trace.events[0]), '');
+        link(init, findState(i, trace.events[0]), String(trace.events[0].timestamp));
         link(findState(i, trace.events[trace.events.length - 1]), term, ''); //Last state in trace
         for (var j = 0; j < trace.events.length - 1; j++) {
             var sourceEvent = trace.events[j];
