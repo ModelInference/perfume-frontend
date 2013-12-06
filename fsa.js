@@ -90,6 +90,7 @@ function getStateHorizontalPositionMultiplier(state) {
 }
 
 function generateTransitions(data) {
+    var prevTime = 0;
     for (var i = 0; i < data.log.length; i++) {
         var trace = data.log[i];
         link(init, findState(i, trace.events[0]), '');
@@ -99,21 +100,9 @@ function generateTransitions(data) {
             var targetEvent = trace.events[j+1];
             var sourceState = findState(i, sourceEvent);  
             var targetState = findState(i, targetEvent);
-            var invariant = findInvariant(sourceEvent.eventType, targetEvent.eventType);
-            var weight = "[";
-            if(invariant) {
-                var invariantBounds= invariant.constraints;
-                for (var k = 0; k < invariantBounds.length; k++) {
-                    var b = invariantBounds[k];
-                    b = b.substr(b.indexOf('=')+ 1, b.length);//Get evreything after the =
-                    weight += "," + b; 
-                }
-                weight += "]";
-                weight = weight.charAt(0) + weight.substr(2,weight.length);
-            }
-            else {
-               weight = "]";
-            }
+            var timestamp = parseInt(trace.events[j+1].timestamp, 10);
+            prevTime = parseInt(trace.events[j].timestamp, 10);
+            var weight = String(timestamp - prevTime);
             link(sourceState, targetState, weight);
         }
     }
