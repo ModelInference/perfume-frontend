@@ -17,7 +17,7 @@ function state(x, y, eventdata) {
     var cell = new joint.shapes.fsa.State({
         position: { x: x, y: y },
         size: { width: 50, height: 50 },
-        attrs: { circle : {fill : "url(#grad)"}, text : { text: eventdata.eventType }},
+        attrs: {  text : { text: eventdata.eventType }},
     });
     cell.eventType = eventdata.eventType;
     cell.events = [];
@@ -62,6 +62,25 @@ function generateStates(data) {
     return states;
 }
 
+function generateGradients(max) {
+    lengths = [];
+    var svg = d3.select("svg");
+    for (var i = 0; i < states.length; i++) {
+    lengths = searchForShortestAndLongestPath(states[i].id);
+    var minPath  = lengths[0];
+    var maxPath  = lengths[1];
+    var grad = svg.append("linearGradient").attr("id", "grad" + states[i].id)
+        .attr("x1", "0%").attr("x2", "0%").attr("y1", "100%").attr("y2", "0%");
+        grad.append("stop").attr("offset", toPercent(maxPath/max)).style("stop-color", "lightblue");
+        grad.append("stop").attr("offset",toPercent(minPath/max) ).style("stop-color", "white");
+    states[i].attributes.attrs.circle.fill =  "url(#grad"+states[i].id + ")";
+    }
+}
+
+function toPercent(num) {
+    return String(Math.floor(num*100)) + "%";
+}
+
 //Uses the average number of transitions a state has to determine it's vertical location
 function getStateVerticalPositionMultiplier(state) {
     sum  = 0;
@@ -90,7 +109,7 @@ function generateTransitions(data) {
     for (var i = 0; i < data.log.length; i++) {
         var trace = data.log[i];
         links.push(link(init, findState(i, trace.events[0]), String(trace.events[0].timestamp)));
-        links.push(link(findState(i, trace.events[trace.events.length - 1]), term, '')); //Last state in trace
+        links.push(link(findState(i, trace.events[trace.events.length - 1]), term, String(0))); //Last state in trace
         for (var j = 0; j < trace.events.length - 1; j++) {
             var sourceEvent = trace.events[j];
             var targetEvent = trace.events[j+1];
@@ -106,9 +125,6 @@ function generateTransitions(data) {
 }
 
 
-function toPercent(num) {
-return String(Math.floor(num*100)) + "%";
-}
 
 
 function findState(traceid, eventData) {
@@ -138,40 +154,54 @@ function draw() {
     }
     graph.addCell(init);
     graph.addCell(term);
-    for (var i = 0; i < links.length; i++) {
+    for (i = 0; i < links.length; i++) {
         graph.addCell(links[i]);
     }
 }
 
-function searchForLongestPath(target) {
+function searchForShortestAndLongestPath(target) {
     var max = 0;
-    var frontier = PriorityQueue()
+    var min = 99999999999999999;
+    var frontier = [];
     var initFrontier = findLinksfromState(init.id);
     for (var i = 0; i < initFrontier.length; i++) {
-        frontier.push(initFrontier[i],initFrontier[i].weight);
+        frontier.push({link: initFrontier[i], weight : initFrontier[i].weight});
     }
     while(frontier.length > 0) {
-        var curState = frontier[0].source.id;
-        frontier.splice(0,1)
+        var curLink = frontier[0].link;
+        var weight = frontier[0].weight;
+        frontier.splice(0,1);
+        if (curLink.attributes.target.id == target) {
+            if (weight > max)
+                max = weight;
+            if (weight < min)
+                min = weight;
+        }
+        else {
+            var nextStates = findLinksfromState(curLink.attributes.target.id);
+            for (i = 0; i < nextStates.length; i++) { 
+                frontier.push({link: nextStates[i], weight : weight + nextStates[i].weight});
+            }
+        }
     }
-    return max;
+    return [min, max];
 }
 
+
 function findLinksfromState(stateId) {
-    return _.filter(links, function(link) {return link.source.id == stateId;});
+    return _.filter(links, function(link) {return link.attributes.source.id == stateId;});
 }
 
 var init  = state(10, 10, { "eventType": "init", "events": [{ "traceID": 0, "eventIndex": 0 }] });
 var term = state(500, 550, {"eventType": "term", "events": [{ "traceID": 0, "eventIndex": 0 }] });
 var states = generateStates(data);
-states.push(init);
-states.push(term);
 var links = generateTransitions(data);
-draw();
+var pathLengths = searchForShortestAndLongestPath(term.id);
+generateGradients(pathLengths[1]);
 $(".link-tools").empty(); //Gets rid of ability to delete states.
 var svg = d3.select("svg");
 var grad = svg.append("linearGradient").attr("id", "grad")
     .attr("x1", "0%").attr("x2", "0%").attr("y1", "100%").attr("y2", "0%");
     grad.append("stop").attr("offset", "50%").style("stop-color", "blue");
     grad.append("stop").attr("offset", "80%").style("stop-color", "white");
-
+draw();
