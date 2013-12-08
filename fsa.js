@@ -17,7 +17,7 @@ function state(x, y, eventdata) {
     var cell = new joint.shapes.fsa.State({
         position: { x: x, y: y },
         size: { width: 50, height: 50 },
-        attrs: { text : { text: eventdata.eventType }}
+        attrs: { circle : {fill : "url(#grad)"}, text : { text: eventdata.eventType }},
     });
     cell.eventType = eventdata.eventType;
     cell.events = [];
@@ -36,7 +36,7 @@ function link(source, target, label, vertices) {
         labels: [{ position: .5, attrs: { text: { text: label || '', 'font-weight': 'bold' } } }],
         vertices: vertices || []
     });
-    graph.addCell(cell);
+    cell.weight = parseInt(label,10);
     return cell;
 }
 
@@ -59,11 +59,6 @@ function generateStates(data) {
                 startx = 10;
             }
         }
-    for (var i = 0; i < states.length; i++) {
-        graph.addCell(states[i]);
-    }
-    graph.addCell(init);
-    graph.addCell(term);
     return states;
 }
 
@@ -90,11 +85,12 @@ function getStateHorizontalPositionMultiplier(state) {
 }
 
 function generateTransitions(data) {
+    var links = [];
     var prevTime = 0;
     for (var i = 0; i < data.log.length; i++) {
         var trace = data.log[i];
-        link(init, findState(i, trace.events[0]), String(trace.events[0].timestamp));
-        link(findState(i, trace.events[trace.events.length - 1]), term, ''); //Last state in trace
+        links.push(link(init, findState(i, trace.events[0]), String(trace.events[0].timestamp)));
+        links.push(link(findState(i, trace.events[trace.events.length - 1]), term, '')); //Last state in trace
         for (var j = 0; j < trace.events.length - 1; j++) {
             var sourceEvent = trace.events[j];
             var targetEvent = trace.events[j+1];
@@ -103,21 +99,16 @@ function generateTransitions(data) {
             var timestamp = parseInt(trace.events[j+1].timestamp, 10);
             prevTime = parseInt(trace.events[j].timestamp, 10);
             var weight = String(timestamp - prevTime);
-            link(sourceState, targetState, weight);
+            links.push(link(sourceState, targetState, weight));
         }
     }
-
+    return links;
 }
 
-function findInvariant(eventA, eventB) {
-    for (var i = 0; i < data.invariants.length; i++) {
-        var predicates =  data.invariants [i].predicates;
-        if(predicates.indexOf(eventA) !== -1 && predicates.indexOf(eventB) !== -1)
-            return data.invariants[i];
-    }
-    return null;
-}
 
+function toPercent(num) {
+return String(Math.floor(num*100)) + "%";
+}
 
 
 function findState(traceid, eventData) {
@@ -141,9 +132,46 @@ function isMatchingState(state, traceid, eventData) {
     return false;
 }
 
-var init  = state(10, 10, { "eventType": "init", "events": [] });
-var term = state(500, 550, {"eventType": "term", "events": [] });
+function draw() {
+    for (var i = 0; i < states.length; i++) {
+        graph.addCell(states[i]);
+    }
+    graph.addCell(init);
+    graph.addCell(term);
+    for (var i = 0; i < links.length; i++) {
+        graph.addCell(links[i]);
+    }
+}
+
+function searchForLongestPath(target) {
+    var max = 0;
+    var frontier = PriorityQueue()
+    var initFrontier = findLinksfromState(init.id);
+    for (var i = 0; i < initFrontier.length; i++) {
+        frontier.push(initFrontier[i],initFrontier[i].weight);
+    }
+    while(frontier.length > 0) {
+        var curState = frontier[0].source.id;
+        frontier.splice(0,1)
+    }
+    return max;
+}
+
+function findLinksfromState(stateId) {
+    return _.filter(links, function(link) {return link.source.id == stateId;});
+}
+
+var init  = state(10, 10, { "eventType": "init", "events": [{ "traceID": 0, "eventIndex": 0 }] });
+var term = state(500, 550, {"eventType": "term", "events": [{ "traceID": 0, "eventIndex": 0 }] });
 var states = generateStates(data);
-generateTransitions(data);
+states.push(init);
+states.push(term);
+var links = generateTransitions(data);
+draw();
 $(".link-tools").empty(); //Gets rid of ability to delete states.
+var svg = d3.select("svg");
+var grad = svg.append("linearGradient").attr("id", "grad")
+    .attr("x1", "0%").attr("x2", "0%").attr("y1", "100%").attr("y2", "0%");
+    grad.append("stop").attr("offset", "50%").style("stop-color", "blue");
+    grad.append("stop").attr("offset", "80%").style("stop-color", "white");
 
