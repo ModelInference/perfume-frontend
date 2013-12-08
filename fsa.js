@@ -71,8 +71,8 @@ function generateGradients(max) {
     var maxPath  = lengths[1];
     var grad = svg.append("linearGradient").attr("id", "grad" + states[i].id)
         .attr("x1", "0%").attr("x2", "0%").attr("y1", "100%").attr("y2", "0%");
-        grad.append("stop").attr("offset", toPercent(maxPath/max)).style("stop-color", "lightblue");
-        grad.append("stop").attr("offset",toPercent(minPath/max) ).style("stop-color", "white");
+        grad.append("stop").attr("offset", toPercent(minPath/max)).style("stop-color", "lightblue");
+        grad.append("stop").attr("offset",toPercent(maxPath/max) ).style("stop-color", "white");
     states[i].attributes.attrs.circle.fill =  "url(#grad"+states[i].id + ")";
     }
 }
@@ -108,7 +108,7 @@ function generateTransitions(data) {
     var prevTime = 0;
     for (var i = 0; i < data.log.length; i++) {
         var trace = data.log[i];
-        links.push(link(init, findState(i, trace.events[0]), String(trace.events[0].timestamp)));
+        links.push(link(init, findState(i, trace.events[0]), String(0) ));
         links.push(link(findState(i, trace.events[trace.events.length - 1]), term, String(0))); //Last state in trace
         for (var j = 0; j < trace.events.length - 1; j++) {
             var sourceEvent = trace.events[j];
