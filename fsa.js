@@ -198,10 +198,11 @@ var states = generateStates(data);
 var links = generateTransitions(data);
 var pathLengths = searchForShortestAndLongestPath(term.id);
 generateGradients(pathLengths[1]);
-$(".link-tools").empty(); //Gets rid of ability to delete states.
+$(".marker-vertex-remove").empty(); //Gets rid of ability to delete states.
 var svg = d3.select("svg");
 var grad = svg.append("linearGradient").attr("id", "grad")
     .attr("x1", "0%").attr("x2", "0%").attr("y1", "100%").attr("y2", "0%");
     grad.append("stop").attr("offset", "50%").style("stop-color", "blue");
     grad.append("stop").attr("offset", "80%").style("stop-color", "white");
 draw();
+$(".tool-remove").empty();
