@@ -206,3 +206,5 @@ var grad = svg.append("linearGradient").attr("id", "grad")
     grad.append("stop").attr("offset", "80%").style("stop-color", "white");
 draw();
 $(".tool-remove").empty();
+$(".link-tools").remove();
+$(".marker-arrowheads").remove();
