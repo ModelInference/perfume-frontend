@@ -11,6 +11,7 @@
 		<link href="css/bootstrap.min.css" rel="stylesheet" />
 		<link href="css/bootstrap-responsive.css" rel="stylesheet" />
 		<link href="css/docs.css" rel="stylesheet" />
+		<link href="css/custom.css" rel="stylesheet" />
 
 	</head>
 
@@ -24,6 +25,9 @@
 	            <span class="icon-bar"></span>
 	          </button>
 	          <a class="brand" href="#">Pynoptic</a>
+                  <div id=versionContainer>
+                    <!-- Filled in with versionText in index.js -->
+                  </div>
 	          <div class="nav-collapse collapse">
 	            <ul class="nav">
 	              <li class="active"><a href="#">Home</a></li>
@@ -140,8 +144,14 @@
 		
 
 	</body>
+<!-- REPLACED DURING DEPLOYMENT: -->
+<script type="text/javascript" src="dev.js" ></script>
+<!-- -->
+
 <script type="text/javascript" src="js/jquery-2.0.3.min.js"></script>
 <script src="js/joint.min.js"></script>
 <script src="js/jquery.cookie.js"></script>
 <script src="index.js"></script>
+
+
 </html>

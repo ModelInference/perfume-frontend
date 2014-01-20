@@ -10,3 +10,10 @@ function sendToPynopticServer() {
 $.cookie("pynoptic_data", JSON.stringify(data), { expires: 7, path: '/' });
 
 }
+
+var get = function (id) {
+  return document.getElementById(id);
+};
+
+// Fill in the proper version.
+get("versionContainer").innerHTML = versionText;
