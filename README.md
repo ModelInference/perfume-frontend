@@ -2,5 +2,5 @@
 
 * [Try out the web deployment!](http://bestchai.bitbucket.org/perfume/)
 
-* [Read more](http://people.cs.umass.edu/~ohmann/pynoptic/) about how Perfume works.
+* [Read more](http://cs.umass.edu/~ohmann/perfume/) about how Perfume works.
 
