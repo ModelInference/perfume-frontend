@@ -11,6 +11,41 @@ var paper = new joint.dia.Paper({
     model: graph
 });
 
+
+//Constructor for transition objects. Borrowed from the FSA demo.
+function link(source, target, label, vertices) {
+    
+    var cell = new joint.shapes.fsa.Arrow({
+        source: { id: source.id },
+        target: { id: target.id },
+        labels: [{ position: .5, attrs: { text: { text: label || '', 'font-weight': 'bold' } } }],
+        vertices: vertices || []
+    });
+    cell.weight = parseInt(label,10);
+    return cell;
+}
+
+function generateTransitions(data) {
+    var links = [];
+    var prevTime = 0;
+    for (var i = 0; i < data.log.length; i++) {
+        var trace = data.log[i];
+        links.push(link(init, findState(i, trace.events[0]), String(0) ));
+        links.push(link(findState(i, trace.events[trace.events.length - 1]), term, String(0))); //Last state in trace
+        for (var j = 0; j < trace.events.length - 1; j++) {
+            var sourceEvent = trace.events[j];
+            var targetEvent = trace.events[j+1];
+            var sourceState = findState(i, sourceEvent);  
+            var targetState = findState(i, targetEvent);
+            var timestamp = parseInt(trace.events[j+1].timestamp, 10);
+            prevTime = parseInt(trace.events[j].timestamp, 10);
+            var weight = String(timestamp - prevTime);
+            links.push(link(sourceState, targetState, weight));
+        }
+    }
+    return links;
+}
+
 //Constructor for state objects. Borrowed from the FSA demo, added in eventType and events attributes.
 function state(x, y, eventdata) {
         
@@ -26,19 +61,6 @@ function state(x, y, eventdata) {
     }
     return cell;
 };
-
-//Constructor for transition objects. Borrowed from the FSA demo.
-function link(source, target, label, vertices) {
-    
-    var cell = new joint.shapes.fsa.Arrow({
-        source: { id: source.id },
-        target: { id: target.id },
-        labels: [{ position: .5, attrs: { text: { text: label || '', 'font-weight': 'bold' } } }],
-        vertices: vertices || []
-    });
-    cell.weight = parseInt(label,10);
-    return cell;
-}
 
 //Uses the partitions array to decide what states are generated. 
 //Location is part of my algorthim. 
@@ -103,29 +125,6 @@ function getStateHorizontalPositionMultiplier(state) {
         return 1;
 }
 
-function generateTransitions(data) {
-    var links = [];
-    var prevTime = 0;
-    for (var i = 0; i < data.log.length; i++) {
-        var trace = data.log[i];
-        links.push(link(init, findState(i, trace.events[0]), String(0) ));
-        links.push(link(findState(i, trace.events[trace.events.length - 1]), term, String(0))); //Last state in trace
-        for (var j = 0; j < trace.events.length - 1; j++) {
-            var sourceEvent = trace.events[j];
-            var targetEvent = trace.events[j+1];
-            var sourceState = findState(i, sourceEvent);  
-            var targetState = findState(i, targetEvent);
-            var timestamp = parseInt(trace.events[j+1].timestamp, 10);
-            prevTime = parseInt(trace.events[j].timestamp, 10);
-            var weight = String(timestamp - prevTime);
-            links.push(link(sourceState, targetState, weight));
-        }
-    }
-    return links;
-}
-
-
-
 
 function findState(traceid, eventData) {
     for (var i = 0; i < states.length; i++) {
@@ -159,32 +158,42 @@ function draw() {
     }
 }
 
+function getPathsTo(target) {}
+
 function searchForShortestAndLongestPath(target) {
     var max = 0;
     var min = 99999999999999999;
     var frontier = [];
     var initFrontier = findLinksfromState(init.id);
+    var maxPath;
+    var minPath;
     for (var i = 0; i < initFrontier.length; i++) {
-        frontier.push({link: initFrontier[i], weight : initFrontier[i].weight});
+        frontier.push({path: [], link: initFrontier[i], weight : initFrontier[i].weight});
     }
     while(frontier.length > 0) {
         var curLink = frontier[0].link;
         var weight = frontier[0].weight;
+        var pathTo = _.clone(frontier[0].path);
         frontier.splice(0,1);
         if (curLink.attributes.target.id == target) {
-            if (weight > max)
+            if (weight > max) {
                 max = weight;
-            if (weight < min)
+                maxPath = pathTo;
+            }
+            if (weight < min) {
                 min = weight;
+                minPath = pathTo;   
+            }
         }
         else {
             var nextStates = findLinksfromState(curLink.attributes.target.id);
+                pathTo.push(curLink.attributes.target.id)
             for (i = 0; i < nextStates.length; i++) { 
-                frontier.push({link: nextStates[i], weight : weight + nextStates[i].weight});
+                frontier.push({path: pathTo, link: nextStates[i], weight : weight + nextStates[i].weight});
             }
         }
     }
-    return [min, max];
+    return [min, max, minPath, maxPath];
 }
 
 
@@ -192,11 +201,49 @@ function findLinksfromState(stateId) {
     return _.filter(links, function(link) {return link.attributes.source.id == stateId;});
 }
 
+function getLinkByPathId(source, target) {
+    for (var i = 0; i < links.length; i++) {
+        if (links[i].attributes.source.id == source && links[i].attributes.target.id == target)
+            return links[i];
+    }
+    return null;
+}
+
+//Gets a link object by it's id. 
+function getLinkbyId(id) {
+    for (var i = 0; i < links.length; i++) {
+        if (links[i].id == id)
+            return links[i];
+    }
+    return null;
+}
+
 var init  = state(10, 10, { "eventType": "init", "events": [{ "traceID": 0, "eventIndex": 0 }] });
 var term = state(500, 550, {"eventType": "term", "events": [{ "traceID": 0, "eventIndex": 0 }] });
 var states = generateStates(data);
 var links = generateTransitions(data);
 var pathLengths = searchForShortestAndLongestPath(term.id);
+var maxPath = pathLengths[3];
+var minPath = pathLengths[2];
+
+var l = getLinkByPathId(init.id, pathLengths[3][0]);
+l.attr({'.connection': { stroke: 'red' }});
+for (var i = 1; i < pathLengths[3].length-1; i++) {
+    l = getLinkByPathId(pathLengths[3][i-1], pathLengths[3][i]);
+    l.attr({'.connection': { stroke: 'red' }});
+}
+l = getLinkByPathId(pathLengths[3][pathLengths[3].length-1], term.id);
+l.attr({'.connection': { stroke: 'red' }});
+
+l = getLinkByPathId(init.id, pathLengths[2][0]);
+l.attr({'.connection': { stroke: 'green' }});
+for (i = 1; i < pathLengths[2].length; i++) {
+    l = getLinkByPathId(pathLengths[2][i-1], pathLengths[2][i]);
+    l.attr({'.connection': { stroke: 'green' }});
+}
+l = getLinkByPathId(pathLengths[2][pathLengths[2].length-1], term.id);
+l.attr({'.connection': { stroke: 'green' }});
+
 generateGradients(pathLengths[1]);
 $(".marker-vertex-remove").empty(); //Gets rid of ability to delete states.
 var svg = d3.select("svg");
