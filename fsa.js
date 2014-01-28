@@ -30,17 +30,21 @@ function generateTransitions(data) {
     var prevTime = 0;
     for (var i = 0; i < data.log.length; i++) {
         var trace = data.log[i];
-        links.push(link(init, findState(i, trace.events[0]), String(0) ));
-        links.push(link(findState(i, trace.events[trace.events.length - 1]), term, String(0))); //Last state in trace
+        if (getLinkByPathId(init.id, findState(i, trace.events[0]).id, links) === null)
+            links.push(link(init, findState(i, trace.events[0]), String(0) ));
+        if (getLinkByPathId(findState(i, trace.events[trace.events.length - 1]).id, term.id, links) === null)
+            links.push(link(findState(i, trace.events[trace.events.length - 1]), term, String(0))); //Last state in trace
         for (var j = 0; j < trace.events.length - 1; j++) {
             var sourceEvent = trace.events[j];
             var targetEvent = trace.events[j+1];
             var sourceState = findState(i, sourceEvent);  
             var targetState = findState(i, targetEvent);
-            var timestamp = parseInt(trace.events[j+1].timestamp, 10);
-            prevTime = parseInt(trace.events[j].timestamp, 10);
-            var weight = String(timestamp - prevTime);
-            links.push(link(sourceState, targetState, weight));
+            if(getLinkByPathId(sourceState.id, targetState.id, links) === null) { 
+                var timestamp = parseInt(trace.events[j+1].timestamp, 10);
+                prevTime = parseInt(trace.events[j].timestamp, 10);
+                var weight = String(timestamp - prevTime);
+                links.push(link(sourceState, targetState, weight));
+            }
         }
     }
     return links;
@@ -201,7 +205,7 @@ function findLinksfromState(stateId) {
     return _.filter(links, function(link) {return link.attributes.source.id == stateId;});
 }
 
-function getLinkByPathId(source, target) {
+function getLinkByPathId(source, target, links) {
     for (var i = 0; i < links.length; i++) {
         if (links[i].attributes.source.id == source && links[i].attributes.target.id == target)
             return links[i];
@@ -226,22 +230,22 @@ var pathLengths = searchForShortestAndLongestPath(term.id);
 var maxPath = pathLengths[3];
 var minPath = pathLengths[2];
 
-var l = getLinkByPathId(init.id, pathLengths[3][0]);
+var l = getLinkByPathId(init.id, pathLengths[3][0],links);
 l.attr({'.connection': { stroke: 'red' }});
 for (var i = 1; i < pathLengths[3].length-1; i++) {
-    l = getLinkByPathId(pathLengths[3][i-1], pathLengths[3][i]);
+    l = getLinkByPathId(pathLengths[3][i-1], pathLengths[3][i], links);
     l.attr({'.connection': { stroke: 'red' }});
 }
-l = getLinkByPathId(pathLengths[3][pathLengths[3].length-1], term.id);
+l = getLinkByPathId(pathLengths[3][pathLengths[3].length-1], term.id, links);
 l.attr({'.connection': { stroke: 'red' }});
 
-l = getLinkByPathId(init.id, pathLengths[2][0]);
+l = getLinkByPathId(init.id, pathLengths[2][0], links);
 l.attr({'.connection': { stroke: 'green' }});
 for (i = 1; i < pathLengths[2].length; i++) {
-    l = getLinkByPathId(pathLengths[2][i-1], pathLengths[2][i]);
+    l = getLinkByPathId(pathLengths[2][i-1], pathLengths[2][i], links);
     l.attr({'.connection': { stroke: 'green' }});
 }
-l = getLinkByPathId(pathLengths[2][pathLengths[2].length-1], term.id);
+l = getLinkByPathId(pathLengths[2][pathLengths[2].length-1], term.id, links);
 l.attr({'.connection': { stroke: 'green' }});
 
 generateGradients(pathLengths[1]);
