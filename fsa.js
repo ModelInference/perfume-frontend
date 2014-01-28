@@ -232,7 +232,7 @@ var minPath = pathLengths[2];
 
 var l = getLinkByPathId(init.id, pathLengths[3][0],links);
 l.attr({'.connection': { stroke: 'red' }});
-for (var i = 1; i < pathLengths[3].length-1; i++) {
+for (var i = 1; i < pathLengths[3].length; i++) {
     l = getLinkByPathId(pathLengths[3][i-1], pathLengths[3][i], links);
     l.attr({'.connection': { stroke: 'red' }});
 }
