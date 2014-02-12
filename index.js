@@ -11,9 +11,16 @@ $.cookie("perfume_data", JSON.stringify(data), { expires: 7, path: '/' });
 
 }
 
-var get = function (id) {
-  return document.getElementById(id);
+function fetchModel (id) {
+    var parameters =  {logfile:$("#logtext").val(),
+            regex:$("#regex").val(),
+            partition_regex:$("#partex").val(),
+            seperator_regex:$("#sepex").val(),
+            manual_refinement:$("#manual_refinement").is(':checked'),
+            invariants_only:$("#invariants_only").is(':checked')
+        };
+    $.ajax({url:"/model/",data:parameters }).done(function(data) {model=data;}); 
+    window.open("model.html","_self")
+    return parameters;
 };
 
-// Fill in the proper version.
-get("versionContainer").innerHTML = versionText;
