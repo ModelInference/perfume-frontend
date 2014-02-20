@@ -1,0 +1,73 @@
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>Perfume</title>
+
+		<meta name="description" content="overview &amp; stats" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+		<!-- basic styles -->
+
+		<link href="css/bootstrap.min.css" rel="stylesheet" />
+		<link href="css/bootstrap-responsive.css" rel="stylesheet" />
+		<link href="css/docs.css" rel="stylesheet" />
+		<link href="css/custom.css" rel="stylesheet" />
+        <link href="css/joint.min.css" rel="stylesheet" />
+        #include "css_template.html"
+	</head>
+
+	<body>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="navbar-inner">
+	        <div class="container">
+	          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="brand" href="#">Perfume</a>
+                  <div id=versionContainer>
+                    <!-- Filled in with versionText in index.js -->
+                  </div>
+	          <div class="nav-collapse collapse">
+	            <ul class="nav">
+	              <li class="active"><a href="#">Home</a></li>
+	              <li><a href="http://cs.umass.edu/~ohmann/perfume/">Read More</a></li>
+	            </ul>
+	          </div><!--/.nav-collapse -->
+	        </div>
+	      </div>
+	    </div>
+
+    <div class="container" style="padding-top: 50px;">
+    <div class="row">
+    	<div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav">
+          <li class="active"><a onclick="revealForm();" href="#"><i class="icon-chevron-right"></i> Input</a></li>
+          <li><a onclick="revealInvariant();" href="#"><i class="icon-chevron-right"></i> Invariants</a></li>
+          <li><a onclick="revealModel();" href="#"><i class="icon-chevron-right"></i> Model</a></li>
+          <li><a href="#forms"><i class="icon-chevron-right"></i> Tutorial</a></li>
+          <li><a href="#buttons"><i class="icon-chevron-right"></i>Example</a></li>
+        </ul>
+      	</div>
+        <div id="content">
+            #include "form_template.html"
+            #include "model_template.html"
+            #include "invariant_template.html"
+        </div>
+    </div>
+    </div>
+		
+
+	</body>
+<!-- REPLACED DURING DEPLOYMENT: -->
+<script type="text/javascript" src="dev.js" ></script>
+<!-- -->
+#include "javascript_template.html"
+<script src="js/jquery.cookie.js"></script>
+<script src="index.js"></script>
+<script type="text/javascript" src="./fsa.js"></script>
+<script type="text/javascript" src="./invariant.js"></script>
+
+
+</html>

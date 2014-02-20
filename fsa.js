@@ -158,6 +158,7 @@ function isMatchingState(state, traceid, eventData) {
 }
 
 function draw() {
+    graph.clear();
     for (var i = 0; i < states.length; i++) {
         graph.addCell(states[i]);
     }
@@ -270,4 +271,3 @@ function drawModel(data) {
     $(".marker-arrowheads").remove();
 }
 
-drawModel(data);
