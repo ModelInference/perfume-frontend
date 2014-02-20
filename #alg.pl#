@@ -1,0 +1,8 @@
+    use Algorithm::Permute;
+
+        my @array = 'a'..'d';
+            my $p_iterator = Algorithm::Permute->new ( \@array );
+            
+                while (my @perm = $p_iterator->next) {
+                       print "next permutation: (@perm)\n";
+                           }
