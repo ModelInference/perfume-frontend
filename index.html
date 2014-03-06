@@ -87,14 +87,15 @@
         </ul>
       	</div>
         <div id="content">
+        <div id ="result"></div>
       	<div id="form" class="span9" style="">
-      		<form class="bs-docs-example form-horizontal">
+      		<!-- <form id="my" class="bs-docs-example form-horizontal" action="http://localhost/json.php" name="form" method="post" enctype="multipart/form-data"> -->
 					<fieldset>
 					<!-- Textarea -->
 					<div class="control-group">
 					  <label class="control-label" for="textarea">Log</label>
 					  <div class="controls">                     
-					    <textarea id="logtext" name="textarea" rows="5">1 0 c
+					    <textarea id="logtext" name="logtext" rows="5">1 0 c
 2 0 b
 3 0 a
 4 0 d
@@ -107,73 +108,75 @@
 3 2 a
 4 2 d
 					</textarea>
+                        <label class="control-label" for="textarea">Parameters</label>
+					    <textarea id="args" name="args" rows="5"> </textarea>
 					  </div>
 					</div>
 
 					<!-- Text input-->
-					<div class="control-group">
-					  <label class="control-label" for="regEx">Regular expression</label>
-					  <div class="controls">
-					    <input id="regex" name="regex" type="text" placeholder="^(?&lt;TIME&gt;)(?&lt;nodename&gt;)(?&lt;TYPE&gt;)$" class="input-xlarge">
+					<!-- <div class="control-group"> -->
+					<!--   <label class="control-label" for="regEx">Regular expression</label> -->
+					<!--   <div class="controls"> -->
+					<!--     <input id="regex" name="regex" type="text" placeholder="^(?&lt;TIME&gt;)(?&lt;nodename&gt;)(?&lt;TYPE&gt;)$" class="input-xlarge"> -->
 					    
-					  </div>
-					</div>
+					<!--   </div> -->
+					<!-- </div> -->
 
 					<!-- Text input-->
-					<div class="control-group">
-					  <label class="control-label" for="partex">Partition Expression</label>
-					  <div class="controls">
-					    <input id="partex" name="partex" type="text" placeholder="\k&lt;nodename&gt;" class="input-xlarge">
+					<!-- <div class="control-group"> -->
+					<!--   <label class="control-label" for="partex">Partition Expression</label> -->
+					<!--   <div class="controls"> -->
+					<!--     <input id="partex" name="partex" type="text" placeholder="\k&lt;nodename&gt;" class="input-xlarge"> -->
 					    
-					  </div>
-					</div>
+					<!--   </div> -->
+					<!-- </div> -->
 
 					<!-- Text input-->
-					<div class="control-group">
-					  <label class="control-label" for="sepex">Separator expression</label>
-					  <div class="controls">
-					    <input id="sepex" name="sepex" type="text" placeholder="" class="input-xlarge">
+					<!-- <div class="control-group"> -->
+					<!--   <label class="control-label" for="sepex">Separator expression</label> -->
+					<!--   <div class="controls"> -->
+					<!--     <input id="sepex" name="sepex" type="text" placeholder="" class="input-xlarge"> -->
 					    
-					  </div>
-					</div>
+					<!--   </div> -->
+					<!-- </div> -->
 
 					<!-- Multiple Radios -->
-					<div class="control-group">
-					  <label class="control-label" for="parsing">Parsing Option</label>
-					  <div class="controls">
-					    <label class="radio" for="parsing-0">
-					      <input type="radio" name="parsing" id="parsing-0" value="Ignore non-matched lines" checked="checked">
-					      Ignore non-matched lines
-					    </label>
-					  </div>
-					</div>
+					<!-- <div class="control-group"> -->
+					<!--   <label class="control-label" for="parsing">Parsing Option</label> -->
+					<!--   <div class="controls"> -->
+					<!--     <label class="radio" for="parsing-0"> -->
+					<!--       <input type="radio" name="parsing" id="parsing-0" value="Ignore non-matched lines" checked="checked"> -->
+					<!--       Ignore non-matched lines -->
+					<!--     </label> -->
+					<!--   </div> -->
+					<!-- </div> -->
 
 					<!-- Multiple Checkboxes -->
-					<div class="control-group">
-					  <label class="control-label" for="checkboxes">Debugging Option</label>
-					  <div class="controls">
-					    <label class="checkbox" for="checkboxes-0">
-					      <input type="checkbox" name="checkboxes" id="manual_refinement" value="Manual refinement/coarsening">
-					      Manual refinement/coarsening
-					    </label>
-					    <label class="checkbox" for="checkboxes-1">
-					      <input type="checkbox" name="checkboxes" id="invariants_only" value="Only mine invariants">
-					      Only mine invariants
-					    </label>
-					  </div>
-					</div>
+					<!-- <div class="control-group"> -->
+					<!--   <label class="control-label" for="checkboxes">Debugging Option</label> -->
+					<!--   <div class="controls"> -->
+					<!--     <label class="checkbox" for="checkboxes-0"> -->
+					<!--       <input type="checkbox" name="checkboxes" id="manual_refinement" value="Manual refinement/coarsening"> -->
+					<!--       Manual refinement/coarsening -->
+					<!--     </label> -->
+					<!--     <label class="checkbox" for="checkboxes-1"> -->
+					<!--       <input type="checkbox" name="checkboxes" id="invariants_only" value="Only mine invariants"> -->
+					<!--       Only mine invariants -->
+					<!--     </label> -->
+					<!--   </div> -->
+					<!-- </div> -->
 
 					<!-- Button (Double) -->
 					<div class="control-group">
 					  <label class="control-label" for="button1id"></label>
 					  <div class="controls">
-					    <button id="fetchmodel" name="button1id" class="btn btn-primary" onclick="fetchModel()"><a href="model.html" style="color: #fff;">Parse Log</a></button>
+					    <button id="fetchmodel" name="button1id" class="btn btn-primary" onclick="fetchModel()">Parse Log</button>
 					    <button id="clear-form" name="button2id" class="btn btn-clear">Clear</button>
 					  </div>
 					</div>
 
 					</fieldset>
-					</form>
+					<!-- </form> -->
 
       	</div>
 <div id="model" class="span9" style="display:none">
@@ -211,6 +214,7 @@
 <script type="text/javascript" src="./js/joint.shapes.fsa.min.js"></script>
 <script type="text/javascript" src="./js/priorityQueue.js"></script>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+<script type="text/javascript" src="./js/jquery.form.min.js"></script>
 <script src="js/jquery.cookie.js"></script>
 <script src="index.js"></script>
 <script type="text/javascript" src="./fsa.js"></script>

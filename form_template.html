@@ -1,11 +1,12 @@
+        <div id ="result"></div>
       	<div id="form" class="span9" style="">
-      		<form class="bs-docs-example form-horizontal">
+      		<!-- <form id="my" class="bs-docs-example form-horizontal" action="http://localhost/json.php" name="form" method="post" enctype="multipart/form-data"> -->
 					<fieldset>
 					<!-- Textarea -->
 					<div class="control-group">
 					  <label class="control-label" for="textarea">Log</label>
 					  <div class="controls">                     
-					    <textarea id="logtext" name="textarea" rows="5">1 0 c
+					    <textarea id="logtext" name="logtext" rows="5">1 0 c
 2 0 b
 3 0 a
 4 0 d
@@ -17,6 +18,8 @@
 2 2 b
 3 2 a
 4 2 d
+					</textarea>
+					    <textarea id="args" name="args" rows="5">
 					</textarea>
 					  </div>
 					</div>
@@ -78,12 +81,13 @@
 					<div class="control-group">
 					  <label class="control-label" for="button1id"></label>
 					  <div class="controls">
-					    <button id="fetchmodel" name="button1id" class="btn btn-primary" onclick="fetchModel()"><a href="model.html" style="color: #fff;">Parse Log</a></button>
+					  <input id="search-submit" type="submit" value="Run perfume"></input>
+					    <button id="fetchmodel" name="button1id" class="btn btn-primary" onclick="fetchModel()">Parse Log</button>
 					    <button id="clear-form" name="button2id" class="btn btn-clear">Clear</button>
 					  </div>
 					</div>
 
 					</fieldset>
-					</form>
+					<!-- </form> -->
 
       	</div>
