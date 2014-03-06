@@ -15,14 +15,14 @@ $.cookie("perfume_data", JSON.stringify(data), { expires: 7, path: '/' });
 
 function fetchModel (id) {
     var parameters =  {logfile:$("#logtext").val(),
+            args:$("#args").val(),
             regex:$("#regex").val(),
             partition_regex:$("#partex").val(),
             seperator_regex:$("#sepex").val(),
             manual_refinement:$("#manual_refinement").is(':checked'),
             invariants_only:$("#invariants_only").is(':checked')
         };
-    $.ajax({url:"/model/",data:parameters }).done(function(data) {model=data;}); 
-    window.open("model.html","_self")
+    $.ajax({type:"POST", url:"json.php",data:parameters }).done(function(model) {console.log(model); data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); console.log(model);}); 
     return parameters;
 };
 
@@ -53,3 +53,4 @@ function revealInvariant() {
         $("#form").toggle();
     mode = "invariant";
 }
+

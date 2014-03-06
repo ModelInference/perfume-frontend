@@ -18,6 +18,9 @@ var paper = new joint.dia.Paper({
 
 //Constructor for transition objects. Borrowed from the FSA demo.
 function link(source, target, label, vertices) {
+    if (source.id == target.id) {
+        verticies = [{ x:source.attributes.position.x+30, y:source.attributes.position.y }];
+    }
     var w = parseInt(label,10);
     if (label == "0") 
         label = "";
@@ -171,6 +174,14 @@ function draw() {
 
 function getPathsTo(target) {}
 
+function isStateinList(li, state) {
+    for (var i = 0; i < li.length; i++) {
+        if (state.id == li[i].id)
+            return true;
+    }
+    return false;
+}
+
 function searchForShortestAndLongestPath(target) {
     var max = 0;
     var min = 99999999999999999;
@@ -178,6 +189,7 @@ function searchForShortestAndLongestPath(target) {
     var initFrontier = findLinksfromState(init.id);
     var maxPath;
     var minPath;
+    var statesFound = [];
     for (var i = 0; i < initFrontier.length; i++) {
         frontier.push({path: [], link: initFrontier[i], weight : initFrontier[i].weight});
     }
@@ -200,7 +212,10 @@ function searchForShortestAndLongestPath(target) {
             var nextStates = findLinksfromState(curLink.attributes.target.id);
                 pathTo.push(curLink.attributes.target.id)
             for (i = 0; i < nextStates.length; i++) { 
-                frontier.push({path: pathTo, link: nextStates[i], weight : weight + nextStates[i].weight});
+                if (!isStateinList(statesFound, nextStates[i])) {
+                    frontier.push({path: pathTo, link: nextStates[i], weight : weight + nextStates[i].weight});
+                    statesFound.push(nextStates[i]);
+                }
             }
         }
     }
