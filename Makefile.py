@@ -2,7 +2,7 @@
 from Cheetah.Template import Template
 
 def compile_templates():
-    with open('index_template.html', 'r') as templatefile:
+    with open('./template/index_template.html', 'r') as templatefile:
         template = templatefile.read()
     compiled_template = Template(template).__str__()
     with open('index.html', 'w') as postfile:
