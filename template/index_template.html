@@ -13,7 +13,7 @@
 		<link href="css/docs.css" rel="stylesheet" />
 		<link href="css/custom.css" rel="stylesheet" />
         <link href="css/joint.min.css" rel="stylesheet" />
-        #include "css_template.html"
+        #include "./template/css_template.html"
 	</head>
 
 	<body>
@@ -51,9 +51,9 @@
         </ul>
       	</div>
         <div id="content">
-            #include "form_template.html"
-            #include "model_template.html"
-            #include "invariant_template.html"
+            #include "./template/form_template.html"
+            #include "./template/model_template.html"
+            #include "./template/invariant_template.html"
         </div>
     </div>
     </div>
@@ -63,7 +63,7 @@
 <!-- REPLACED DURING DEPLOYMENT: -->
 <script type="text/javascript" src="dev.js" ></script>
 <!-- -->
-#include "javascript_template.html"
+#include "./template/javascript_template.html"
 <script src="js/jquery.cookie.js"></script>
 <script src="index.js"></script>
 <script type="text/javascript" src="./fsa.js"></script>
