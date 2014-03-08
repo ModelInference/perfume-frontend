@@ -1,1 +1,0 @@
-var versionText='Development version.'
