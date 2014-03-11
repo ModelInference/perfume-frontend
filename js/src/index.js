@@ -27,7 +27,8 @@ function fetchModel (id) {
 };
 
 function revealForm() {
-    $("#form").toggle();
+    if  (mode != "form")
+        $("#form").toggle();
     if (mode == "model") 
         $("#model").toggle();
     if (mode == "invariant") 
@@ -36,7 +37,8 @@ function revealForm() {
 }
 
 function revealModel() {
-    $("#model").toggle();
+    if  (mode != "model")
+        $("#model").toggle();
     if (mode == "form") 
         $("#form").toggle();
     if (mode == "invariant") 
@@ -46,7 +48,8 @@ function revealModel() {
 }
 
 function revealInvariant() {
-    $("#invariant").toggle();
+    if  (mode != "invariant")
+        $("#invariant").toggle();
     if (mode == "model") 
         $("#model").toggle();
     if (mode == "form") 
