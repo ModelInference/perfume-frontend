@@ -10,6 +10,9 @@
 ###Compiling perfume###
 Perfume requires the cheetah python library. 
 
+Install with `$pip install cheetah`
+You can get pip [here](http://pip.readthedocs.org/en/latest/installing.html).
+
 Run `$python Makefile.py` to generate the necessary web files.
 
 Files are included in the templates to ease development and avoid repeating code.

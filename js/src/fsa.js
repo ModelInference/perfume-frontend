@@ -273,16 +273,16 @@ function drawModel(data) {
     l = getLinkByPathId(pathLengths[2][pathLengths[2].length-1], term.id, links);
     l.attr({'.connection': { stroke: 'green' }});
 
-    generateGradients(pathLengths[1]);
-    $(".marker-vertex-remove").empty(); //Gets rid of ability to delete states.
+    // generateGradients(pathLengths[1]);
+    // $(".marker-vertex-remove").empty(); //Gets rid of ability to delete states.
     var svg = d3.select("svg");
     var grad = svg.append("linearGradient").attr("id", "grad")
         .attr("x1", "0%").attr("x2", "0%").attr("y1", "100%").attr("y2", "0%");
         grad.append("stop").attr("offset", "50%").style("stop-color", "blue");
         grad.append("stop").attr("offset", "80%").style("stop-color", "white");
     draw();
-    $(".tool-remove").empty();
-    $(".link-tools").remove();
-    $(".marker-arrowheads").remove();
+    // $(".tool-remove").empty();
+    // $(".link-tools").remove();
+    // $(".marker-arrowheads").remove();
 }
 
