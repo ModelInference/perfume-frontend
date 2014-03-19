@@ -54,3 +54,8 @@ function revealInvariant() {
     mode = "invariant";
 }
 
+function clearForm()  {
+    $("#logtext").val('');
+    $("#args").val('');
+}
+
