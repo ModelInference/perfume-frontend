@@ -9,6 +9,7 @@ var init  = state(10, 10, { "eventType": "init", "events": [{ "traceID": 0, "eve
 var term = state(500, 550, {"eventType": "term", "events": [{ "traceID": 0, "eventIndex": 0 }] });
 
 var browser_model = {"log":[{"traceID":0,"events":[{"eventIndex":0,"eventType":"cache-page","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-page","timestamp":9.0},{"eventIndex":2,"eventType":"cache-image","timestamp":18.0},{"eventIndex":3,"eventType":"retrieve-image","timestamp":39.0},{"eventIndex":4,"eventType":"quit","timestamp":160.0}]},{"traceID":1,"events":[{"eventIndex":0,"eventType":"cache-page","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-page","timestamp":17.0},{"eventIndex":2,"eventType":"cache-image","timestamp":34.0},{"eventIndex":3,"eventType":"retrieve-image","timestamp":104.0},{"eventIndex":4,"eventType":"quit","timestamp":274.0}]},{"traceID":2,"events":[{"eventIndex":0,"eventType":"cache-page","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-page","timestamp":9.0},{"eventIndex":2,"eventType":"cache-image","timestamp":118.0},{"eventIndex":3,"eventType":"retrieve-image","timestamp":140.0},{"eventIndex":4,"eventType":"quit","timestamp":162.0}]},{"traceID":3,"events":[{"eventIndex":0,"eventType":"cache-page","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-page","timestamp":17.0},{"eventIndex":2,"eventType":"cache-image","timestamp":136.0},{"eventIndex":3,"eventType":"retrieve-image","timestamp":204.0},{"eventIndex":4,"eventType":"quit","timestamp":272.0}]},{"traceID":4,"events":[{"eventIndex":0,"eventType":"cache-image","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-image","timestamp":27.0},{"eventIndex":2,"eventType":"quit","timestamp":54.0}]},{"traceID":5,"events":[{"eventIndex":0,"eventType":"cache-image","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-image","timestamp":62.0},{"eventIndex":2,"eventType":"quit","timestamp":124.0}]}],"partitions":[{"eventType":"cache-page","events":[{"traceID":0,"eventIndex":0},{"traceID":1,"eventIndex":0},{"traceID":2,"eventIndex":0},{"traceID":3,"eventIndex":0}]},{"eventType":"retrieve-page","events":[{"traceID":3,"eventIndex":1},{"traceID":0,"eventIndex":1},{"traceID":2,"eventIndex":1},{"traceID":1,"eventIndex":1}]},{"eventType":"cache-image","events":[{"traceID":5,"eventIndex":0},{"traceID":2,"eventIndex":2},{"traceID":3,"eventIndex":2},{"traceID":4,"eventIndex":0}]},{"eventType":"retrieve-image","events":[{"traceID":1,"eventIndex":3},{"traceID":0,"eventIndex":3}]},{"eventType":"quit","events":[{"traceID":0,"eventIndex":4},{"traceID":3,"eventIndex":4},{"traceID":4,"eventIndex":2},{"traceID":5,"eventIndex":2},{"traceID":1,"eventIndex":4},{"traceID":2,"eventIndex":4}]},{"eventType":"cache-image","events":[{"traceID":0,"eventIndex":2},{"traceID":1,"eventIndex":2}]},{"eventType":"retrieve-image","events":[{"traceID":4,"eventIndex":1},{"traceID":3,"eventIndex":3},{"traceID":5,"eventIndex":1},{"traceID":2,"eventIndex":3}]}],"invariants":[{"invariantType":"NeverFollowedBy","predicates":["cache-page"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","retrieve-page"],"constraints":["lowerbound = 9.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","retrieve-page"],"constraints":["upperbound = 17.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-page","retrieve-page"],"constraints":["lowerbound = 9.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-page","retrieve-page"],"constraints":["upperbound = 17.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","cache-image"],"constraints":["lowerbound = 18.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","cache-image"],"constraints":["upperbound = 136.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","retrieve-image"],"constraints":["lowerbound = 39.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","retrieve-image"],"constraints":["upperbound = 204.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","quit"],"constraints":["lowerbound = 160.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","quit"],"constraints":["upperbound = 274.0"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-page","cache-page"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-page"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","cache-image"],"constraints":["lowerbound = 9.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","cache-image"],"constraints":["upperbound = 119.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","retrieve-image"],"constraints":["lowerbound = 30.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","retrieve-image"],"constraints":["upperbound = 187.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","quit"],"constraints":["lowerbound = 151.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","quit"],"constraints":["upperbound = 257.0"]},{"invariantType":"NeverFollowedBy","predicates":["cache-image","cache-page"]},{"invariantType":"NeverFollowedBy","predicates":["cache-image","retrieve-page"]},{"invariantType":"NeverFollowedBy","predicates":["cache-image"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-image","retrieve-image"],"constraints":["lowerbound = 21.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-image","retrieve-image"],"constraints":["upperbound = 70.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-image","retrieve-image"],"constraints":["lowerbound = 21.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-image","retrieve-image"],"constraints":["upperbound = 70.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-image","quit"],"constraints":["lowerbound = 44.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-image","quit"],"constraints":["upperbound = 240.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-image","quit"],"constraints":["lowerbound = 44.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-image","quit"],"constraints":["upperbound = 240.0"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-image","cache-page"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-image","retrieve-page"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-image","cache-image"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-image"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-image","quit"],"constraints":["lowerbound = 22.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-image","quit"],"constraints":["upperbound = 170.0"]},{"invariantType":"AlwaysPrecedes","predicates":["retrieve-image","quit"],"constraints":["lowerbound = 22.0"]},{"invariantType":"AlwaysPrecedes","predicates":["retrieve-image","quit"],"constraints":["upperbound = 170.0"]},{"invariantType":"NeverFollowedBy","predicates":["quit","cache-page"]},{"invariantType":"NeverFollowedBy","predicates":["quit","retrieve-page"]},{"invariantType":"NeverFollowedBy","predicates":["quit","cache-image"]},{"invariantType":"NeverFollowedBy","predicates":["quit","retrieve-image"]},{"invariantType":"NeverFollowedBy","predicates":["quit"]}]};
+
 var states = generateStates(data);
 var links = generateTransitions(data);
 
@@ -22,12 +23,13 @@ var paper = new joint.dia.Paper({
 
 
 //Constructor for transition objects. Borrowed from the FSA demo.
-function link(source, target, label, vertices) {
+function link(source, target, label, maxsize) {
+    var vertices = []
     if (source.id == target.id) {
-        vertices = [{ x:source.attributes.position.x+70, y:source.attributes.position.y-40 }, { x:source.attributes.position.x+70, y:source.attributes.position.y+40 }];
+        vertices = [{ x:source.attributes.position.x+5*maxsize, y:source.attributes.position.y-40 }, { x:source.attributes.position.x+5*maxsize, y:source.attributes.position.y+40 }];
     }
     var w = parseInt(label,10);
-    if (label == "0") 
+    if (source.id == init.id || target.id == term.id) 
         label = "";
     var cell = new joint.shapes.fsa.Arrow({
         source: { id: source.id },
@@ -40,14 +42,19 @@ function link(source, target, label, vertices) {
 }
 
 function generateTransitions(data) {
+    var maxLength = 0;
+    for (var i = 0; i < data.partitions.length; i++) {
+        if (maxLength <  data.partitions[i].eventType.length)
+            maxLength = data.partitions[i].eventType.length
+    }
     var links = [];
     var prevTime = 0;
     for (var i = 0; i < data.log.length; i++) {
         var trace = data.log[i];
         if (getLinkByPathId(init.id, findState(i, trace.events[0]).id, links) === null)
-            links.push(link(init, findState(i, trace.events[0]), String(0) ));
+            links.push(link(init, findState(i, trace.events[0]), String(0), maxLength ));
         if (getLinkByPathId(findState(i, trace.events[trace.events.length - 1]).id, term.id, links) === null)
-            links.push(link(findState(i, trace.events[trace.events.length - 1]), term, String(0))); //Last state in trace
+            links.push(link(findState(i, trace.events[trace.events.length - 1]), term, String(0), maxLength)); //Last state in trace
         for (var j = 0; j < trace.events.length - 1; j++) {
             var sourceEvent = trace.events[j];
             var targetEvent = trace.events[j+1];
@@ -57,7 +64,7 @@ function generateTransitions(data) {
                 var timestamp = parseInt(trace.events[j+1].timestamp, 10);
                 prevTime = parseInt(trace.events[j].timestamp, 10);
                 var weight = String(timestamp - prevTime);
-                links.push(link(sourceState, targetState, weight));
+                links.push(link(sourceState, targetState, weight, maxLength));
             }
         }
     }
@@ -65,11 +72,13 @@ function generateTransitions(data) {
 }
 
 //Constructor for state objects. Borrowed from the FSA demo, added in eventType and events attributes.
-function state(x, y, eventdata) {
+function state(x, y, eventdata, maxsize) {
+    if (maxsize < 4)
+        maxsize = 4;
         
     var cell = new joint.shapes.fsa.State({
         position: { x: x, y: y },
-        size: { width: 50, height: 50 },
+        size: { width: 50+5*(maxsize-4), height: 50},
         attrs: {  text : { text: eventdata.eventType }},
     });
     cell.eventType = eventdata.eventType;
@@ -87,17 +96,22 @@ function state(x, y, eventdata) {
 //Vertical postion is determined by average of it's point in a trace
 function generateStates(data) {
     //Find size of largest label
+    var maxLength = 0;
+    for (var i = 0; i < data.partitions.length; i++) {
+        if (maxLength <  data.partitions[i].eventType.length)
+            maxLength = data.partitions[i].eventType.length
+    }
     var states = [];
-    var startx = 10;
+    var startx = 10+5*maxLength;
     var starty = 120;
     for (var i = 0; i < data.partitions.length; i++  ){
             var VertMultiplier = getStateVerticalPositionMultiplier(data.partitions[i]);
             var HorizMultiplier = parseInt( getStateHorizontalPositionMultiplier(data.partitions[i]) );
 
-            states.push(state(100*HorizMultiplier+15, starty*VertMultiplier+100-(20*(HorizMultiplier-1)), data.partitions[i]));
+            states.push(state(100*HorizMultiplier+15, starty*VertMultiplier+100-(20*(HorizMultiplier-1)), data.partitions[i], maxLength));
             startx += 100;
             if (startx > 550 ){
-                startx = 10;
+                startx = 10+5*maxLength;
             }
         }
     return states;
@@ -280,15 +294,10 @@ function drawModel(data) {
     l.attr({'.connection': { stroke: 'green' }});
 
     // generateGradients(pathLengths[1]);
-    // $(".marker-vertex-remove").empty(); //Gets rid of ability to delete states.
-    var svg = d3.select("svg");
-    var grad = svg.append("linearGradient").attr("id", "grad")
-        .attr("x1", "0%").attr("x2", "0%").attr("y1", "100%").attr("y2", "0%");
-        grad.append("stop").attr("offset", "50%").style("stop-color", "blue");
-        grad.append("stop").attr("offset", "80%").style("stop-color", "white");
     draw();
-    // $(".tool-remove").empty();
-    // $(".link-tools").remove();
-    // $(".marker-arrowheads").remove();
+    $(".marker-vertex-remove").empty(); //Gets rid of ability to delete states.
+    $(".tool-remove").empty();
+    $(".link-tools").remove();
+    $(".marker-arrowheads").remove();
 }
 
