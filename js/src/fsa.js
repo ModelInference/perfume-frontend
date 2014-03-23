@@ -13,12 +13,31 @@ var browser_model = {"log":[{"traceID":0,"events":[{"eventIndex":0,"eventType":"
 var states = generateStates(data);
 var links = generateTransitions(data);
 
+var constraint = g.rect(0,0,850,850)
+
+
+var ConstraintElementView = joint.dia.ElementView.extend({
+
+    pointerdown: function(evt, x, y) {
+        var position = this.model.get('position');
+        var size = this.model.get('size');
+        var center = g.rect(position.x, position.y, size.width, size.height).center();
+        var intersection = constraint.intersectionWithLineFromCenterToPoint(center);
+        joint.dia.ElementView.prototype.pointerdown.apply(this, [evt, x, y]);
+    },
+    pointermove: function(evt, x, y) {
+        var intersection = constraint.intersectionWithLineFromCenterToPoint(g.point(x, y));
+        joint.dia.ElementView.prototype.pointermove.apply(this, [evt, x, y]);
+    }
+});
+
 var paper = new joint.dia.Paper({
     el: $('#paper'),
-    width: 1200,
-    height: 1600,
+    width: 850,
+    height: 850,
     gridSize: 1,
-    model: graph
+    model: graph,
+    elementView:ConstraintElementView
 });
 
 
@@ -266,10 +285,12 @@ function getLinkbyId(id) {
 
 function drawModel(data) {
 
-    init  = state(10, 10, { "eventType": "init", "events": [{ "traceID": 0, "eventIndex": 0 }] });
-    term = state(500, 550, {"eventType": "term", "events": [{ "traceID": 0, "eventIndex": 0 }] });
+    init  = state(10, 10, { "eventType": "init", "events": [{ "traceID": 0, "eventIndex": 0 }] }, 4);
+    term = state(500, 550, {"eventType": "term", "events": [{ "traceID": 0, "eventIndex": 0 }] }, 4);
     states = generateStates(data);
     links = generateTransitions(data);
+    init.attr({'circle': {fill:'grey'}})
+    term.attr({'circle': {fill:'grey'}})
         
     var pathLengths = searchForShortestAndLongestPath(term.id);
     var maxPath = pathLengths[3];

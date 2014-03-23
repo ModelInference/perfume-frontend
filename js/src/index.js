@@ -4,17 +4,6 @@ var abc_model = { "log": [ { "traceID": 0, "events": [ { "eventIndex": 0, "event
 
 var mode = "form";
 
-function sendToPerfumeServer() {
-//////////////////////////////////
-//                              //
-//       PUT AJAX CALL HERE     //
-//                              // 
-//////////////////////////////////
-//data = ajaxCall
-$.cookie("perfume_data", JSON.stringify(data), { expires: 7, path: '/' });
-
-}
-
 function fetchModel (id) {
     var parameters =  {logfile:$("#logtext").val(),
             args:$("#args").val(),
