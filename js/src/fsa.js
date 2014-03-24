@@ -45,7 +45,7 @@ var paper = new joint.dia.Paper({
 function link(source, target, label, maxsize) {
     var vertices = []
     if (source.id == target.id) {
-        vertices = [{ x:source.attributes.position.x+5*maxsize, y:source.attributes.position.y-40 }, { x:source.attributes.position.x+5*maxsize, y:source.attributes.position.y+40 }];
+        vertices = [{ x:source.attributes.position.x+10*maxsize, y:source.attributes.position.y-40 }, { x:source.attributes.position.x+10*maxsize, y:source.attributes.position.y+40 }];
     }
     var w = parseInt(label,10);
     if (source.id == init.id || target.id == term.id) 
@@ -127,7 +127,7 @@ function generateStates(data) {
             var VertMultiplier = getStateVerticalPositionMultiplier(data.partitions[i]);
             var HorizMultiplier = parseInt( getStateHorizontalPositionMultiplier(data.partitions[i]) );
 
-            states.push(state(100*HorizMultiplier+15, starty*VertMultiplier+100-(20*(HorizMultiplier-1)), data.partitions[i], maxLength));
+            states.push(state(140*HorizMultiplier+15, starty*VertMultiplier+100-(20*(HorizMultiplier-1)), data.partitions[i], maxLength));
             startx += 100;
             if (startx > 550 ){
                 startx = 10+5*maxLength;
