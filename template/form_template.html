@@ -2,24 +2,15 @@
       	<div id="form" class="span9" style="">
       		<!-- <form id="my" class="bs-docs-example form-horizontal" action="http://localhost/json.php" name="form" method="post" enctype="multipart/form-data"> -->
 					<fieldset>
-					<!-- Textarea -->
+					<!-- Textarea -->	
+    <button id="abstractform" onclick="writeAbstractModel();  data = abc_model;">Abstract Example </button>
+    <button id="bandwithform" onclick="writeBrowserModel();  data = test_bandwith_model;">Connection Example</button>
+    <button id="browserform" onclick="writeConnectionModel();  data = browser_model;"> Browser Example</button>
 					<div class="control-group">
 					  <label class="control-label" for="textarea">Log</label>
 					  <div class="controls">                     
-					    <textarea id="logtext" name="logtext" rows="5">1 0 c
-2 0 b
-3 0 a
-4 0 d
-1 1 f
-2 1 b
-3 1 a
-4 1 e
-1 2 f
-2 2 b
-3 2 a
-4 2 d
-					</textarea>
-<textarea id="args" name="args" rows="5"></textarea>
+					    <textarea id="logtext" name="logtext" rows="5"></textarea>
+<textarea id="argsfield" name="args" rows="5"></textarea>
 					  </div>
 					</div>
 
@@ -83,7 +74,7 @@
 					<div class="control-group">
 					  <label class="control-label" for="button1id"></label>
 					  <div class="controls">
-					    <button id="fetchmodel" name="button1id" class="btn btn-primary" onclick="fetchModel()">Parse Log</button>
+					    <button id="fetchmodel" name="button1id" classg"btn btn-primary" onclick="revealModel(); drawModel(data)">Parse Log</button>
 					    <button id="clear-form" name="button2id" class="btn btn-clear" onclick="clearForm()">Clear</button>
 					  </div>
 					</div>
