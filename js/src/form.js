@@ -7,6 +7,9 @@ var browserargs = "-r (?<ip>) .+:(?<DTIME>.+)\\] \"GET HTTP/1.1 /(?<TYPE>.+)\" -
 var connectionlog =   "\"19.38.218.11 [31/May/2014:31200.0] \"GET HTTP/1.1 /test-bandwidth\"\n 19.38.218.11 [31/May/2014:31202.0] \"GET HTTP/1.1 /narrowband\"\n 19.38.218.11 [31/May/2014:31205.7] \"GET HTTP/1.1 /query\"\n 19.38.218.11 [31/May/2014:31208.9] \"GET HTTP/1.1 /query\"\n 19.38.218.11 [31/May/2014:31209.7] \"GET HTTP/1.1 /report-normal\"\n 95.39.21.28 [31/May/2014:31200.3] \"GET HTTP/1.1 /test-bandwidth\"\n 95.39.21.28 [31/May/2014:31202.3] \"GET HTTP/1.1 /narrowband\"\n 95.39.21.28 [31/May/2014:31206.0] \"GET HTTP/1.1 /query\"\n 95.39.21.28 [31/May/2014:31206.8] \"GET HTTP/1.1 /report-normal\"\n 210.82.199.247 [31/May/2014:31200.1] \"GET HTTP/1.1 /test-bandwidth\"\n 210.82.199.247 [31/May/2014:31200.8] \"GET HTTP/1.1 /broadband\"\n 210.82.199.247 [31/May/2014:31202.1] \"GET HTTP/1.1 /query\"\n 210.82.199.247 [31/May/2014:31208.3] \"GET HTTP/1.1 /query\"\n 210.82.199.247 [31/May/2014:31208.8] \"GET HTTP/1.1 /report-abnormal\"\n 130.78.242.94 [31/May/2014:31200.1] \"GET HTTP/1.1 /test-bandwidth\"\n 130.78.242.94 [31/May/2014:31200.7] \"GET HTTP/1.1 /broadband\"\n 130.78.242.94 [31/May/2014:31201.9] \"GET HTTP/1.1 /query\"\n 130.78.242.94 [31/May/2014:31208.0] \"GET HTTP/1.1 /query\"\n 130.78.242.94 [31/May/2014:31208.4] \"GET HTTP/1.1 /report-abnormal\"\n 38.151.1.182 [31/May/2014:31200.2] \"GET HTTP/1.1 /test-bandwidth\"\n 38.151.1.182 [31/May/2014:31200.8] \"GET HTTP/1.1 /broadband\"\n 38.151.1.182 [31/May/2014:31202.0] \"GET HTTP/1.1 /query\"\n 38.151.1.182 [31/May/2014:31203.3] \"GET HTTP/1.1 /query\"\n 38.151.1.182 [31/May/2014:31203.8] \"GET HTTP/1.1 /report-normal\"\n 37.161.90.108 [31/May/2014:31200.2] \"GET HTTP/1.1 /test-bandwidth\"\n 37.161.90.108 [31/May/2014:31200.9] \"GET HTTP/1.1 /broadband\"\n 37.161.90.108 [31/May/2014:31202.2] \"GET HTTP/1.1 /query\"\n 37.161.90.108 [31/May/2014:31203.6] \"GET HTTP/1.1 /query\"\n 37.161.90.108 [31/May/2014:31204.7] \"GET HTTP/1.1 /report-normal\"";
 var connectionargs = "-r (?<ip>.+), (?<TYPE>.+), (?<DTIME>.+) -s ^--$";
 
+var radiuslog =   "0, 122.88.9.104, Access-Request\n 64, 122.88.9.104, Access-Accept\n 0, 102.24.169.15, Access-Request\n 128, 102.24.169.15, Access-Accept\n --\n 0, 37.161.90.108, Access-Request\n 64, 37.161.90.108, Access-Reject\n 0, 91.83.112.9, Access-Request\n 96, 91.83.112.9, Access-Reject\n --\n 0, 237.79.201.32, Access-Request\n 2048, 237.79.201.32, Access-Challenge\n 2144, 237.79.201.32, Access-Request\n 2208, 237.79.201.32, Access-Reject\n --\n 0, 212.5.97.41, Access-Request\n 3072, 212.5.97.41, Access-Challenge\n 3184, 212.5.97.41, Access-Request\n 3312, 212.5.97.41, Access-Reject\n --\n 0, 187.154.73.224, Access-Request\n 64, 187.154.73.224, Access-Challenge\n 192, 187.154.73.224, Access-Request\n 320, 187.154.73.224, Access-Accept\n --\n 0, 46.8.192.199, Access-Request\n 128, 46.8.192.199, Access-Challenge\n 256, 46.8.192.199, Access-Request\n 352, 46.8.192.199, Access-Accept"; 
+var radiusargs = "i-r (?<DTIME>.+), (?<ip>.+), (?<TYPE>.+)\n -s ^--$";
+
 var logstring;
 var argstring;
 
@@ -28,6 +31,11 @@ function writeConnectionModel() {
     write();
 }
 
+function writeRadiusModel() {
+    logstring = radiuslog ;
+    argstring = radiusargs;
+    write();
+}
 function write() {
     $("#logtext").val(logstring);
     $("#argsfield").val(argstring);

@@ -17,8 +17,15 @@ fwrite($jsonfh, "-j\n");
 fclose($jsonfh);
 $output = shell_exec(' ./perfume.sh -c /tmp/jsonargs.txt ' . "/tmp/log.txt 2>&1");
 $json = file_get_contents('/tmp/json.json');
-header('Content-Type: application/json');
-echo $json;
+if ($json === "")  {
+    header('HTTP/1.1 500 Internal Server Error');
+    header('Content-Type: application/json; charset=UTF-8');
+    die( json_encode(array( message => $output)));
+    }
+else {
+        header('Content-Type: application/json');
+        echo $json;
+    }
 }
 
 main();
