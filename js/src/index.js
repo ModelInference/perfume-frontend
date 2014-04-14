@@ -41,6 +41,7 @@ function revealInvariant() {
     if (mode == "form") 
         $("#form").toggle();
     mode = "invariant";
+    drawInvariants(data);
 }
 
 function clearForm()  {
