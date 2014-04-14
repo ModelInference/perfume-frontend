@@ -10,14 +10,13 @@ var term = state(500, 550, {"eventType": "term", "events": [{ "traceID": 0, "eve
 
 var browser_model = {"log":[{"traceID":0,"events":[{"eventIndex":0,"eventType":"cache-page","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-page","timestamp":9.0},{"eventIndex":2,"eventType":"cache-image","timestamp":18.0},{"eventIndex":3,"eventType":"retrieve-image","timestamp":39.0},{"eventIndex":4,"eventType":"quit","timestamp":160.0}]},{"traceID":1,"events":[{"eventIndex":0,"eventType":"cache-page","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-page","timestamp":17.0},{"eventIndex":2,"eventType":"cache-image","timestamp":34.0},{"eventIndex":3,"eventType":"retrieve-image","timestamp":104.0},{"eventIndex":4,"eventType":"quit","timestamp":274.0}]},{"traceID":2,"events":[{"eventIndex":0,"eventType":"cache-page","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-page","timestamp":9.0},{"eventIndex":2,"eventType":"cache-image","timestamp":118.0},{"eventIndex":3,"eventType":"retrieve-image","timestamp":140.0},{"eventIndex":4,"eventType":"quit","timestamp":162.0}]},{"traceID":3,"events":[{"eventIndex":0,"eventType":"cache-page","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-page","timestamp":17.0},{"eventIndex":2,"eventType":"cache-image","timestamp":136.0},{"eventIndex":3,"eventType":"retrieve-image","timestamp":204.0},{"eventIndex":4,"eventType":"quit","timestamp":272.0}]},{"traceID":4,"events":[{"eventIndex":0,"eventType":"cache-image","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-image","timestamp":27.0},{"eventIndex":2,"eventType":"quit","timestamp":54.0}]},{"traceID":5,"events":[{"eventIndex":0,"eventType":"cache-image","timestamp":0.0},{"eventIndex":1,"eventType":"retrieve-image","timestamp":62.0},{"eventIndex":2,"eventType":"quit","timestamp":124.0}]}],"partitions":[{"eventType":"cache-page","events":[{"traceID":0,"eventIndex":0},{"traceID":1,"eventIndex":0},{"traceID":2,"eventIndex":0},{"traceID":3,"eventIndex":0}]},{"eventType":"retrieve-page","events":[{"traceID":3,"eventIndex":1},{"traceID":0,"eventIndex":1},{"traceID":2,"eventIndex":1},{"traceID":1,"eventIndex":1}]},{"eventType":"cache-image","events":[{"traceID":5,"eventIndex":0},{"traceID":2,"eventIndex":2},{"traceID":3,"eventIndex":2},{"traceID":4,"eventIndex":0}]},{"eventType":"retrieve-image","events":[{"traceID":1,"eventIndex":3},{"traceID":0,"eventIndex":3}]},{"eventType":"quit","events":[{"traceID":0,"eventIndex":4},{"traceID":3,"eventIndex":4},{"traceID":4,"eventIndex":2},{"traceID":5,"eventIndex":2},{"traceID":1,"eventIndex":4},{"traceID":2,"eventIndex":4}]},{"eventType":"cache-image","events":[{"traceID":0,"eventIndex":2},{"traceID":1,"eventIndex":2}]},{"eventType":"retrieve-image","events":[{"traceID":4,"eventIndex":1},{"traceID":3,"eventIndex":3},{"traceID":5,"eventIndex":1},{"traceID":2,"eventIndex":3}]}],"invariants":[{"invariantType":"NeverFollowedBy","predicates":["cache-page"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","retrieve-page"],"constraints":["lowerbound = 9.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","retrieve-page"],"constraints":["upperbound = 17.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-page","retrieve-page"],"constraints":["lowerbound = 9.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-page","retrieve-page"],"constraints":["upperbound = 17.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","cache-image"],"constraints":["lowerbound = 18.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","cache-image"],"constraints":["upperbound = 136.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","retrieve-image"],"constraints":["lowerbound = 39.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","retrieve-image"],"constraints":["upperbound = 204.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","quit"],"constraints":["lowerbound = 160.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-page","quit"],"constraints":["upperbound = 274.0"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-page","cache-page"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-page"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","cache-image"],"constraints":["lowerbound = 9.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","cache-image"],"constraints":["upperbound = 119.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","retrieve-image"],"constraints":["lowerbound = 30.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","retrieve-image"],"constraints":["upperbound = 187.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","quit"],"constraints":["lowerbound = 151.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-page","quit"],"constraints":["upperbound = 257.0"]},{"invariantType":"NeverFollowedBy","predicates":["cache-image","cache-page"]},{"invariantType":"NeverFollowedBy","predicates":["cache-image","retrieve-page"]},{"invariantType":"NeverFollowedBy","predicates":["cache-image"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-image","retrieve-image"],"constraints":["lowerbound = 21.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-image","retrieve-image"],"constraints":["upperbound = 70.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-image","retrieve-image"],"constraints":["lowerbound = 21.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-image","retrieve-image"],"constraints":["upperbound = 70.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-image","quit"],"constraints":["lowerbound = 44.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["cache-image","quit"],"constraints":["upperbound = 240.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-image","quit"],"constraints":["lowerbound = 44.0"]},{"invariantType":"AlwaysPrecedes","predicates":["cache-image","quit"],"constraints":["upperbound = 240.0"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-image","cache-page"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-image","retrieve-page"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-image","cache-image"]},{"invariantType":"NeverFollowedBy","predicates":["retrieve-image"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-image","quit"],"constraints":["lowerbound = 22.0"]},{"invariantType":"AlwaysFollowedBy","predicates":["retrieve-image","quit"],"constraints":["upperbound = 170.0"]},{"invariantType":"AlwaysPrecedes","predicates":["retrieve-image","quit"],"constraints":["lowerbound = 22.0"]},{"invariantType":"AlwaysPrecedes","predicates":["retrieve-image","quit"],"constraints":["upperbound = 170.0"]},{"invariantType":"NeverFollowedBy","predicates":["quit","cache-page"]},{"invariantType":"NeverFollowedBy","predicates":["quit","retrieve-page"]},{"invariantType":"NeverFollowedBy","predicates":["quit","cache-image"]},{"invariantType":"NeverFollowedBy","predicates":["quit","retrieve-image"]},{"invariantType":"NeverFollowedBy","predicates":["quit"]}]};
 
-var radius_model = {"log":[{"traceID":0,"events":[{"eventIndex":0,"eventType":"-r (?<ip>) .+:(?<DTIME>.+)\\\\] \"GET HTTP\/1.1 \/(?<TYPE>.+)\"","timestamp":1},{"eventIndex":1,"eventType":"-m \\\\k<ip>","timestamp":2}]}],"partitions":[{"eventType":"-r (?<ip>) .+:(?<DTIME>.+)\\\\] \"GET HTTP\/1.1 \/(?<TYPE>.+)\"","events":[{"traceID":0,"eventIndex":0}]},{"eventType":"-m \\\\k<ip>","events":[{"traceID":0,"eventIndex":1}]}],"invariants":[{"invariantType":"NeverFollowedBy","predicates":["-r (?<ip>) .+:(?<DTIME>.+)\\\\] \"GET HTTP\/1.1 \/(?<TYPE>.+)\""]},{"invariantType":"AlwaysFollowedBy","predicates":["-r (?<ip>) .+:(?<DTIME>.+)\\\\] \"GET HTTP\/1.1 \/(?<TYPE>.+)\"","-m \\\\k<ip>"],"constraints":["lowerbound = 1"]},{"invariantType":"AlwaysFollowedBy","predicates":["-r (?<ip>) .+:(?<DTIME>.+)\\\\] \"GET HTTP\/1.1 \/(?<TYPE>.+)\"","-m \\\\k<ip>"],"constraints":["upperbound = 1"]},{"invariantType":"AlwaysPrecedes","predicates":["-r (?<ip>) .+:(?<DTIME>.+)\\\\] \"GET HTTP\/1.1 \/(?<TYPE>.+)\"","-m \\\\k<ip>"],"constraints":["lowerbound = 1"]},{"invariantType":"AlwaysPrecedes","predicates":["-r (?<ip>) .+:(?<DTIME>.+)\\\\] \"GET HTTP\/1.1 \/(?<TYPE>.+)\"","-m \\\\k<ip>"],"constraints":["upperbound = 1"]},{"invariantType":"NeverFollowedBy","predicates":["-m \\\\k<ip>","-r (?<ip>) .+:(?<DTIME>.+)\\\\] \"GET HTTP\/1.1 \/(?<TYPE>.+)\""]},{"invariantType":"NeverFollowedBy","predicates":["-m \\\\k<ip>"]}]};
-
+var abstractEdges = [];
+var concreteEdges = [];
 
 var states = generateStates(data);
 var links = generateTransitions(data);
 
 var constraint = g.rect(0,0,850,850)
-
 
 var ConstraintElementView = joint.dia.ElementView.extend({
 
@@ -53,6 +52,9 @@ function link(source, target, label, maxsize) {
     var w = parseInt(label,10);
     if (source.id == init.id || target.id == term.id) 
         label = "";
+    else
+        if (label == "")
+            console.log(label)
     var cell = new joint.shapes.fsa.Arrow({
         source: { id: source.id },
         target: { id: target.id },
@@ -65,6 +67,7 @@ function link(source, target, label, maxsize) {
 
 function generateTransitions(data) {
     var maxLength = 0;
+    var labels = [];
     for (var i = 0; i < data.partitions.length; i++) {
         if (maxLength <  data.partitions[i].eventType.length)
             maxLength = data.partitions[i].eventType.length
@@ -72,6 +75,7 @@ function generateTransitions(data) {
     var links = [];
     var prevTime = 0;
     for (var i = 0; i < data.log.length; i++) {
+        labels.push([]);
         var trace = data.log[i];
         if (getLinkByPathId(init.id, findState(i, trace.events[0]).id, links) === null)
             links.push(link(init, findState(i, trace.events[0]), String(0), maxLength ));
@@ -86,7 +90,8 @@ function generateTransitions(data) {
                 var timestamp = parseInt(trace.events[j+1].timestamp, 10);
                 prevTime = parseInt(trace.events[j].timestamp, 10);
                 var weight = String(timestamp - prevTime);
-                links.push(link(sourceState, targetState, weight, maxLength));
+                labels[i].push(weight)
+                links.push(link(sourceState, targetState, labels[j], maxLength));
             }
         }
     }
