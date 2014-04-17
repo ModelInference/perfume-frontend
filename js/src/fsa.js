@@ -350,5 +350,9 @@ function drawModel(data) {
 
     // generateGradients(pathLengths[1]);
     draw();
+    $(".marker-vertex-remove").empty(); //Gets rid of ability to delete states.
+    $(".tool-remove").empty();
+    $(".link-tools").remove();
+    $(".marker-arrowheads").remove();
 }
 
