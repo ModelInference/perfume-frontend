@@ -17,6 +17,10 @@ fwrite($jsonfh, "-j\n");
 fclose($jsonfh);
 $output = shell_exec(' ./perfume.sh -c /tmp/jsonargs.txt ' . "/tmp/log.txt 2>&1");
 $json = file_get_contents('/tmp/json.json');
+
+$outputfh = fopen("/tmp/jsonout.txt", 'w') or die("can't open file");
+fwrite($outputfh, $output);
+
 if ($json === "")  {
     header('HTTP/1.1 500 Internal Server Error');
     header('Content-Type: application/json; charset=UTF-8');

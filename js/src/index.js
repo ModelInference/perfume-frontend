@@ -6,7 +6,7 @@ var mode = "form";
 
 function fetchModel (id) {
     var parameters =  {logfile:$("#logtext").val(),
-            args:$("#args").val(),
+            args:$("#argsfield").val(),
         };
     $.ajax({type:"POST", url:"json.php",data:parameters }).done(function(model) {console.log(model); data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);}); 
     return parameters;
