@@ -6,13 +6,15 @@
     <button id="bandwithform" onclick="writeBrowserModel();  data = test_bandwith_model;">Connection Tester Example</button>
     <button id="browserform" onclick="writeConnectionModel();  data = browser_model;"> Browser Caching Example</button>
     <button id="browserform" onclick="writeRadiusModel();  data = radius_model;"> RADIUS Authentication Example</button>
+                <form>
 					<div class="control-group">
-					  <label class="control-label" for="textarea">Log</label>
-					  <div class="controls">                     
-					    <textarea id="logtext" name="logtext" rows="5"></textarea>
-<textarea id="argsfield" name="args" rows="5"></textarea>
-					  </div>
+					  <label class="control-label" for="logtext"><span>Log</span></label>
+
+					    <textarea id="logtext" name="logtext" rows=20 style="width:500px;"></textarea>
+					  <label class="control-label" for="argsfield"><span>Arguments</span></label>
+                        <textarea id="argsfield" name="args" rows="5"></textarea>
 					</div>
+					</form><br><br>
 
 					<!-- Text input-->
 
@@ -72,9 +74,8 @@
 
 					<!-- Button (Double) -->
 					<div class="control-group">
-					  <label class="control-label" for="button1id"></label>
 					  <div class="controls">
-					    <button id="fetchmodel" name="button1id" classg"btn btn-primary" onclick="fetchModel(); ">Parse Log</button>
+					    <button id="fetchmodel" name="button1id" class="btn btn-primary" onclick="fetchModel(); ">Parse Log</button>
 					    <button id="clear-form" name="button2id" class="btn btn-clear" onclick="clearForm()">Clear</button>
 					  </div>
 					</div>
