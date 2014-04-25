@@ -35,7 +35,7 @@ var ConstraintElementView = joint.dia.ElementView.extend({
 
 var paper = new joint.dia.Paper({
     el: $('#paper'),
-    width: 850,
+    width: 1500,
     height: 850,
     gridSize: 1,
     model: graph,
@@ -70,12 +70,20 @@ function link(source, target, label, maxsize) {
     if (label.length == 1){
         label = String(label[0]); 
     }
-    var cell = new joint.shapes.fsa.Arrow({
-        source: { id: source.id },
-        target: { id: target.id },
-        labels: [{ position: .5, attrs: { text: { text: ( label ) || '', 'font-weight': 'bold' } } }],
-        vertices: vertices || []
-    });
+    if(label.length == 2)
+        var cell = new joint.shapes.fsa.Arrow({
+            source: { id: source.id },
+            target: { id: target.id },
+            labels: [{ position: .5, attrs: { text: { text: "[" + String(label) + "]"  || '', 'font-weight': 'bold' } } }],
+            vertices: vertices || []
+        });
+    else
+        var cell = new joint.shapes.fsa.Arrow({
+            source: { id: source.id },
+            target: { id: target.id },
+            labels: [{ position: .5, attrs: { text: { text: label  || '', 'font-weight': 'bold' } } }],
+            vertices: vertices || []
+        });
     if (label.length == 0 )
         cell.weight = 0;
     else
