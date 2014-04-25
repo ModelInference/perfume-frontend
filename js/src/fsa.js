@@ -55,25 +55,25 @@ function link(source, target, label, maxsize) {
     if (label.length > 1){
         var largest = 0;
         for (var i = 0; i <label.length; i++) {
-            if(largest > label[i]) {
+            if(largest < label[i]) {
                 largest = label[i];
             }
         }
         var smallest = 99999999999999999;
         for (var i = 0; i <label.length; i++) {
-            if(smallest < label[i]) {
+            if(smallest > label[i]) {
                 smallest = label[i];
             }
         }
         label = [String(smallest), String(largest)];
     }
-    if (label.length > 1){
+    if (label.length == 1){
         label = String(label[0]); 
     }
     var cell = new joint.shapes.fsa.Arrow({
         source: { id: source.id },
         target: { id: target.id },
-        labels: [{ position: .5, attrs: { text: { text: label || '', 'font-weight': 'bold' } } }],
+        labels: [{ position: .5, attrs: { text: { text: ( label ) || '', 'font-weight': 'bold' } } }],
         vertices: vertices || []
     });
     if (label.length == 0 )
@@ -114,12 +114,12 @@ function generateTransitions(data) {
                 for (var k = 0; k < data.log.length; k++) {
                     for (var l = 0; l < data.log[k].events.length - 1; l++) {
                         var tmptrace = data.log[k];
-                        var tempsourceEvent = tmptrace.events[l];
-                        var temptargetEvent = tmptrace.events[l+1];
-                        if (tempsourceEvent == sourceEvent && temptargetEvent == targetEvent) {
-                            var tmptimestamp = parseInt(trace.events[l+1].timestamp, 10);
-                            var tmpprevTime = parseInt(trace.events[l].timestamp, 10);
-                            var tmpweight = (timestamp - prevTime);
+                        var tempsourceEvent = tmptrace.events[l].eventType;
+                        var temptargetEvent = tmptrace.events[l+1].eventType;
+                        if (tempsourceEvent == sourceEvent.eventType && temptargetEvent == targetEvent.eventType) {
+                            var tmptimestamp = parseInt(tmptrace.events[l+1].timestamp, 10);
+                            var tmpprevTime = parseInt(tmptrace.events[l].timestamp, 10);
+                            var tmpweight = (tmptimestamp - tmpprevTime);
                             if(!isWeightInLabel(tmpweight,labels))
                                 labels.push(tmpweight);
                         }
