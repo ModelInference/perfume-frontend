@@ -156,7 +156,7 @@ function state(x, y, eventdata, maxsize) {
         
     var cell = new joint.shapes.fsa.State({
         position: { x: x, y: y },
-        size: { width: 50+5*(maxsize-4), height: 50},
+        size: { width: 50+7*(maxsize-4), height: 50},
         attrs: {  text : { text: eventdata.eventType }},
     });
     cell.eventType = eventdata.eventType;
