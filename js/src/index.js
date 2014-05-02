@@ -1,6 +1,5 @@
 var data = { "log": [], "partitions": [], "invariants": [] }; 
 
-
 var mode = "form";
 
 function fetchModel (id) {
@@ -12,12 +11,17 @@ function fetchModel (id) {
 };
 
 function revealForm() {
+    data = { "log": [], "partitions": [], "invariants": [] }
     if  (mode != "form")
         $("#form").toggle();
-    if (mode == "model") 
+    if (mode == "model") {
+        graph.clear();
         $("#model").toggle();
-    if (mode == "invariant") 
+    }
+    if (mode == "invariant") {
+        graph.clear();
         $("#invariant").toggle();
+    }
     mode = "form";
 }
 
