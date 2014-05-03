@@ -2,6 +2,8 @@
 
 function main(){
 
+$outputfh = fopen('/tmp/json.json', 'w') or die("can't open file"); //Delete old json object to avoid it being returned.
+fwrite($outputfh, "");
 $a = $_POST['args'];
 $jsonFile = "/tmp/jsonargs.txt";
 $logfile = "/tmp/log.txt";
