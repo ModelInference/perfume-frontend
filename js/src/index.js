@@ -3,6 +3,8 @@ var data = { "log": [], "partitions": [], "invariants": [] };
 var mode = "form";
 
 function fetchModel (id) {
+    graph.clear();
+    data = { "log": [], "partitions": [], "invariants": [] }
     var parameters =  {logfile:$("#logtext").val(),
             args:$("#argsfield").val(),
         };
@@ -11,11 +13,9 @@ function fetchModel (id) {
 };
 
 function revealForm() {
-    data = { "log": [], "partitions": [], "invariants": [] }
     if  (mode != "form")
         $("#form").toggle();
     if (mode == "model") {
-        graph.clear();
         $("#model").toggle();
     }
     if (mode == "invariant") {
