@@ -23,7 +23,8 @@ $json = file_get_contents('/tmp/json.json');
 $outputfh = fopen("/tmp/jsonout.txt", 'w') or die("can't open file");
 fwrite($outputfh, $output);
 
-if ($json === "")  {
+
+if ($json === "" || preg_match("/\nSEVERE:/", $output) || preg_match("/\nWARNING: Using a default regular expression to parse/", $output))  { //Check for SEVERE messages that indicate an error.
     header('HTTP/1.1 500 Internal Server Error');
     header('Content-Type: application/json; charset=UTF-8');
     die( json_encode(array( message => $output)));
