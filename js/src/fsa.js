@@ -344,6 +344,7 @@ function getLinkbyId(id) {
     return null;
 }
 
+
 function drawModel(data) {
 
     init  = state(10, 10, { "eventType": "init", "events": [{ "traceID": 0, "eventIndex": 0 }] }, 4);
@@ -354,26 +355,45 @@ function drawModel(data) {
     term.attr({'circle': {fill:'grey'}})
         
     var pathLengths = searchForShortestAndLongestPath(term.id);
-    var maxPath = pathLengths[3];
-    var minPath = pathLengths[2];
+    var longestPath = pathLengths[3]; //Array containing the states targeted by longest path
+    var shortestPath = pathLengths[2]; //Array containing the states targeted by shortest path
 
-    var l = getLinkByPathId(init.id, pathLengths[3][0],links);
+    var l = getLinkByPathId(init.id, longestPath[0],links);
     l.attr({'.connection': { stroke: 'red' }});
-    for (var i = 1; i < pathLengths[3].length; i++) {
-        l = getLinkByPathId(pathLengths[3][i-1], pathLengths[3][i], links);
+    for (var i = 1; i < longestPath.length; i++) {
+        l = getLinkByPathId(longestPath[i-1], longestPath[i], links);
         l.attr({'.connection': { stroke: 'red' }});
     }
-    l = getLinkByPathId(pathLengths[3][pathLengths[3].length-1], term.id, links);
+    l = getLinkByPathId(longestPath[longestPath.length-1], term.id, links);
     l.attr({'.connection': { stroke: 'red' }});
 
-    l = getLinkByPathId(init.id, pathLengths[2][0], links);
-    l.attr({'.connection': { stroke: 'green' }});
-    for (i = 1; i < pathLengths[2].length; i++) {
-        l = getLinkByPathId(pathLengths[2][i-1], pathLengths[2][i], links);
-        l.attr({'.connection': { stroke: 'green' }});
+    l = getLinkByPathId(init.id, shortestPath[0], links);
+    l.attr({'.connection': { stroke: 'blue' }});
+    for (i = 1; i < shortestPath.length; i++) {
+        l = getLinkByPathId(shortestPath[i-1], shortestPath[i], links);
+        l.attr({'.connection': { stroke: 'blue' }});
     }
-    l = getLinkByPathId(pathLengths[2][pathLengths[2].length-1], term.id, links);
-    l.attr({'.connection': { stroke: 'green' }});
+    l = getLinkByPathId(shortestPath[shortestPath.length-1], term.id, links);
+    l.attr({'.connection': { stroke: 'blue' }});
+
+    if (longestPath[0] == shortestPath[0]) { //Check if longest and shortest path are the same.
+        l = getLinkByPathId(init.id, shortestPath[0], links);
+        l.attr({'.connection': { stroke: 'purple' }});
+    }
+
+    for (i = 1; i < shortestPath.length; i++) {
+        for (var j = 1; j < longestPath.length; j++) {
+            if(shortestPath[i-1] == longestPath[j-1] && shortestPath[i] == longestPath[j]) {
+                l = getLinkByPathId(shortestPath[i-1], shortestPath[i], links);
+                l.attr({'.connection': { stroke: 'purple' }});
+            }
+        }
+    }
+
+    if (longestPath[longestPath.length-1] == shortestPath[shortestPath.length-1]) { //Check if longest and shortest path are the same.
+        l = getLinkByPathId(shortestPath[shortestPath.length-1], term.id, links);
+        l.attr({'.connection': { stroke: 'purple' }});
+    }
 
     // generateGradients(pathLengths[1]);
     draw();
