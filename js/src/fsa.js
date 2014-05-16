@@ -1,6 +1,8 @@
 var graph = new joint.dia.Graph;
 var jointWidth;
 var jointHeight;
+var canvasWidth = 1500;
+var canvasHeight = 800;
 //Test data
 
 // var data = { "log": [ { "traceID": 0, "events": [ { "eventIndex": 0, "eventType": "c", "timestamp": 0 }, { "eventIndex": 1, "eventType": "e", "timestamp": 3 }, { "eventIndex": 2, "eventType": "f", "timestamp": 4 } ] }, { "traceID": 1, "events": [ { "eventIndex": 0, "eventType": "a", "timestamp": 10 }, { "eventIndex": 1, "eventType": "c", "timestamp": 13 }, { "eventIndex": 2, "eventType": "e", "timestamp": 14 }, { "eventIndex": 3, "eventType": "f", "timestamp": 17 } ] }, { "traceID": 2, "events": [ { "eventIndex": 0, "eventType": "b", "timestamp": 20 }, { "eventIndex": 1, "eventType": "d", "timestamp": 21 }, { "eventIndex": 2, "eventType": "e", "timestamp": 25 }, { "eventIndex": 3, "eventType": "g", "timestamp": 29 } ] }, { "traceID": 3, "events": [ { "eventIndex": 0, "eventType": "d", "timestamp": 30 }, { "eventIndex": 1, "eventType": "e", "timestamp": 34 }, { "eventIndex": 2, "eventType": "g", "timestamp": 35 } ] }, { "traceID": 4, "events": [ { "eventIndex": 0, "eventType": "d", "timestamp": 40 }, { "eventIndex": 1, "eventType": "e", "timestamp": 41 }, { "eventIndex": 2, "eventType": "g", "timestamp": 45 } ] }, { "traceID": 5, "events": [ { "eventIndex": 0, "eventType": "d", "timestamp": 50 } ] } ], "partitions": [ { "eventType": "c", "events": [ { "traceID": 0, "eventIndex": 0 } ] }, { "eventType": "e", "events": [ { "traceID": 2, "eventIndex": 2 }, { "traceID": 4, "eventIndex": 1 } ] }, { "eventType": "f", "events": [ { "traceID": 0, "eventIndex": 2 }, { "traceID": 1, "eventIndex": 3 } ] }, { "eventType": "a", "events": [ { "traceID": 1, "eventIndex": 0 } ] }, { "eventType": "b", "events": [ { "traceID": 2, "eventIndex": 0 } ] }, { "eventType": "d", "events": [ { "traceID": 2, "eventIndex": 1 }, { "traceID": 5, "eventIndex": 0 } ] }, { "eventType": "g", "events": [ { "traceID": 2, "eventIndex": 3 }, { "traceID": 3, "eventIndex": 2 }, { "traceID": 4, "eventIndex": 2 } ] }, { "eventType": "c", "events": [ { "traceID": 1, "eventIndex": 1 } ] }, { "eventType": "e", "events": [ { "traceID": 0, "eventIndex": 1 } ] }, { "eventType": "d", "events": [ { "traceID": 3, "eventIndex": 0 }, { "traceID": 4, "eventIndex": 0 } ] }, { "eventType": "e", "events": [ { "traceID": 3, "eventIndex": 1 } ] }, { "eventType": "e", "events": [ { "traceID": 1, "eventIndex": 2 } ] } ], "invariants": [ { "invariantType": "AlwaysFollowedBy", "predicates": [ "a", "c" ], "constraints": [ "lowerbound=3" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "a", "c" ], "constraints": [ "upperbound=3" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "a", "e" ], "constraints": [ "lowerbound=4" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "a", "e" ], "constraints": [ "upperbound=4" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "a", "f" ], "constraints": [ "lowerbound=7" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "a", "f" ], "constraints": [ "upperbound=7" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "c", "e" ], "constraints": [ "lowerbound=1" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "c", "e" ], "constraints": [ "upperbound=3" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "c", "f" ], "constraints": [ "lowerbound=4" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "c", "f" ], "constraints": [ "upperbound=4" ] }, { "invariantType": "AlwaysPrecedes", "predicates": [ "c", "f" ], "constraints": [ "lowerbound=4" ] }, { "invariantType": "AlwaysPrecedes", "predicates": [ "c", "f" ], "constraints": [ "upperbound=4" ] }, { "invariantType": "AlwaysPrecedes", "predicates": [ "e", "f" ], "constraints": [ "lowerbound=1" ] }, { "invariantType": "AlwaysPrecedes", "predicates": [ "e", "f" ], "constraints": [ "upperbound=3" ] }, { "invariantType": "AlwaysPrecedes", "predicates": [ "e", "g" ], "constraints": [ "lowerbound=1" ] }, { "invariantType": "AlwaysPrecedes", "predicates": [ "e", "g" ], "constraints": [ "upperbound=4" ] }, { "invariantType": "AlwaysPrecedes", "predicates": [ "d", "g" ], "constraints": [ "lowerbound=5" ] }, { "invariantType": "AlwaysPrecedes", "predicates": [ "d", "g" ], "constraints": [ "upperbound=8" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "b", "e" ], "constraints": [ "lowerbound=5" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "b", "e" ], "constraints": [ "upperbound=5" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "b", "d" ], "constraints": [ "lowerbound=1" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "b", "d" ], "constraints": [ "upperbound=1" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "b", "g" ], "constraints": [ "lowerbound=9" ] }, { "invariantType": "AlwaysFollowedBy", "predicates": [ "b", "g" ], "constraints": [ "upperbound=9" ] } ] }; 
@@ -37,24 +39,24 @@ var ConstraintElementView = joint.dia.ElementView.extend({
 
 var paper = new joint.dia.Paper({
     el: $('#paper'),
-    width: 1500,
-    height: 850,
+    width: canvasWidth,
+    height: canvasHeight,
     gridSize: 1,
     model: graph,
     elementView:ConstraintElementView
 });
 
-
 //Constructor for transition objects. Borrowed from the FSA demo.
 function link(source, target, label, maxsize) {
-    var vertices = []
+    var vertices = [];
+    var weight;
     if (source.id == target.id) {
         vertices = [{ x:source.attributes.position.x+10*maxsize, y:source.attributes.position.y-40 }, { x:source.attributes.position.x+10*maxsize, y:source.attributes.position.y+40 }];
     }
     if (source.id == init.id || target.id == term.id) {
         label = [];
     }
-    if (label.length > 1){
+    if (label instanceof Array && label.length >= 1){
         var largest = 0;
         for (var i = 0; i <label.length; i++) {
             if(largest < label[i]) {
@@ -68,11 +70,22 @@ function link(source, target, label, maxsize) {
             }
         }
         label = [String(smallest), String(largest)];
+        weight = label[1];
     }
-    if (label.length == 1){
+    else {
+        if (label.length === 0)
+            weight = 0;
+        else
+            weight = parseInt(label,10);
+    }
+    if (label.length !== 0 && (label.length == 1 || label[0] == label[1])) {
         label = String(label[0]); 
     }
-    if(label.length == 2)
+    if (label.length === 0) {
+        label = ""; 
+    }
+
+    if(label instanceof Array)
         var cell = new joint.shapes.fsa.Arrow({
             source: { id: source.id },
             target: { id: target.id },
@@ -86,10 +99,7 @@ function link(source, target, label, maxsize) {
             labels: [{ position: .5, attrs: { text: { text: label  || '', 'font-weight': 'bold' } } }],
             vertices: vertices || []
         });
-    if (label.length == 0 )
-        cell.weight = 0;
-    else
-        cell.weight = label[0];
+    cell.weight = weight;
     return cell;
 }
 
@@ -100,7 +110,7 @@ function generateTransitions(data) {
     for (var i = 0; i < data.partitions.length; i++) {
         if (maxLength <  data.partitions[i].eventType.length)
             maxLength = data.partitions[i].eventType.length
-    }
+    };
     var links = [];
     var prevTime = 0;
     for (var i = 0; i < data.log.length; i++) {
@@ -190,7 +200,7 @@ function generateStates(data) {
 
             states.push(state(140*HorizMultiplier+15, starty*VertMultiplier+100-(20*(HorizMultiplier-1)), data.partitions[i], maxLength));
             startx += 100;
-            if (startx > 550 ){
+            if (startx > canvasWidth-50 ){
                 startx = 10+5*maxLength;
             }
         }
