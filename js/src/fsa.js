@@ -1,7 +1,7 @@
 var graph = new joint.dia.Graph;
 var jointWidth;
 var jointHeight;
-var canvasWidth = 1500;
+var canvasWidth = $(document).width()-650;
 var canvasHeight = 800;
 //Test data
 
