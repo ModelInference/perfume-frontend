@@ -4,6 +4,10 @@ var mode = "form";
 
 function fetchModel (id) {
     graph.clear();
+    var alwaysPrecedes = [];  
+    var alwaysFollowedBy = [];
+    var neverFollowedBy = [];
+    var neverPrecedes = [];
     data = { "log": [], "partitions": [], "invariants": [] }
     var parameters =  {logfile:$("#logtext").val(),
             args:$("#argsfield").val(),
