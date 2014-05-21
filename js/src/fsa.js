@@ -388,21 +388,21 @@ function drawModel(data) {
 
     if (longestPath[0] == shortestPath[0]) { //Check if longest and shortest path are the same.
         l = getLinkByPathId(init.id, shortestPath[0], links);
-        l.attr({'.connection': { stroke: 'purple' }});
+        l.attr({'.connection': { stroke: 'fuchsia' }});
     }
 
     for (i = 1; i < shortestPath.length; i++) {
         for (var j = 1; j < longestPath.length; j++) {
             if(shortestPath[i-1] == longestPath[j-1] && shortestPath[i] == longestPath[j]) {
                 l = getLinkByPathId(shortestPath[i-1], shortestPath[i], links);
-                l.attr({'.connection': { stroke: 'purple' }});
+                l.attr({'.connection': { stroke: 'fuchisia' }});
             }
         }
     }
 
     if (longestPath[longestPath.length-1] == shortestPath[shortestPath.length-1]) { //Check if longest and shortest path are the same.
         l = getLinkByPathId(shortestPath[shortestPath.length-1], term.id, links);
-        l.attr({'.connection': { stroke: 'purple' }});
+        l.attr({'.connection': { stroke: 'fuchsia' }});
     }
 
     // generateGradients(pathLengths[1]);
