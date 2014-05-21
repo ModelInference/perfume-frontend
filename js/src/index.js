@@ -55,7 +55,7 @@ function drawCanvas() {
     ctx.fillText("Shortest Path", 190,50);
     ctx.closePath();
     ctx.beginPath();
-    ctx.strokeStyle = "#990066";
+    ctx.strokeStyle = "#FF00FF";
     ctx.moveTo(280,45);
     ctx.lineTo(330,45);
     ctx.stroke();
