@@ -395,7 +395,7 @@ function drawModel(data) {
         for (var j = 1; j < longestPath.length; j++) {
             if(shortestPath[i-1] == longestPath[j-1] && shortestPath[i] == longestPath[j]) {
                 l = getLinkByPathId(shortestPath[i-1], shortestPath[i], links);
-                l.attr({'.connection': { stroke: 'fuchisia' }});
+                l.attr({'.connection': { stroke: 'fuchsia' }});
             }
         }
     }
