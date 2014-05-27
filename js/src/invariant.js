@@ -88,10 +88,10 @@ function getCol(data) {
             if (inv[i].invariantType == "AlwaysFollowedBy") {
                 $("#"+type).append("<tr><td>" + inv[i].predicates[0] +"</td><td>&rarr;</td><td>"+ inv[i].predicates[1] + "</td><td> " + upperbound + "</td><td>" + lowerbound + "<td></tr>");
             }
-            if (inv[i].invariantType == "AlwaysPrecedes"){
+            if (inv[i].invariantType == "AlwaysPrecedes") {
                 $("#"+type).append("<tr><td>" + inv[i].predicates[0] +"</td><td>&larr;</td><td>"+ inv[i].predicates[1] + "</td><td> " + upperbound + "</td><td>" + lowerbound + "<td></tr>");
             }
-            if (inv[i].invariantType == "NeverFollowedBy"){
+            if (inv[i].invariantType == "NeverFollowedBy") {
                 $("#"+type).append("<tr><td>" + inv[i].predicates[0] +"</td><td>&#8603;</td><td>"+ inv[i].predicates[1] + "</td><td> " + upperbound + "</td><td>" + lowerbound + "<td></tr>");
             }
     }
