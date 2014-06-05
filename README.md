@@ -3,7 +3,7 @@
 
 **Perfume** is a tool for extracting performance models of systems from logs of the systems' behavior.
 
-* [Try out the web deployment!](http://kramer.nss.cs.ubc.ca/perfume/)
+* [Try out the web deployment!](http://198.162.52.149/perfume/)
 
 * [Read more](http://cs.umass.edu/~ohmann/perfume/) about how Perfume works.
 
@@ -24,4 +24,4 @@ For example,
 
 ###Deploying perfume###
 Run `deploy_perfume.sh <server directory> <perfume directory> <synoptic directory>`
-This will copy the nesscary files to your web server's directory. 
+This will copy the nesscary files to your web server's directory.
