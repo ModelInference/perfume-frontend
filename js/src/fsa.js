@@ -18,7 +18,6 @@ var abstractEdges = [];
 var concreteEdges = [];
 
 var states = generateStates(data);
-var links = generateTransitions(data);
 
 var constraint = g.rect(0,0,850,850)
 
@@ -63,7 +62,7 @@ function link(source, target, label, maxsize) {
                 largest = label[i];
             }
         }
-        var smallest = 99999999999999999;
+       var smallest = 99999999999999999;
         for (var i = 0; i <label.length; i++) {
             if(smallest > label[i]) {
                 smallest = label[i];
@@ -75,8 +74,12 @@ function link(source, target, label, maxsize) {
     else {
         if (label.length === 0)
             weight = 0;
-        else
-            weight = parseInt(label,10);
+        else {
+            if(weight.match(/[0-9]*\.[0-9]*/)) //Matches floating point numbers
+                weight = parseFloat(label);
+            else
+                weight = parseInt(label,10);
+        }
     }
     if (label.length !== 0 && (label.length == 1 || label[0] == label[1])) {
         label = String(label[0]); 
@@ -103,54 +106,146 @@ function link(source, target, label, maxsize) {
     return cell;
 }
 
-var linksGenerated;
+//OLD generateTranstions function, included for legacy purposes
+//Use new generateTransitions instead.
+// var linksGenerated;
+// function generateTransitions(data) {
+//     var maxLength = 0;
+//     var labels = [];
+//     for (var i = 0; i < data.partitions.length; i++) {
+//         if (maxLength <  data.partitions[i].eventType.length)
+//             maxLength = data.partitions[i].eventType.length
+//     }
+//     var links = [];
+//     var prevTime = 0;
+//     for (var i = 0; i < data.log.length; i++) {
+//         var trace = data.log[i];
+//         if (getLinkByPathId(init.id, findState(i, trace.events[0]).id, links) === null)
+//             links.push(link(init, findState(i, trace.events[0]), String(0), maxLength ));
+//         if (getLinkByPathId(findState(i, trace.events[trace.events.length - 1]).id, term.id, links) === null)
+//             links.push(link(findState(i, trace.events[trace.events.length - 1]), term, String(0), maxLength)); //Last state in trace
+//         for (var j = 0; j < trace.events.length - 1; j++) {
+//             var sourceEvent = trace.events[j];
+//             var targetEvent = trace.events[j+1];
+//             var sourceEventPartition = getPartition(data, trace.events[j].eventType, i, j);
+//             var targetEventPartition = getPartition(data, trace.events[j+1].eventType, i, j+1);
+//             var sourceState = findState(i, sourceEvent);  
+//             var targetState = findState(i, targetEvent);
+//             if(getLinkByPathId(sourceState.id, targetState.id, links) === null) { 
+//                 var timestamp = parseInt(trace.events[j+1].timestamp, 10);
+//                 prevTime = parseInt(trace.events[j].timestamp, 10);
+//                 var weight = (timestamp - prevTime);
+//                 labels = [];
+//                 labels.push(weight);
+//                 for (var k = 0; k < data.log.length; k++) {
+//                     for (var l = 0; l < data.log[k].events.length - 1; l++) {
+//                         var tmptrace = data.log[k];
+//                         var tempsourceEvent = tmptrace.events[l];
+//                         var temptargetEvent = tmptrace.events[l+1];
+//                         var tempsourceEventPartition = getPartition(data, tempsourceEvent.eventType, k, l);
+//                         var temptargetEventPartition = getPartition(data, temptargetEvent.eventType, k, l+1);
+//                         if ( _.isEqual(tempsourceEventPartition, sourceEventPartition) || _.isEqual(temptargetEventPartition, targetEventPartition))  {
+//                             var tmptimestamp = parseInt(temptargetEvent.timestamp, 10);
+//                             var tmpprevTime = parseInt(tempsourceEvent.timestamp, 10);
+//                             var tmpweight = (tmptimestamp - tmpprevTime);
+//                             if(!isWeightInLabel(tmpweight,labels))
+//                                 labels.push(tmpweight);
+//                         }
+
+//                     }
+//                 }
+//                 links.push(link(sourceState, targetState, labels, maxLength));
+//             }
+//         }
+//     }
+//     return links;
+// }
+
 function generateTransitions(data) {
     var maxLength = 0;
     var labels = [];
     for (var i = 0; i < data.partitions.length; i++) {
         if (maxLength <  data.partitions[i].eventType.length)
             maxLength = data.partitions[i].eventType.length
-    };
-    var links = [];
-    var prevTime = 0;
-    for (var i = 0; i < data.log.length; i++) {
-        labels.push([]);
-        var trace = data.log[i];
-        if (getLinkByPathId(init.id, findState(i, trace.events[0]).id, links) === null)
-            links.push(link(init, findState(i, trace.events[0]), String(0), maxLength ));
-        if (getLinkByPathId(findState(i, trace.events[trace.events.length - 1]).id, term.id, links) === null)
-            links.push(link(findState(i, trace.events[trace.events.length - 1]), term, String(0), maxLength)); //Last state in trace
-        for (var j = 0; j < trace.events.length - 1; j++) {
-            var sourceEvent = trace.events[j];
-            var targetEvent = trace.events[j+1];
-            var sourceState = findState(i, sourceEvent);  
-            var targetState = findState(i, targetEvent);
-            if(getLinkByPathId(sourceState.id, targetState.id, links) === null) { 
-                var timestamp = parseInt(trace.events[j+1].timestamp, 10);
-                prevTime = parseInt(trace.events[j].timestamp, 10);
-                var weight = (timestamp - prevTime);
-                var labels = [];
-                labels.push(weight);
-                for (var k = 0; k < data.log.length; k++) {
-                    for (var l = 0; l < data.log[k].events.length - 1; l++) {
-                        var tmptrace = data.log[k];
-                        var tempsourceEvent = tmptrace.events[l].eventType;
-                        var temptargetEvent = tmptrace.events[l+1].eventType;
-                        if (tempsourceEvent == sourceEvent.eventType && temptargetEvent == targetEvent.eventType) {
-                            var tmptimestamp = parseInt(tmptrace.events[l+1].timestamp, 10);
-                            var tmpprevTime = parseInt(tmptrace.events[l].timestamp, 10);
-                            var tmpweight = (tmptimestamp - tmpprevTime);
-                            if(!isWeightInLabel(tmpweight,labels))
-                                labels.push(tmpweight);
+    }
+    var transitionLabelMatrix = {};
+    var linkInformation = [];
+    for (i = 0; i < data.partitions.length; i++) {
+        var partition = data.partitions[i]; 
+        for (var j = 0; j < partition.events.length; j++) {
+            var state = partition.events[j];
+            var linkParams = createLink(data, state.traceID, state.eventIndex)
+            for (var k = 0; k < linkParams.length; k++) {
+                var linkIndex = findLinkInLinkInformation(linkInformation, linkParams[k][0], linkParams[k][1]);
+                if(linkIndex === -1) {
+                    linkInformation.push(linkParams[k]);
+                }
+                else {
+                    if (typeof linkInformation[linkIndex][2] == "object") {
+                        for (var l = 0; l < linkParams[k][2].length; l++) {
+                            linkInformation[linkIndex][2].push(linkParams[k][2][l]);
                         }
-
                     }
                 }
-                links.push(link(sourceState, targetState, labels, maxLength));
             }
         }
     }
+    var links = [];
+    //Create links
+    for (var i = 0; i < linkInformation.length; i++) {
+        links.push(link(linkInformation[i][0], linkInformation[i][1], linkInformation[i][2], maxLength));
+    }
     return links;
+}
+
+function findLinkInLinkInformation(linkInformation, start, end) {
+    for (var i = 0; i < linkInformation.length; i++) {
+        var link = linkInformation[i];
+            if(start.id == link[0].id && link[1].id == end.id)
+                return i;
+    }
+
+    return -1;
+}
+function createLink(data, traceID, eventIndex) {
+    var ret = [];
+    var placeholder = [];
+    var trace = data.log[traceID].events;
+    if (eventIndex == 0) {
+        placeholder.push(init);
+        placeholder.push(findState(traceID, trace[eventIndex]));
+        placeholder.push(0)
+        ret.push(placeholder);
+    } else if (eventIndex == trace.length - 1){
+        placeholder.push(findState(traceID, trace[eventIndex]));
+        placeholder.push(term);
+        placeholder.push(0)
+        ret.push(placeholder);
+    } else {
+        placeholder.push(findState(traceID, trace[eventIndex-1]));
+        placeholder.push(findState(traceID, trace[eventIndex]));
+        placeholder.push([(trace[eventIndex].timestamp - trace[eventIndex-1].timestamp)]);
+        ret.push(placeholder);
+        placeholder = [];
+        placeholder.push(findState(traceID, trace[eventIndex]));
+        placeholder.push(findState(traceID, trace[eventIndex+1]));
+        placeholder.push([(trace[eventIndex+1].timestamp - trace[eventIndex].timestamp)]);
+        ret.push(placeholder);
+    }
+    return ret;
+}
+
+function getPartition(data, name, trace, eventIndex) {
+for (var i = 0; i < data.partitions.length; i++) {
+    if(data.partitions[i].eventType == name) {
+        for (var j = 0; j < data.partitions[i].events.length; j++) {
+            var partition = data.partitions[i].events[j]; 
+            if(partition.eventIndex == eventIndex && partition.traceID == trace) 
+                return partition;
+        }     
+    }
+}
+return null;
 }
 
 function isWeightInLabel(weight, arr) {
@@ -354,7 +449,6 @@ function getLinkbyId(id) {
     return null;
 }
 
-
 function drawModel(data) {
 
     init  = state(10, 10, { "eventType": "init", "events": [{ "traceID": 0, "eventIndex": 0 }] }, 4);
@@ -405,7 +499,6 @@ function drawModel(data) {
         l.attr({'.connection': { stroke: 'fuchsia' }});
     }
 
-    // generateGradients(pathLengths[1]);
     draw();
     $(".marker-vertex-remove").empty(); //Gets rid of ability to delete states.
     $(".tool-remove").empty();
