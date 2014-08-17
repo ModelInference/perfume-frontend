@@ -19,10 +19,9 @@ var concreteEdges = [];
 
 var states = generateStates(data);
 
-var constraint = g.rect(0,0,850,850)
+var constraint = g.rect(0,0,850,850);
 
 var ConstraintElementView = joint.dia.ElementView.extend({
-
     pointerdown: function(evt, x, y) {
         var position = this.model.get('position');
         var size = this.model.get('size');
@@ -46,64 +45,115 @@ var paper = new joint.dia.Paper({
 });
 
 //Constructor for transition objects. Borrowed from the FSA demo.
+//Old link function. Left in for legacy purposes.
+// function link(source, target, label, maxsize) {
+//     var vertices = [];
+//     var weight;
+//     if (source.id == target.id) {
+//         vertices = [{ x:source.attributes.position.x+10*maxsize, y:source.attributes.position.y-40 }, { x:source.attributes.position.x+10*maxsize, y:source.attributes.position.y+40 }];
+//     }
+//     if (source.id == init.id || target.id == term.id) {
+//         label = [];
+//     }
+//     if (label instanceof Array && label.length >= 1){
+//         var largest = 0;
+//         for (var i = 0; i <label.length; i++) {
+//             if(largest < label[i]) {
+//                 largest = label[i];
+//             }
+//         }
+//        var smallest = 99999999999999999;
+//         for (i = 0; i <label.length; i++) {
+//             if(smallest > label[i]) {
+//                 smallest = label[i];
+//             }
+//         }
+//         label = [String(smallest), String(largest)];
+//         weight = label[1];
+//     }
+//     else {
+//         if (label.length === 0)
+//             weight = 0;
+//         else {
+//             if(weight.match(/[0-9]*\.[0-9]*/)) //Matches floating point numbers
+//                 weight = parseFloat(label);
+//             else
+//                 weight = parseInt(label,10);
+//         }
+//     }
+//     if (label.length !== 0 && (label.length == 1 || label[0] == label[1])) {
+//         label = String(label[0]); 
+//     }
+//     if (label.length === 0) {
+//         label = ""; 
+//     }
+
+//     if(label instanceof Array)
+//         var cell = new joint.shapes.fsa.Arrow({
+//             source: { id: source.id },
+//             target: { id: target.id },
+//             labels: [{ position: .5, attrs: { text: { text: "[" + String(label) + "]"  || '', 'font-weight': 'bold' } } }],
+//             vertices: vertices || []
+//         });
+//     else
+//         var cell = new joint.shapes.fsa.Arrow({
+//             source: { id: source.id },
+//             target: { id: target.id },
+//             labels: [{ position: .5, attrs: { text: { text: label  || '', 'font-weight': 'bold' } } }],
+//             vertices: vertices || []
+//         });
+//     cell.weight = weight;
+//     return cell;
+// }
+
 function link(source, target, label, maxsize) {
     var vertices = [];
     var weight;
+    //Keeps link from being ugly if it points to the same state
     if (source.id == target.id) {
         vertices = [{ x:source.attributes.position.x+10*maxsize, y:source.attributes.position.y-40 }, { x:source.attributes.position.x+10*maxsize, y:source.attributes.position.y+40 }];
     }
+
     if (source.id == init.id || target.id == term.id) {
-        label = [];
-    }
-    if (label instanceof Array && label.length >= 1){
-        var largest = 0;
-        for (var i = 0; i <label.length; i++) {
-            if(largest < label[i]) {
-                largest = label[i];
-            }
-        }
-       var smallest = 99999999999999999;
-        for (var i = 0; i <label.length; i++) {
-            if(smallest > label[i]) {
-                smallest = label[i];
-            }
-        }
-        label = [String(smallest), String(largest)];
-        weight = label[1];
+        label = undefined;
+        var smallest = 0;
     }
     else {
-        if (label.length === 0)
-            weight = 0;
-        else {
-            if(weight.match(/[0-9]*\.[0-9]*/)) //Matches floating point numbers
-                weight = parseFloat(label);
+        if (label instanceof Array)  {
+            if (label.length === 1)  {
+                var smallest = label[0];
+                var largest = label[0];
+            } else {
+                var smallest = _.min(label, function (o) {return o;});
+                var largest = _.max(label, function (o) {return o;});
+            }
+            var smallestStr = prettyPrintNumber(smallest);
+            var largestStr = prettyPrintNumber(largest);
+            if (smallest == largest) 
+                label = smallestStr;
             else
-                weight = parseInt(label,10);
+                label = "[" + smallestStr + ", " + largestStr + "]";
+        } else {
+            if (typeof label == "number")
+                label = String(label);
         }
     }
-    if (label.length !== 0 && (label.length == 1 || label[0] == label[1])) {
-        label = String(label[0]); 
-    }
-    if (label.length === 0) {
-        label = ""; 
-    }
-
-    if(label instanceof Array)
-        var cell = new joint.shapes.fsa.Arrow({
-            source: { id: source.id },
-            target: { id: target.id },
-            labels: [{ position: .5, attrs: { text: { text: "[" + String(label) + "]"  || '', 'font-weight': 'bold' } } }],
-            vertices: vertices || []
-        });
-    else
-        var cell = new joint.shapes.fsa.Arrow({
-            source: { id: source.id },
-            target: { id: target.id },
-            labels: [{ position: .5, attrs: { text: { text: label  || '', 'font-weight': 'bold' } } }],
-            vertices: vertices || []
-        });
-    cell.weight = weight;
+    var cell = new joint.shapes.fsa.Arrow({
+        source: { id: source.id },
+        target: { id: target.id },
+        labels: [{ position: .5, attrs: { text: { text: label  || '', 'font-weight': 'bold' } } }],
+        vertices: vertices || []
+    });
+    cell.weight = smallest;
     return cell;
+}
+
+function prettyPrintNumber (n) {
+    ns = String(n);
+    if(ns.match(/[0-9]*\.[0-9][0-9][0-9]*/)) {//Matches floating point numbers
+        n = n.toFixed(3);
+    }
+    return n;
 }
 
 //OLD generateTranstions function, included for legacy purposes
@@ -207,6 +257,7 @@ function findLinkInLinkInformation(linkInformation, start, end) {
 
     return -1;
 }
+
 function createLink(data, traceID, eventIndex) {
     var ret = [];
     var placeholder = [];

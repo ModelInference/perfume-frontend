@@ -4,5 +4,5 @@
 #$2 - Location of perfume
 #$3 - Location of Synoptic
 python Makefile.py
-cp -R $2 $1
-cp -R $3 $1
+cp -fR $2 $1
+cp -fR $3 $1
