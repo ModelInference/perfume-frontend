@@ -117,6 +117,7 @@ function link(source, target, label, maxsize) {
     if (source.id == init.id || target.id == term.id) {
         label = undefined;
         var smallest = 0;
+        var largest = 0;
     }
     else {
         if (label instanceof Array)  {
@@ -145,6 +146,7 @@ function link(source, target, label, maxsize) {
         vertices: vertices || []
     });
     cell.weight = smallest;
+    cell.largest = largest;
     return cell;
 }
 
@@ -254,7 +256,6 @@ function findLinkInLinkInformation(linkInformation, start, end) {
             if(start.id == link[0].id && link[1].id == end.id)
                 return i;
     }
-
     return -1;
 }
 
@@ -438,6 +439,7 @@ function isStateinList(li, state) {
     return false;
 }
 
+
 function searchForShortestAndLongestPath(target) {
     var max = 0;
     var min = 99999999999999999;
@@ -445,18 +447,18 @@ function searchForShortestAndLongestPath(target) {
     var initFrontier = findLinksfromState(init.id);
     var maxPath;
     var minPath;
-    var statesFound = [];
     for (var i = 0; i < initFrontier.length; i++) {
-        frontier.push({path: [], link: initFrontier[i], weight : initFrontier[i].weight});
+        frontier.push({id:initFrontier.id, path: [], link: initFrontier[i], weight : initFrontier[i].weight, largest : initFrontier[i].largest});
     }
     while(frontier.length > 0) {
         var curLink = frontier[0].link;
         var weight = frontier[0].weight;
+        var largest = frontier[0].largest;
         var pathTo = _.clone(frontier[0].path);
         frontier.splice(0,1);
         if (curLink.attributes.target.id == target) {
-            if (weight > max) {
-                max = weight;
+            if (largest > max) {
+                max = largest;
                 maxPath = pathTo;
             }
             if (weight < min) {
@@ -466,18 +468,14 @@ function searchForShortestAndLongestPath(target) {
         }
         else {
             var nextStates = findLinksfromState(curLink.attributes.target.id);
-                pathTo.push(curLink.attributes.target.id)
+            pathTo.push(curLink.attributes.target.id);
             for (i = 0; i < nextStates.length; i++) { 
-                if (!isStateinList(statesFound, nextStates[i])) {
-                    frontier.push({path: pathTo, link: nextStates[i], weight : weight + nextStates[i].weight});
-                    statesFound.push(nextStates[i]);
-                }
+                frontier.push({id:nextStates[i].id, path: pathTo, link: nextStates[i], weight : weight + nextStates[i].weight, largest : largest + nextStates[i].largest});
             }
         }
     }
     return [min, max, minPath, maxPath];
 }
-
 
 function findLinksfromState(stateId) {
     return _.filter(links, function(link) {return link.attributes.source.id == stateId;});
