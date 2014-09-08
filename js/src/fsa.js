@@ -470,7 +470,9 @@ function searchForShortestAndLongestPath(target) {
             var nextStates = findLinksfromState(curLink.attributes.target.id);
             pathTo.push(curLink.attributes.target.id);
             for (i = 0; i < nextStates.length; i++) { 
-                frontier.push({id:nextStates[i].id, path: pathTo, link: nextStates[i], weight : weight + nextStates[i].weight, largest : largest + nextStates[i].largest});
+                if (nextStates[i].attributes.source.id !== nextStates[i].attributes.target.id) {
+                    frontier.push({id:nextStates[i].id, path: pathTo, link: nextStates[i], weight : weight + nextStates[i].weight, largest : largest + nextStates[i].largest});
+                }
             }
         }
     }
