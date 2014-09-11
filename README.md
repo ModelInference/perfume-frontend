@@ -23,5 +23,5 @@ For example,
 
 
 ###Deploying perfume###
-Run `deploy_perfume.sh <server directory> <perfume directory> <synoptic directory>`
-This will copy the nesscary files to your web server's directory.
+Run `deploy_perfume.sh <server directory> <perfume frontend directory> <synoptic directory>`
+This will copy the necessary files to your web server's directory.
