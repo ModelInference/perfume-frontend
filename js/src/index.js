@@ -3,7 +3,7 @@ var data = { "log": [], "partitions": [], "invariants": [] };
 var mode = "form";
 
 function fetchModel (id) {
-    graph.clear();
+//    graph.clear();
     var alwaysPrecedes = [];  
     var alwaysFollowedBy = [];
     var neverFollowedBy = [];
@@ -23,7 +23,7 @@ function revealForm() {
         $("#model").toggle();
     }
     if (mode == "invariant") {
-        graph.clear();
+ //       graph.clear();
         $("#invariant").toggle();
     }
     mode = "form";
