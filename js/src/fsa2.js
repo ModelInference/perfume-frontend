@@ -180,7 +180,7 @@ function searchForShortestAndLongestPath(target) {
 
 
 function drawModel(data) {
-    var g = new dagreD3.Digraph();
+    var g = new dagreD3.graphlib.Graph({multigraph:true}).setGraph({});
     states = [];
     links = [];
     init = {partition: {eventType:"init",events:[]}, label:"init", index:0, nodeclass:"node-initterm"};
@@ -191,28 +191,29 @@ function drawModel(data) {
     generateTransitions(data);
     var pathAnnotations = searchForShortestAndLongestPath(term.index);
     for (var i = 0; i < states.length; i++) {
-        g.addNode(i.toString(), states[i]);        
+        g.setNode(i.toString(), states[i]);        
     }
     for (i = 0; i < links.length; i++) {
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.addEdge(null, links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, style:'stroke:fuchsia'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, style:'stroke:fuchsia'});
         }
         else if (pathAnnotations.maxpath.indexOf(i) !== -1) {
-            g.addEdge(null, links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, style:'stroke:red'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, style:'stroke:red'});
         }
         else if (pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.addEdge(null, links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, style:'stroke:blue'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, style:'stroke:blue'});
         }
         else {
-            g.addEdge(null, links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label});
         }
     }
-    var renderer = new dagreD3.Renderer();
-    var oldDrawNodes = renderer.drawNodes();
-    renderer.drawNodes(function(graph, root) {
-          var svgNodes = oldDrawNodes(graph, root);
-            svgNodes.each(function(u) {d3.select(this).classed(graph.node(u).nodeclass, true);});
-              return svgNodes;
-    });
-    renderer.run(g, d3.select("svg g"));
+    var svg = d3.select("svg"),
+    inner = svg.select("g");
+    var zoom = d3.behavior.zoom().on("zoom", function() {
+        inner.attr("transform", "translate(" + d3.event.translate + ")" +
+                                    "scale(" + d3.event.scale + ")");
+        });
+    svg.call(zoom);
+    var render = new dagreD3.render();
+    render(inner, g);
 }
