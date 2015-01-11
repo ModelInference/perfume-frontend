@@ -7,7 +7,7 @@
 
 * [Read more](http://cs.umass.edu/~ohmann/perfume/) about how Perfume works.
 
-###Compiling perfume###
+###Compiling Perfume###
 Perfume requires the cheetah python library. 
 
 Install with `$pip install cheetah`
@@ -22,6 +22,5 @@ For example,
 `  #include "./template/css_template.html"` includes the css files into the template. The main template is index_template.html, which generates index.html. 
 
 
-###Deploying perfume###
-Run `deploy_perfume.sh <server directory> <perfume frontend directory> <synoptic directory>`
-This will copy the necessary files to your web server's directory.
+###Deploying Perfume###
+See [how to deploy Perfume](https://bitbucket.org/bestchai/perfume-frontend/wiki/How%20to%20deploy%20Perfume).
