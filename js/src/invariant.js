@@ -98,9 +98,9 @@ function getCol(data) {
 }
 
 //Main graphing 
- var left = [];
-    var mid = [];
-    var right = [];
+ // var left = [];
+ //    var mid = [];
+ //    var right = [];
 function drawInvariants(data) {  
     getPredicates(data);
     getCol(data);
