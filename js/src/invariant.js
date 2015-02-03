@@ -3,7 +3,7 @@
 
 var types = ["AlwaysFollowedBy", "AlwaysPrecedes", "NeverFollowedBy"];
 
-var alwaysPrecedes = [];  
+var alwaysPrecedes = [];
 var alwaysFollowedBy = [];
 var neverFollowedBy = [];
 var neverPrecedes = [];
@@ -67,7 +67,12 @@ function getCol(data) {
     var inv = data.invariants;
     var upperbound = "";
     var lowerbound = "";
-    $("#invars").empty();
+
+    //removes all rows except for the first
+    $("#AlwaysPrecedes").find("tr:not(:first)").remove();
+    $("#AlwaysFollowedBy").find("tr:not(:first)").remove();
+    $("#NeverFollowedBy").find("tr:not(:first)").remove();
+
     for (var i = 0; i < inv.length; i++) {
         var type = inv[i].invariantType;
         var bounds = "";
@@ -84,7 +89,7 @@ function getCol(data) {
         upperbound = upperbound.replace("=", "");
         lowerbound = lowerbound.replace("=", "");
         console.log(bounds);
-        if (inv[i].predicates[0] !== undefined && inv[i].predicates[1] !== undefined  )
+        if (inv[i].predicates[0] !== undefined && inv[i].predicates[1] !== undefined) {
             if (inv[i].invariantType == "AlwaysFollowedBy") {
                 $("#"+type).append("<tr><td>" + inv[i].predicates[0] +"</td><td>&rarr;</td><td>"+ inv[i].predicates[1] + "</td><td> " + upperbound + "</td><td>" + lowerbound + "<td></tr>");
             }
@@ -94,20 +99,15 @@ function getCol(data) {
             if (inv[i].invariantType == "NeverFollowedBy") {
                 $("#"+type).append("<tr><td>" + inv[i].predicates[0] +"</td><td>&#8603;</td><td>"+ inv[i].predicates[1] + "</td><td> " + upperbound + "</td><td>" + lowerbound + "<td></tr>");
             }
+        }
     }
 }
 
-//Main graphing 
- var left = [];
-    var mid = [];
-    var right = [];
-function drawInvariants(data) {  
+//Main graphing
+function drawInvariants(data) {
     getPredicates(data);
     getCol(data);
     var offset = 0;
-    // var left = [];
-    // var mid = [];
-    // var right = [];
     var path = [];
     var paper = Raphael("holder", 600, 600);
     var attr = {font: "50px Helvetica", opacity: 0.5};
@@ -133,7 +133,7 @@ function drawInvariants(data) {
         this.attr({"opacity":0.5})
     };
     var hoverOut = function() {
-        this.attr({"stroke": "#E3E3E3","stroke-width":2}); 
+        this.attr({"stroke": "#E3E3E3","stroke-width":2});
     };
     //Draw arrows between the predicates
     var arrow = function (x1, y1, x2, y2, size) {
