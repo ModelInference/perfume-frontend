@@ -3,7 +3,7 @@
 
 var types = ["AlwaysFollowedBy", "AlwaysPrecedes", "NeverFollowedBy"];
 
-var alwaysPrecedes = [];  
+var alwaysPrecedes = [];
 var alwaysFollowedBy = [];
 var neverFollowedBy = [];
 var neverPrecedes = [];
@@ -102,17 +102,11 @@ function getCol(data) {
     }
 }
 
-//Main graphing 
- // var left = [];
- //    var mid = [];
- //    var right = [];
-function drawInvariants(data) {  
+//Main graphing
+function drawInvariants(data) {
     getPredicates(data);
     getCol(data);
     var offset = 0;
-    // var left = [];
-    // var mid = [];
-    // var right = [];
     var path = [];
     var paper = Raphael("holder", 600, 600);
     var attr = {font: "50px Helvetica", opacity: 0.5};
@@ -138,7 +132,7 @@ function drawInvariants(data) {
         this.attr({"opacity":0.5})
     };
     var hoverOut = function() {
-        this.attr({"stroke": "#E3E3E3","stroke-width":2}); 
+        this.attr({"stroke": "#E3E3E3","stroke-width":2});
     };
     //Draw arrows between the predicates
     var arrow = function (x1, y1, x2, y2, size) {
