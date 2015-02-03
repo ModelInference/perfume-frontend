@@ -67,7 +67,12 @@ function getCol(data) {
     var inv = data.invariants;
     var upperbound = "";
     var lowerbound = "";
-    $("#invars").empty();
+
+    //removes all rows except for the first
+    $("#AlwaysPrecedes").find("tr:not(:first)").remove();
+    $("#AlwaysFollowedBy").find("tr:not(:first)").remove();
+    $("#NeverFollowedBy").find("tr:not(:first)").remove();
+
     for (var i = 0; i < inv.length; i++) {
         var type = inv[i].invariantType;
         var bounds = "";
