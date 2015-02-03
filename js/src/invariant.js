@@ -89,7 +89,7 @@ function getCol(data) {
         upperbound = upperbound.replace("=", "");
         lowerbound = lowerbound.replace("=", "");
         console.log(bounds);
-        if (inv[i].predicates[0] !== undefined && inv[i].predicates[1] !== undefined  )
+        if (inv[i].predicates[0] !== undefined && inv[i].predicates[1] !== undefined) {
             if (inv[i].invariantType == "AlwaysFollowedBy") {
                 $("#"+type).append("<tr><td>" + inv[i].predicates[0] +"</td><td>&rarr;</td><td>"+ inv[i].predicates[1] + "</td><td> " + upperbound + "</td><td>" + lowerbound + "<td></tr>");
             }
@@ -99,6 +99,7 @@ function getCol(data) {
             if (inv[i].invariantType == "NeverFollowedBy") {
                 $("#"+type).append("<tr><td>" + inv[i].predicates[0] +"</td><td>&#8603;</td><td>"+ inv[i].predicates[1] + "</td><td> " + upperbound + "</td><td>" + lowerbound + "<td></tr>");
             }
+        }
     }
 }
 
