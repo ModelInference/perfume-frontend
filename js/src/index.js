@@ -1,18 +1,14 @@
-var data = { "log": [], "partitions": [], "invariants": [] }; 
+var data = { "log": [], "partitions": [], "invariants": [] };
 
 var mode = "form";
 
 function fetchModel (id) {
-//    graph.clear();
-    // var alwaysPrecedes = [];  
-    // var alwaysFollowedBy = [];
-    // var neverFollowedBy = [];
-    // var neverPrecedes = [];
+    //graph.clear();
     data = { "log": [], "partitions": [], "invariants": [] }
     var parameters =  {logfile:$("#logtext").val(),
             args:$("#argsfield").val(),
         };
-    $.ajax({type:"POST", url:"json.php",data:parameters }).done(function(model) {console.log(model); data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);}); 
+    $.ajax({type:"POST", url:"json.php",data:parameters }).done(function(model) {console.log(model); data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
     return parameters;
 };
 
@@ -23,7 +19,7 @@ function revealForm() {
         $("#model").toggle();
     }
     if (mode == "invariant") {
- //       graph.clear();
+        //graph.clear();
         $("#invariant").toggle();
     }
     mode = "form";
@@ -32,9 +28,9 @@ function revealForm() {
 function revealModel() {
     if  (mode != "model")
         $("#model").toggle();
-    if (mode == "form") 
+    if (mode == "form")
         $("#form").toggle();
-    if (mode == "invariant") 
+    if (mode == "invariant")
         $("#invariant").toggle();
     mode = "model";
     drawModel(data);
@@ -70,9 +66,9 @@ function drawCanvas() {
 function revealInvariant() {
     if  (mode != "invariant")
         $("#invariant").toggle();
-    if (mode == "model") 
+    if (mode == "model")
         $("#model").toggle();
-    if (mode == "form") 
+    if (mode == "form")
         $("#form").toggle();
     mode = "invariant";
     drawInvariants(data);
