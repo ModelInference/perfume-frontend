@@ -44,14 +44,6 @@ function getPredicates(data){
     }
 }
 
-//Split the predicates into 3 arrays for easier management
-var leftCol = [];
-leftCol.constraints = [];
-var midCol = [];
-midCol.constraints = [];
-var rightCol = [];
-rightCol.constraints = [];
-
 function checkExistsCol(col, data){
     var result = false;
     for(var i=0; i<col.length;i++){
