@@ -44,23 +44,23 @@ function getPredicates(data){
     }
 }
 
-function checkExistsCol(col, data){
-    var result = false;
-    for(var i=0; i<col.length;i++){
-        if(col[i]=== data){
-            result = true;
-            break;
-        }
-    }
-    return result;
-}
+// function checkExistsCol(col, data){
+//     var result = false;
+//     for(var i=0; i<col.length;i++){
+//         if(col[i]=== data){
+//             result = true;
+//             break;
+//         }
+//     }
+//     return result;
+// }
 
 function getCol(data) {
     var inv = data.invariants;
     var upperbound = "";
     var lowerbound = "";
 
-    //removes all rows except for the first
+    //removes all rows currently on the page, except for the first
     $("#AlwaysPrecedes").find("tr:not(:first)").remove();
     $("#AlwaysFollowedBy").find("tr:not(:first)").remove();
     $("#NeverFollowedBy").find("tr:not(:first)").remove();
