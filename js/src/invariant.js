@@ -103,45 +103,8 @@ function getCol(data) {
     }
 }
 
-//Main graphing
+//Display invariants to the page
 function drawInvariants(data) {
     getPredicates(data);
     getCol(data);
-    var offset = 0;
-    var path = [];
-    var paper = Raphael("holder", 600, 600);
-    var attr = {font: "50px Helvetica", opacity: 0.5};
-    //Draw the left column of the graph
-    //Function to find the predicate in given array
-    function findNode(node, array){
-        var myNode;
-        for(var i=0; i<array.length;i++){
-            if(array[i].content === node){
-                myNode = array[i];
-            }
-        }
-        return myNode;
-    }
-    //Functions to take care of the hover effect
-    var hoverIn = function() {
-        this.attr({"stroke": "#ff0000","stroke-width":4});
-    };
-    var hoverInLetter = function(){
-        this.attr({"opacity": 1});
-    };
-    var hoverOutLetter = function(){
-        this.attr({"opacity":0.5})
-    };
-    var hoverOut = function() {
-        this.attr({"stroke": "#E3E3E3","stroke-width":2});
-    };
-    //Draw arrows between the predicates
-    var arrow = function (x1, y1, x2, y2, size) {
-        var angle = Math.atan2(x1-x2,y2-y1);
-        angle = (angle / (2 * Math.PI)) * 360;
-        var arrowPath = paper.path("M" + x2 + " " + y2 + " L" + (x2 - size) + " " + (y2 - size) + " L" + (x2 - size) + " " + (y2 + size) + " L" + x2 + " " + y2).attr("stroke","#E3E3E3").rotate((90+angle),x2,y2);
-        var linePath = paper.path(["M", x1,y1,"L",x2,y2]).attr({"stroke-width":2,"stroke":"#E3E3E3"});
-        return [linePath,arrowPath];
-    }
-    //Drawing the always precedes
 }
