@@ -44,17 +44,6 @@ function getPredicates(data){
     }
 }
 
-// function checkExistsCol(col, data){
-//     var result = false;
-//     for(var i=0; i<col.length;i++){
-//         if(col[i]=== data){
-//             result = true;
-//             break;
-//         }
-//     }
-//     return result;
-// }
-
 function getCol(data) {
     var inv = data.invariants;
     var upperbound = "";
