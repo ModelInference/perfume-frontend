@@ -1,8 +1,6 @@
 //Preloaded invariants for debugging purpose
 //Organizing the data into managable arrays
 
-var types = ["AlwaysFollowedBy", "AlwaysPrecedes", "NeverFollowedBy"];
-
 var alwaysPrecedes = [];
 var alwaysFollowedBy = [];
 var neverFollowedBy = [];
@@ -28,6 +26,9 @@ function getPredicates(data){
         }
         if(data.invariants[i].invariantType === "AlwaysFollowedBy"){
             if(checkForDuplicate(data.invariants[i], alwaysFollowedBy) === false){alwaysFollowedBy.push(data.invariants[i]);}
+        }
+        if(data.invariants[i].invariantType === "NeverFollowedBy"){
+            if(checkForDuplicate(data.invariants[i], neverFollowedBy) === false){neverFollowedBy.push(data.invariants[i]);}
         }
     }
 }
