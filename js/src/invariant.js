@@ -31,6 +31,19 @@ function checkExistsAlwaysFollowed(data){
     }
     return result;
 }
+//To get rid of the duplicates in the invariants
+function checkForDuplicate(data, array){
+    var result = false;
+    for(var i=0; i<array.length;i++){
+        if(array[i].predicates[0] === data.predicates[0] && array[i].predicates[1] === data.predicates[1]){
+            array[i].constraints.push(data.constraints[0]);
+            result = true;
+            break;
+        }
+    }
+    return result;
+}
+
 //Push the predicates into thier corresponding array
 function getPredicates(data){
     for(var i=0; i<data.invariants.length; i++){
