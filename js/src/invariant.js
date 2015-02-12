@@ -28,7 +28,7 @@ function getPredicates(data){
             if(checkForDuplicate(data.invariants[i], alwaysFollowedBy) === false){alwaysFollowedBy.push(data.invariants[i]);}
         }
         if(data.invariants[i].invariantType === "NeverFollowedBy"){
-            if(checkForDuplicate(data.invariants[i], neverFollowedBy) === false){neverFollowedBy.push(data.invariants[i]);}
+            neverFollowedBy.push(data.invariants[i]);
         }
     }
 }
