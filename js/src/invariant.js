@@ -6,10 +6,9 @@ var types = ["AlwaysFollowedBy", "AlwaysPrecedes", "NeverFollowedBy"];
 var alwaysPrecedes = [];
 var alwaysFollowedBy = [];
 var neverFollowedBy = [];
-var neverPrecedes = [];
 
 //To get rid of the duplicates in the invariants
-function checkExistsPrecedes(data){
+function checkExistsAlwaysPrecedes(data){
     var result = false;
     for(var i=0; i<alwaysPrecedes.length;i++){
         if(alwaysPrecedes[i].predicates[0] === data.predicates[0] && alwaysPrecedes[i].predicates[1] === data.predicates[1]){
@@ -21,7 +20,7 @@ function checkExistsPrecedes(data){
     return result;
 }
 //To get rid of the duplicates in the invariants
-function checkExistsFollowed(data){
+function checkExistsAlwaysFollowed(data){
     var result = false;
     for(var i=0; i<alwaysFollowedBy.length;i++){
         if(alwaysFollowedBy[i].predicates[0] === data.predicates[0] && alwaysFollowedBy[i].predicates[1] === data.predicates[1]){
@@ -36,10 +35,10 @@ function checkExistsFollowed(data){
 function getPredicates(data){
     for(var i=0; i<data.invariants.length; i++){
         if(data.invariants[i].invariantType === "AlwaysPrecedes"){
-            if(checkExistsPrecedes(data.invariants[i]) === false){alwaysPrecedes.push(data.invariants[i]);}
+            if(checkExistsAlwaysPrecedes(data.invariants[i]) === false){alwaysPrecedes.push(data.invariants[i]);}
         }
         if(data.invariants[i].invariantType === "AlwaysFollowedBy"){
-            if(checkExistsFollowed(data.invariants[i]) === false){alwaysFollowedBy.push(data.invariants[i]);}
+            if(checkExistsAlwaysFollowed(data.invariants[i]) === false){alwaysFollowedBy.push(data.invariants[i]);}
         }
     }
 }
