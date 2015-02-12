@@ -1,6 +1,3 @@
-//Preloaded invariants for debugging purpose
-//Organizing the data into managable arrays
-
 var alwaysPrecedes = [];
 var alwaysFollowedBy = [];
 var neverFollowedBy = [];
@@ -33,19 +30,12 @@ function getPredicates(data){
     }
 }
 
-function getCol(data) {
-    var inv = data.invariants;
-    var upperbound = "";
-    var lowerbound = "";
-
-    //removes all rows currently on the page, except for the first
-    $("#AlwaysPrecedes").find("tr:not(:first)").remove();
-    $("#AlwaysFollowedBy").find("tr:not(:first)").remove();
-    $("#NeverFollowedBy").find("tr:not(:first)").remove();
-
+//Go through invariant's constraints and find the upper and lower bounds
+function findBounds(inv){
     for (var i = 0; i < inv.length; i++) {
-        var type = inv[i].invariantType;
-        var bounds = "";
+        var upperbound = "";
+        var lowerbound = "";
+
         if (inv[i].constraints !== undefined) {
          for (var j = 0; j < inv[i].constraints.length; j++) {
                 if (inv[i].constraints[j].match("upperbound") )
@@ -54,27 +44,56 @@ function getCol(data) {
                     lowerbound =  inv[i].constraints[j];
             }
         }
+        
         upperbound = upperbound.replace("upperbound", "");
         lowerbound = lowerbound.replace("lowerbound", "");
         upperbound = upperbound.replace("=", "");
         lowerbound = lowerbound.replace("=", "");
-        console.log(bounds);
-        if (inv[i].predicates[0] !== undefined && inv[i].predicates[1] !== undefined) {
-            if (inv[i].invariantType == "AlwaysFollowedBy") {
-                $("#"+type).append("<tr><td>" + inv[i].predicates[0] +"</td><td>&rarr;</td><td>"+ inv[i].predicates[1] + "</td><td> " + upperbound + "</td><td>" + lowerbound + "<td></tr>");
-            }
-            if (inv[i].invariantType == "AlwaysPrecedes") {
-                $("#"+type).append("<tr><td>" + inv[i].predicates[0] +"</td><td>&larr;</td><td>"+ inv[i].predicates[1] + "</td><td> " + upperbound + "</td><td>" + lowerbound + "<td></tr>");
-            }
-            if (inv[i].invariantType == "NeverFollowedBy") {
-                $("#"+type).append("<tr><td>" + inv[i].predicates[0] +"</td><td>&#8603;</td><td>"+ inv[i].predicates[1] + "</td><td> " + upperbound + "</td><td>" + lowerbound + "<td></tr>");
-            }
+
+        //save upper and lower bound for use in getCol()
+        inv[i].upperbound = upperbound;
+        inv[i].lowerbound = lowerbound;
+    }
+}
+
+//Post invariants to the page
+function getCol() {
+
+    //removes all rows currently on the page, except for the first
+    $("#AlwaysPrecedes").find("tr:not(:first)").remove();
+    $("#AlwaysFollowedBy").find("tr:not(:first)").remove();
+    $("#NeverFollowedBy").find("tr:not(:first)").remove();
+
+    //AlwaysPrecedes
+    for (var i = 0; i < alwaysPrecedes.length; i++) {
+        if (alwaysPrecedes[i].predicates[0] !== undefined && alwaysPrecedes[i].predicates[1] !== undefined) {
+            $("#AlwaysPrecedes").append("<tr><td>" + alwaysPrecedes[i].predicates[0] +"</td><td>&rarr;</td><td>"+ alwaysPrecedes[i].predicates[1]
+                + "</td><td> " + alwaysPrecedes[i].upperbound + "</td><td>" + alwaysPrecedes[i].lowerbound + "<td></tr>");
         }
     }
+
+    //AlwaysFollowedBy
+    for (var i = 0; i < alwaysFollowedBy.length; i++) {
+        if (alwaysFollowedBy[i].predicates[0] !== undefined && alwaysFollowedBy[i].predicates[1] !== undefined) {
+            $("#AlwaysFollowedBy").append("<tr><td>" + alwaysFollowedBy[i].predicates[0] +"</td><td>&rarr;</td><td>"+ alwaysFollowedBy[i].predicates[1]
+                + "</td><td> " + alwaysFollowedBy[i].upperbound + "</td><td>" + alwaysFollowedBy[i].lowerbound + "<td></tr>");
+        }
+    }
+
+    //NeverFollowedBy
+    for (var i = 0; i < neverFollowedBy.length; i++) {
+        if (neverFollowedBy[i].predicates[0] !== undefined && neverFollowedBy[i].predicates[1] !== undefined) {
+            $("#NeverFollowedBy").append("<tr><td>" + neverFollowedBy[i].predicates[0] +"</td><td>&rarr;</td><td>"+ neverFollowedBy[i].predicates[1]
+                + "</td><td> " + neverFollowedBy[i].upperbound + "</td><td>" + neverFollowedBy[i].lowerbound + "<td></tr>");
+        }
+    }
+
 }
 
 //Display invariants to the page
 function drawInvariants(data) {
     getPredicates(data);
+    findBounds(alwaysPrecedes);
+    findBounds(alwaysFollowedBy);
     getCol(data);
 }
