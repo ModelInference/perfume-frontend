@@ -1,6 +1,17 @@
-var alwaysPrecedes = [];
-var alwaysFollowedBy = [];
-var neverFollowedBy = [];
+var alwaysPrecedes;
+var alwaysFollowedBy;
+var neverFollowedBy;
+
+function init(){
+    //clear old invariants
+    alwaysPrecedes = [];
+    alwaysFollowedBy = [];
+    neverFollowedBy = [];
+    //removes all rows currently on the page, except for the first
+    $("#AlwaysPrecedes").find("tr:not(:first)").remove();
+    $("#AlwaysFollowedBy").find("tr:not(:first)").remove();
+    $("#NeverFollowedBy").find("tr:not(:first)").remove();
+}
 
 //To get rid of the duplicates in the invariants
 function checkForDuplicate(data, array){
@@ -44,7 +55,7 @@ function findBounds(inv){
                     lowerbound =  inv[i].constraints[j];
             }
         }
-        
+
         upperbound = upperbound.replace("upperbound", "");
         lowerbound = lowerbound.replace("lowerbound", "");
         upperbound = upperbound.replace("=", "");
@@ -58,12 +69,6 @@ function findBounds(inv){
 
 //Post invariants to the page
 function getCol() {
-
-    //removes all rows currently on the page, except for the first
-    $("#AlwaysPrecedes").find("tr:not(:first)").remove();
-    $("#AlwaysFollowedBy").find("tr:not(:first)").remove();
-    $("#NeverFollowedBy").find("tr:not(:first)").remove();
-
     //AlwaysPrecedes
     for (var i = 0; i < alwaysPrecedes.length; i++) {
         if (alwaysPrecedes[i].predicates[0] !== undefined && alwaysPrecedes[i].predicates[1] !== undefined) {
@@ -87,11 +92,11 @@ function getCol() {
                 + "</td><td> " + neverFollowedBy[i].upperbound + "</td><td>" + neverFollowedBy[i].lowerbound + "<td></tr>");
         }
     }
-
 }
 
 //Display invariants to the page
 function drawInvariants(data) {
+    init();
     getPredicates(data);
     findBounds(alwaysPrecedes);
     findBounds(alwaysFollowedBy);
