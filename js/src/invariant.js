@@ -2,7 +2,7 @@ var alwaysPrecedes;
 var alwaysFollowedBy;
 var neverFollowedBy;
 
-function init(){
+function initialize(){
     //clear old invariants
     alwaysPrecedes = [];
     alwaysFollowedBy = [];
@@ -96,7 +96,7 @@ function getCol() {
 
 //Display invariants to the page
 function drawInvariants(data) {
-    init();
+    initialize();
     getPredicates(data);
     findBounds(alwaysPrecedes);
     findBounds(alwaysFollowedBy);
