@@ -88,8 +88,7 @@ function getCol() {
     //NeverFollowedBy
     for (var i = 0; i < neverFollowedBy.length; i++) {
         if (neverFollowedBy[i].predicates[0] !== undefined && neverFollowedBy[i].predicates[1] !== undefined) {
-            $("#NeverFollowedBy").append("<tr><td>" + neverFollowedBy[i].predicates[0] +"</td><td>&rarr;</td><td>"+ neverFollowedBy[i].predicates[1]
-                + "</td><td> " + neverFollowedBy[i].upperbound + "</td><td>" + neverFollowedBy[i].lowerbound + "<td></tr>");
+            $("#NeverFollowedBy").append("<tr><td>" + neverFollowedBy[i].predicates[0] +"</td><td>&rarr;</td><td>"+ neverFollowedBy[i].predicates[1] + "<td></tr>");
         }
     }
 }
