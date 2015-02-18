@@ -1,33 +1,34 @@
-//For an unknown reason, only this test works out of all of these
-test('saysHi()', function() {
-    equal($("#AlwaysPrecedes").length, 0, "AlwaysPrecedes exists!");
+test('Arrays exist after initialization', 3, function() {
+	initialize();
+
+	ok(alwaysPrecedes, "alwaysPrecedes exists!");
+	ok(alwaysFollowedBy, "alwaysFollowedBy exists!");
+	ok(neverFollowedBy, "neverFollowedBy exists!");
 });
 
-// test('alwaysPrecedesExists()', function() {
-//     equal($("#AlwaysPrecedes").length, 0, "AlwaysPrecedes exists!");
+// test('initialize() clears tables except top row', 3, function() {
+// 	$("#AlwaysPrecedes").append("<tr><td>" + "hello1" +"</td><td>&rarr;</td><td>"+ "hello1"
+//                 + "</td><td> " + "hello1" + "</td><td>" + "hello1" + "<td></tr>");
+// 	$("#AlwaysFollowedBy").append("<tr><td>" + "hello1" +"</td><td>&rarr;</td><td>"+ "hello1"
+//                 + "</td><td> " + "hello1" + "</td><td>" + "hello1" + "<td></tr>");
+// 	$("#NeverFollowedBy").append("<tr><td>" + "hello1" +"</td><td>&rarr;</td><td>"+ "hello1"
+//                 + "</td><td> " + "hello1" + "</td><td>" + "hello1" + "<td></tr>");
+// 	$("#AlwaysPrecedes").append("<tr><td>" + "hello1" +"</td><td>&rarr;</td><td>"+ "hello1"
+//                 + "</td><td> " + "hello1" + "</td><td>" + "hello1" + "<td></tr>");
+// 	$("#AlwaysFollowedBy").append("<tr><td>" + "hello1" +"</td><td>&rarr;</td><td>"+ "hello1"
+//                 + "</td><td> " + "hello1" + "</td><td>" + "hello1" + "<td></tr>");
+// 	$("#NeverFollowedBy").append("<tr><td>" + "hello1" +"</td><td>&rarr;</td><td>"+ "hello1"
+//                 + "</td><td> " + "hello1" + "</td><td>" + "hello1" + "<td></tr>");
+// 	$("#AlwaysPrecedes").append("<tr><td>" + "hello1" +"</td><td>&rarr;</td><td>"+ "hello1"
+//                 + "</td><td> " + "hello1" + "</td><td>" + "hello1" + "<td></tr>");
+// 	$("#AlwaysFollowedBy").append("<tr><td>" + "hello1" +"</td><td>&rarr;</td><td>"+ "hello1"
+//                 + "</td><td> " + "hello1" + "</td><td>" + "hello1" + "<td></tr>");
+// 	$("#NeverFollowedBy").append("<tr><td>" + "hello1" +"</td><td>&rarr;</td><td>"+ "hello1"
+//                 + "</td><td> " + "hello1" + "</td><td>" + "hello1" + "<td></tr>");
+
+// 	initialize();
+
+// 	equal($("#AlwaysPrecedes").length, 1, "AlwaysPrecedes was cleared properly!");
+// 	equal($("#AlwaysFollowedBy").length, 1, "AlwaysFollowedBy was cleared properly!");
+// 	equal($("#NeverFollowedBy").length, 1, "NeverFollowedBy was cleared properly!");
 // });
-
-// console.log('loaded invariant_tests.js');
-
-// test('Tables exist', 3, function() {
-// 	equal($("#AlwaysPrecedes").length, 0, "AlwaysPrecedes exists!");
-// 	ok($("#AlwaysFollowedBy").length != 0, "AlwaysFollowedBy exists!");
-// 	ok($("#NeverFollowedBy").length != 0, "NeverFollowedBy exists!");
-// });
-
-// test('Arrays exist', 3, function() {
-// 	ok(alwaysPrecedes, "AlwaysPrecedes exists!");
-// 	ok(alwaysFollowedBy, "AlwaysPrecedes exists!");
-// 	ok(neverFollowedBy, "AlwaysPrecedes exists!");
-// });
-
-// test('first [working] test', function() {
-// 	assert.ok( 1 == "1", "Passed!" );
-// 	console.log('called first test');
-// });
-
-// QUnit.test( "hello test", function( assert ) {
-//   assert.ok( 1 == "1", "Passed!" );
-// });
-
-// QUnit.start();
