@@ -30,8 +30,12 @@ if ($json === "" || preg_match("/\nSEVERE:/", $output) || preg_match("/\nWARNING
     die( json_encode(array( message => $output)));
     }
 else {
-        header('Content-Type: application/json');
-        echo $json;
+		//old:
+        // header('Content-Type: application/json');
+        // echo $json;
+		//new:
+	    header('Content-Type: application/jsonp');
+        echo $_GET['callback']."(".json_encode($json).");";
     }
 }
 
