@@ -8,12 +8,7 @@ function fetchModel (id) {
     var parameters =  {logfile:$("#logtext").val(),
             args:$("#argsfield").val(),
         };
-    //old:
-    // $.ajax({type:"POST", url:"json.php", data:parameters}).done(function(model) {console.log(model); data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
-    //new (jsonp, still same machine)
-    // $.ajax({type:"POST", url:"json.php", data:parameters, dataType:'jsonp'}).done(function(model) {model = JSON.parse(model); console.log(model); data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
-    //real new (jsonp, different machines)
-    $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters, dataType:'jsonp'}).done(function(model) {model = JSON.parse(model); console.log(model); data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
+    $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {console.log(model); data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
     return parameters;
 };
 
