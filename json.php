@@ -30,7 +30,7 @@ if ($json === "" || preg_match("/\nSEVERE:/", $output) || preg_match("/\nWARNING
     die( json_encode(array( message => $output)));
     }
 else {
-        header('Access-Control-Allow-Origin:*');
+        header('Access-Control-Allow-Origin: http://ohmann.bitbucket.org');
         header('Content-Type: application/json');
         echo $json;
     }
