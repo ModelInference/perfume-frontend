@@ -1,0 +1,113 @@
+
+<head>
+<title>jQuery Minimal Vertical splitter</title>
+
+<style type="text/css" media="all">
+/*.simple {
+	border: 0px
+	solid #aaa;
+	height:95%;
+	width:100%;
+	margin:0;
+	padding:0;
+}*/
+.simple div {
+	overflow: auto;
+	padding: 3px;
+}
+/*
+.vsplitbar {
+	width: 8px;
+	cursor: e-resize;	 in case col-resize isn't supported 
+	cursor: col-resize;
+}
+*/
+/*split*/
+
+.splitter {
+	height: 600px;
+	margin: 1em 3em;
+	/*border: 1px solid #aaa;*/
+	/*bottom: 0;*/
+}
+
+.ui-state-default { background-color: #aaa }
+/*.ui-state-hover { background-color: #bdb }*/
+.ui-state-highlight { background-color: #aaa }
+/*.ui-state-error { background-color: #eaa }*/
+
+.splitter-pane {
+	overflow: auto;
+}
+.splitter-bar-vertical {
+	width: 0px;
+	/*background-image: url(img/vgrabber.gif);*/
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor: e-resize;	/* in case col-resize isn't supported */
+	cursor: col-resize;
+}
+.splitter-bar-vertical-docked {
+	width: 0px;
+	/*background-image: url(img/vdockbar-trans.gif);*/
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.splitter-bar.ui-state-highlight {
+	opacity: 0.7;
+}
+.splitter-iframe-hide {
+	visibility: hidden;
+}
+</style>
+</head>
+
+<div id="dual" style="display:none">
+<h1>Dual View</h1>
+<p>
+</p>
+<div class="simple">
+	<div>
+		<style>
+		svg {
+		}
+
+		g.node-initterm > rect {
+		  fill: grey;
+		}
+
+		.node rect {
+		    stroke: #333;
+		    stroke-width: 1.5px;
+		    fill: #fff;
+		}
+
+		.edgeLabel rect {
+		    fill: #fff;
+		}
+
+		.edgePath {
+		    stroke: #333;
+		    stroke-width: 1.5px;
+		    fill: none;
+		}
+		</style>
+		<div>
+        <canvas id="legend" width="600" height="100"></canvas>
+        <div id="paper" class="paper"> </div>
+        <svg width=650 height=680>
+            <g transform="translate(20,20)"/>
+        </svg>
+		</div>
+	</div>
+	<div>
+		<div class="row-fluid">
+    	<div></div>
+        <table class="table" id="AlwaysPrecedes"> <tr><th>Source </th><th></th><th>Target</th> <th>Upperbound</th> <th>Lowerbound</th> </tr><h3>Always Precedes</h3></table>
+        <table class="table" id="AlwaysFollowedBy"> <tr><th>Source </th><th></th><th>Target</th> <th>Upperbound</th> <th>Lowerbound</th> </tr><h3>Always Followed By</h3></table>
+        <table class="table" id="NeverFollowedBy"> <tr><th>Source </th><th></th><th>Target</th> </tr><h3>Never Followed By</h3></table>
+    	</div>
+    	</div>
+	</div>
+</div>
+</div>
