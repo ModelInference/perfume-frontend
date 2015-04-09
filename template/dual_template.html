@@ -1,23 +1,9 @@
-<head>
-	<script type="text/javascript" src="js/jquery.js"></script>
-	<script type="text/javascript" src="../source/stable/jquery.layout.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$("body").layout({ applyDemoStyles: true });
-	});
-	</script>
-</head>
-
-
-<div id="dual" style="display:none">
+<div id="dual" class="span9" style="display:none">
 <h1>Dual View</h1>
 <p>
 </p>
 
-<div class="ui-layout-east">East</div>
-
-
-<div class="ui-layout-center">Center
+<div class="ui-layout-center">
 	<div>
 		<style>
 		svg {
@@ -42,6 +28,10 @@
 		    stroke-width: 1.5px;
 		    fill: none;
 		}
+
+		#dual{
+			height: 100%;
+		}
 		</style>
 		<div>
         <canvas id="legend" width="600" height="100"></canvas>
@@ -53,13 +43,16 @@
 	</div>
 </div>
 
-
-<div class="ui-layout-west">West
+<div class="ui-layout-east">
 	<div class="row-fluid">
     <div></div>
     <table class="table" id="AlwaysPrecedes"> <tr><th>Source </th><th></th><th>Target</th> <th>Upperbound</th> <th>Lowerbound</th> </tr><h3>Always Precedes</h3></table>
     <table class="table" id="AlwaysFollowedBy"> <tr><th>Source </th><th></th><th>Target</th> <th>Upperbound</th> <th>Lowerbound</th> </tr><h3>Always Followed By</h3></table>
     <table class="table" id="NeverFollowedBy"> <tr><th>Source </th><th></th><th>Target</th> </tr><h3>Never Followed By</h3></table>
     </div>
+</div>
+
+<div class="ui-layout-west"></div>
+
 </div>
 
