@@ -3,7 +3,6 @@ var data = { "log": [], "partitions": [], "invariants": [] };
 var mode = "form";
 
 function fetchModel (id) {
-    //graph.clear();
     data = { "log": [], "partitions": [], "invariants": [] }
     var parameters =  {logfile:$("#logtext").val(),
             args:$("#argsfield").val(),
@@ -84,14 +83,9 @@ function clearForm()  {
     $("#args").val('');
 }
 
-var split = false;
-
 function revealDual() {
     if  (mode != "dual")
         $("#dual").toggle();
-    else{
-        hidePane();
-    }
     if (mode == "model")
         $("#model").toggle();
     if (mode == "form")
@@ -104,33 +98,12 @@ function revealDual() {
     drawCanvas();
     drawInvariants(data);
 
-    if(!split){
-        makeSplitter();
-    }
+    makeSplitter();
 }
-
-function hidePane() {
-        $('.simple').trigger('toggleDock');
-        // $('.simple').trigger('dock');
-        // $('.simple').trigger('undock');
-        // $('.simple').trigger('destroy');
-}
-
 
 function makeSplitter()
 {
-     $(".simple").splitter({
-        type: "v",
-        // outline: true,
-        sizeLeft: 150,
-        minLeft: 100,
-        minRight: 100,
-        // resizeToWidth: true,
-        dock: "right",
-        dockSpeed: 200,
-        cookie: "docksplitter",
-        dockKey: 'Z',   // Alt-Shift-Z in FF/IE
-        accessKey: 'I'  // Alt-Shift-I in FF/IE
-    });
-    split = true;
+    $("#dual").layout({
+        applyDemoStyles:       true
+    ,   resizeWhileDragging:   true});
 }
