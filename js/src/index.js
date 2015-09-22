@@ -1,9 +1,6 @@
 var data = { "log": [], "partitions": [], "invariants": [] };
 
-var mode = "form";
-
 function fetchModel (id) {
-    //graph.clear();
     data = { "log": [], "partitions": [], "invariants": [] }
     var parameters =  {logfile:$("#logtext").val(),
             args:$("#argsfield").val(),
@@ -12,29 +9,10 @@ function fetchModel (id) {
     return parameters;
 };
 
-function revealForm() {
-    if  (mode != "form")
-        $("#form").toggle();
-    if (mode == "model") {
-        $("#model").toggle();
-    }
-    if (mode == "invariant") {
-        //graph.clear();
-        $("#invariant").toggle();
-    }
-    mode = "form";
-}
-
 function revealModel() {
-    if  (mode != "model")
-        $("#model").toggle();
-    if (mode == "form")
-        $("#form").toggle();
-    if (mode == "invariant")
-        $("#invariant").toggle();
-    mode = "model";
     drawModel(data);
     drawCanvas();
+    drawInvariants(data);
 }
 
 function drawCanvas() {
@@ -63,19 +41,7 @@ function drawCanvas() {
     ctx.closePath();
 };
 
-function revealInvariant() {
-    if  (mode != "invariant")
-        $("#invariant").toggle();
-    if (mode == "model")
-        $("#model").toggle();
-    if (mode == "form")
-        $("#form").toggle();
-    mode = "invariant";
-    drawInvariants(data);
-}
-
 function clearForm()  {
     $("#logtext").val('');
     $("#args").val('');
 }
-
