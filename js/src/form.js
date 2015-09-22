@@ -33,3 +33,15 @@ function write() {
     $("#argsfield").val(argstring);
 }
 
+$(function() {
+                $container = $('.kwicks').kwicks({
+                    maxSize : '95%',
+                    spacing : 5
+                });
+
+                $('#expand-controls a').click(function(e) {
+                    e.preventDefault();
+                    var index = $(this).data('index');
+                    $container.kwicks('expand', index);
+                });
+            });
