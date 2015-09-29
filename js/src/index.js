@@ -19,10 +19,9 @@ function revealForm() {
         $("#model").toggle();
     }
     if (mode == "invariant") {
+        //graph.clear();
         $("#invariant").toggle();
     }
-    if  (mode == "dual")
-        $("#dual").toggle();
     mode = "form";
 }
 
@@ -33,8 +32,6 @@ function revealModel() {
         $("#form").toggle();
     if (mode == "invariant")
         $("#invariant").toggle();
-    if  (mode == "dual")
-        $("#dual").toggle();
     mode = "model";
     drawModel(data);
     drawCanvas();
@@ -73,8 +70,6 @@ function revealInvariant() {
         $("#model").toggle();
     if (mode == "form")
         $("#form").toggle();
-    if  (mode == "dual")
-        $("#dual").toggle();
     mode = "invariant";
     drawInvariants(data);
 }
@@ -84,53 +79,3 @@ function clearForm()  {
     $("#args").val('');
 }
 
-var split = false;
-
-function revealDual() {
-    if  (mode != "dual")
-        $("#dual").toggle();
-    else{
-        hidePane();
-    }
-    if (mode == "model")
-        $("#model").toggle();
-    if (mode == "form")
-        $("#form").toggle();
-    if (mode == "invariant")
-        $("#invariant").toggle();
-    mode = "dual";
-
-    drawModel(data);
-    drawCanvas();
-    drawInvariants(data);
-
-    if(!split){
-        makeSplitter();
-    }
-}
-
-function hidePane() {
-        $('.simple').trigger('toggleDock');
-        // $('.simple').trigger('dock');
-        // $('.simple').trigger('undock');
-        // $('.simple').trigger('destroy');
-}
-
-
-function makeSplitter()
-{
-     $(".simple").splitter({
-        type: "v",
-        // outline: true,
-        sizeLeft: 150,
-        minLeft: 100,
-        minRight: 100,
-        // resizeToWidth: true,
-        dock: "right",
-        dockSpeed: 200,
-        cookie: "docksplitter",
-        dockKey: 'Z',   // Alt-Shift-Z in FF/IE
-        accessKey: 'I'  // Alt-Shift-I in FF/IE
-    });
-    split = true;
-}
