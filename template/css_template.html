@@ -39,20 +39,20 @@
     /*kwicks multi-pane view*/
     .kwicks {
       width: 95%;
-      height: 500px;
+      height: 100%;
       margin-left: auto;
       margin-right: auto;
     }
     .kwicks > li {
-      height: 500px;
+      height: 90%;
       /* overridden by kwicks but good for when JavaScript is disabled */
       width: 150px;
-      margin-left: 5px;
-      float: left;
-      background-color: #333;
+      /*margin-left: 5px;*/
+      /*float: left;*/
+      overflow: auto;
     }
     .kwicks > li.kwicks-expanded {
-      background-color: #777;
+      /*background-color: #777;*/
     }
 
     #expand-controls {
