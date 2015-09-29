@@ -34,4 +34,29 @@
     .show{
       display: none;
     }
+
+
+    /*kwicks multi-pane view*/
+    .kwicks {
+      width: 95%;
+      height: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .kwicks > li {
+      height: 500px;
+      /* overridden by kwicks but good for when JavaScript is disabled */
+      width: 150px;
+      margin-left: 5px;
+      float: left;
+      background-color: #333;
+    }
+    .kwicks > li.kwicks-expanded {
+      background-color: #777;
+    }
+
+    #expand-controls {
+      font-size: 1.2em;
+      margin-top: 20px;
+    }
 </style>
