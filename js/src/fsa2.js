@@ -7,8 +7,8 @@ function generateStates(data) {
 }
 
 
-function link(source, target, label) {
-    newLink = {source:source, target:target, label:""}
+function link(source, target, label, traceID) {
+    newLink = {source:source, target:target, label:"", traceID:traceID}
     if (source.index == init.index || target.index == term.index) {
         label = "";
         var smallest = 0;
@@ -75,7 +75,8 @@ function generateTransitions(data) {
     }
     //Create links
     for (var i = 0; i < linkInformation.length; i++) {
-        links.push(link(linkInformation[i][0], linkInformation[i][1], linkInformation[i][2]));
+        links.push(link(linkInformation[i][0], linkInformation[i][1], linkInformation[i][2], linkInformation[i][3]));
+        console.log(linkInformation[i]);
     }
 }
 
@@ -95,22 +96,26 @@ function createLink(data, traceID, eventIndex) {
     if (eventIndex == 0) {
         placeholder.push(init);
         placeholder.push(findState(traceID, trace[eventIndex]));
-        placeholder.push(0)
+        placeholder.push(0);
+        placeholder.push(traceID);
         ret.push(placeholder);
     } else if (eventIndex == trace.length - 1){
         placeholder.push(findState(traceID, trace[eventIndex]));
         placeholder.push(term);
-        placeholder.push(0)
+        placeholder.push(0);
+        placeholder.push(traceID);
         ret.push(placeholder);
     } else {
         placeholder.push(findState(traceID, trace[eventIndex-1]));
         placeholder.push(findState(traceID, trace[eventIndex]));
         placeholder.push([(trace[eventIndex].timestamp - trace[eventIndex-1].timestamp)]);
+        placeholder.push(traceID);
         ret.push(placeholder);
         placeholder = [];
         placeholder.push(findState(traceID, trace[eventIndex]));
         placeholder.push(findState(traceID, trace[eventIndex+1]));
         placeholder.push([(trace[eventIndex+1].timestamp - trace[eventIndex].timestamp)]);
+        placeholder.push(traceID);
         ret.push(placeholder);
     }
     return ret;
@@ -191,20 +196,21 @@ function drawModel(data) {
     generateTransitions(data);
     var pathAnnotations = searchForShortestAndLongestPath(term.index);
     for (var i = 0; i < states.length; i++) {
-        g.setNode(i.toString(), states[i]);        
+        g.setNode(i.toString(), states[i]);
     }
     for (i = 0; i < links.length; i++) {
+        console.log(links[i]);
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, style:'stroke:fuchsia'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:links[i].traceID, style:'stroke:fuchsia'});
         }
         else if (pathAnnotations.maxpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, style:'stroke:red'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:links[i].traceID, style:'stroke:red'});
         }
         else if (pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, style:'stroke:blue'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:links[i].traceID, style:'stroke:blue'});
         }
         else {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:links[i].traceID});
         }
     }
     var svg = d3.select("svg"),
@@ -212,8 +218,12 @@ function drawModel(data) {
     var zoom = d3.behavior.zoom().on("zoom", function() {
         inner.attr("transform", "translate(" + d3.event.translate + ")" +
                                     "scale(" + d3.event.scale + ")");
-        });
+    });
     svg.call(zoom);
     var render = new dagreD3.render();
     render(inner, g);
+
+    $('g.edgePath').click(function() {
+        console.log(this);
+    });
 }
