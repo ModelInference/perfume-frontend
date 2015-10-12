@@ -13,6 +13,7 @@ function revealModel() {
     drawModel(data);
     drawCanvas();
     drawInvariants(data);
+    handleExpand(1);
 }
 
 function drawCanvas() {
@@ -46,17 +47,33 @@ function clearForm()  {
     $("#args").val('');
 }
 
-//initialize kwicks (multipane view) upon page load
+var $container;
+
+//kwicks multi-page view
 $(function() {
-    var $container = $('.kwicks').kwicks({
+    //upon initialization
+    $container = $('.kwicks').kwicks({
         maxSize : '95%',
         spacing : 5
     });
+    handleExpand(0);
 
+    //whenever clicked
     $('#expand-controls a').click(function(e) {
         e.preventDefault();
-        var index = $(this).data('index');
-        $container.kwicks('expand', index);
+        var selectedIndex = $(this).data('index');
+        handleExpand(selectedIndex);
     });
 });
 
+function handleExpand(selectedIndex) {
+    var currentIndex = $container.kwicks('expanded');
+    //revert back to viewing all
+    if(selectedIndex === currentIndex) {
+        $container.kwicks('expand', -1);
+    }
+    //view selected one
+    else {
+        $container.kwicks('expand', selectedIndex);
+    }
+}
