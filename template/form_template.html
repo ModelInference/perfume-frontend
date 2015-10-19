@@ -1,21 +1,25 @@
-<div id="form" class="span9" style="">
-	<fieldset>
+<div id="form" style="width: 100%">
+	<fieldset><div id="innerform" style="margin: 0 auto; max-width:500px;">
 
-	    Examples:
-	    <button id="bandwithform" onclick="writeBrowserModel();  data = test_bandwith_model;">Browser Caching</button>
-	    <button id="browserform" onclick="writeConnectionModel();  data = browser_model;">Connection Tester</button>
-	    <button id="browserform" onclick="writeRadiusModel();  data = radius_model;">RADIUS Authentication</button>
-	    
+		<label class="control-label" for="logtext">
+			<span>Examples:</span>
+		</label>
+		<div id="buttons">
+	    	<button id="bandwithform" onclick="writeBrowserModel();  data = test_bandwith_model;">Browser Caching</button>
+	    	<button id="browserform" onclick="writeConnectionModel();  data = browser_model;">Connection Tester</button>
+	    	<button id="browserform" onclick="writeRadiusModel();  data = radius_model;">RADIUS Authentication</button>
+	    </div>
+
         <form>
-			<div class="control-group">
+			<div class="control-group" style="">
 				<label class="control-label" for="logtext">
 					<span>Log</span>
 				</label>
-				<textarea id="logtext" name="logtext" rows=20 style="width:500px;"></textarea>
+				<textarea id="logtext" name="logtext" rows="20"></textarea>
 				<label class="control-label" for="argsfield">
 					<span>Arguments</span>
 				</label>
-                <textarea id="argsfield" name="args" rows="5"></textarea>
+                <textarea id="argsfield" name="args" rows="5" style="width:100%;"></textarea>
 			</div>
 		</form>
 		<br>
@@ -28,5 +32,5 @@
 			</div>
 		</div>
 
-	</fieldset>
+	</div></fieldset>
 </div>

@@ -60,13 +60,16 @@ function generateTransitions(data) {
             var linkParams = createLink(data, state.traceID, state.eventIndex)
             for (var k = 0; k < linkParams.length; k++) {
                 var linkIndex = findLinkInLinkInformation(linkInformation, linkParams[k][0], linkParams[k][1]);
+                //we are creating a new transition
                 if(linkIndex === -1) {
                     linkInformation.push(linkParams[k]);
                 }
+                //we are adding to an existing transition
                 else {
                     if (typeof linkInformation[linkIndex][2] == "object") {
                         for (var l = 0; l < linkParams[k][2].length; l++) {
-                            linkInformation[linkIndex][2].push(linkParams[k][2][l]);
+                            linkInformation[linkIndex][2].push(linkParams[k][2][l]); //timestamp
+                            linkInformation[linkIndex][3].push(linkParams[k][3][l]); //event info
                         }
                     }
                 }
@@ -76,7 +79,6 @@ function generateTransitions(data) {
     //Create links
     for (var i = 0; i < linkInformation.length; i++) {
         links.push(link(linkInformation[i][0], linkInformation[i][1], linkInformation[i][2], linkInformation[i][3]));
-        console.log(linkInformation[i]);
     }
 }
 
@@ -97,25 +99,25 @@ function createLink(data, traceID, eventIndex) {
         placeholder.push(init);
         placeholder.push(findState(traceID, trace[eventIndex]));
         placeholder.push(0);
-        placeholder.push(traceID);
+        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
         ret.push(placeholder);
     } else if (eventIndex == trace.length - 1){
         placeholder.push(findState(traceID, trace[eventIndex]));
         placeholder.push(term);
         placeholder.push(0);
-        placeholder.push(traceID);
+        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
         ret.push(placeholder);
     } else {
         placeholder.push(findState(traceID, trace[eventIndex-1]));
         placeholder.push(findState(traceID, trace[eventIndex]));
         placeholder.push([(trace[eventIndex].timestamp - trace[eventIndex-1].timestamp)]);
-        placeholder.push(traceID);
+        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
         ret.push(placeholder);
         placeholder = [];
         placeholder.push(findState(traceID, trace[eventIndex]));
         placeholder.push(findState(traceID, trace[eventIndex+1]));
         placeholder.push([(trace[eventIndex+1].timestamp - trace[eventIndex].timestamp)]);
-        placeholder.push(traceID);
+        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
         ret.push(placeholder);
     }
     return ret;
@@ -183,7 +185,6 @@ function searchForShortestAndLongestPath(target) {
     return { min:min, max:max, minpath:minPath, maxpath:maxPath };
 }
 
-
 function drawModel(data) {
     var g = new dagreD3.graphlib.Graph({multigraph:true}).setGraph({});
     states = [];
@@ -199,18 +200,17 @@ function drawModel(data) {
         g.setNode(i.toString(), states[i]);
     }
     for (i = 0; i < links.length; i++) {
-        console.log(links[i]);
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:links[i].traceID, style:'stroke:fuchsia'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].traceID), style:'stroke:fuchsia'});
         }
         else if (pathAnnotations.maxpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:links[i].traceID, style:'stroke:red'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].traceID), style:'stroke:red'});
         }
         else if (pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:links[i].traceID, style:'stroke:blue'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].traceID), style:'stroke:blue'});
         }
         else {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:links[i].traceID});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].traceID)});
         }
     }
     var svg = d3.select("svg"),
@@ -224,6 +224,7 @@ function drawModel(data) {
     render(inner, g);
 
     $('g.edgePath').click(function() {
-        console.log(this);
+        var events = $.parseJSON(this.id);
+        highlightEvents(events); //form.js
     });
 }
