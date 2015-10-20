@@ -68,7 +68,7 @@ function generateTransitions(data) {
                 else {
                     if (typeof linkInformation[linkIndex][2] == "object") {
                         for (var l = 0; l < linkParams[k][2].length; l++) {
-                            linkInformation[linkIndex][2].push(linkParams[k][2][l]); //timestamp
+                            linkInformation[linkIndex][2].push(linkParams[k][2][l]); //resources
                             linkInformation[linkIndex][3].push(linkParams[k][3][l]); //event info
                         }
                     }

@@ -1,5 +1,5 @@
 /* Style the repository revision/version container. */
-#versionContainer{
+#version-container{
     float:right;
     left:80%;
     top:0px;
@@ -59,10 +59,8 @@ table{
   height: 90%;
   /* overridden by kwicks but good for when JavaScript is disabled */
   width: 150px;
-  /*margin-left: 5px;*/
-  /*float: left;*/
   overflow: auto;
 }
 .kwicks > li.kwicks-expanded {
-  /*background-color: #777;*/
+  border-color: #777;
 }
