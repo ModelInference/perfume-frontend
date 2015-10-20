@@ -2,7 +2,9 @@ var states, links, init, term;
 
 function generateStates(data) {
     for (var i = 0; i < data.partitions.length; i++) {
-        states.push({partition: data.partitions[i], label:data.partitions[i].eventType, index:i+2});
+        var partition = data.partitions[i];
+        var events = JSON.stringify(partition.events);
+        states.push({partition: partition, label:partition.eventType, index:i+2, id:events});
     }
 }
 
