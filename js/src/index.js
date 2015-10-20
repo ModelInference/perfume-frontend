@@ -47,7 +47,7 @@ function clearForm()  {
 }
 
 function clearData() {
-    unhighlight(); //highlightInput.js
+    unhighlight(); // highlightInput.js
     data = { "log": [], "partitions": [], "invariants": [] };
     drawModel(data);
     drawCanvas();
