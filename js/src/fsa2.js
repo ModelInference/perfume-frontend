@@ -225,7 +225,7 @@ function drawModel(data) {
     var render = new dagreD3.render();
     render(inner, g);
 
-    $('g.edgePath').click(function() {
+    $('g.edgePath, g.node').click(function() {
         var events = $.parseJSON(this.id);
         highlightEvents(events); // highlightInput.js
     });
