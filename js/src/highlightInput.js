@@ -1,4 +1,4 @@
-//highlightTextArea input box highlighter
+// highlightTextArea input box highlighter
 
 function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
@@ -7,16 +7,17 @@ function escapeRegExp(str) {
 function highlight(lines) {
     var regexps = lines.map(escapeRegExp);
     $('#logtext').highlightTextarea('setWords', regexps);
+    prevHighlightedLines = lines;
 }
 
-//pass in array of event objects, where each object has a traceID and a eventIndex
+// pass in array of event objects, where each object has a traceID and a eventIndex
 function highlightEvents(events) {
     var lineNumbers = [];
     for (var i=0; i<events.length; i++) {
-        var newLineNumbers = getLineNumbers(events[i].traceID, events[i].eventIndex); //traverseData.js
+        var newLineNumbers = getLineNumbers(events[i].traceID, events[i].eventIndex); // traverseData.js
         lineNumbers.push.apply(lineNumbers, newLineNumbers);
     }
-    var lines = getLines(lineNumbers); //traverseData.js
+    var lines = getLines(lineNumbers); // traverseData.js
     highlight(lines);
 }
 
@@ -24,12 +25,18 @@ function unhighlight() {
 	$('#logtext').highlightTextarea('setWords', '');
 }
 
-//get it setup upon startub
+var prevHighlightedLines = [''];
+
+function rehighlight() {
+    highlight(prevHighlightedLines);
+}
+
+// get it setup upon startub
 $('#logtext').highlightTextarea({
     resizable: true
 });
 
-//these are deleted after setup, so we need to manually put them in
+// these are deleted after setup, so we need to manually put them in
 $('#logtext').resizable('option', 'maxWidth', 500);
 $('#logtext').resizable('option', 'maxWidth', 500);
 $('.highlightTextarea').css('width', '100%');

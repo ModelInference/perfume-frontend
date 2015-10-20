@@ -42,7 +42,7 @@ function link(source, target, label, data) {
 
 function prettyPrintNumber (n) {
     var ns = String(n);
-    if(ns.match(/[0-9]*\.[0-9][0-9][0-9]*/)) {//Matches floating point numbers
+    if(ns.match(/[0-9]*\.[0-9][0-9][0-9]*/)) {// matches floating point numbers
         n = n.toFixed(3);
         return n;
     }
@@ -60,16 +60,16 @@ function generateTransitions(data) {
             var linkParams = createLink(data, state.traceID, state.eventIndex)
             for (var k = 0; k < linkParams.length; k++) {
                 var linkIndex = findLinkInLinkInformation(linkInformation, linkParams[k][0], linkParams[k][1]);
-                //we are creating a new transition
+                // we are creating a new transition
                 if(linkIndex === -1) {
                     linkInformation.push(linkParams[k]);
                 }
-                //we are adding to an existing transition
+                // we are adding to an existing transition
                 else {
                     if (typeof linkInformation[linkIndex][2] == "object") {
                         for (var l = 0; l < linkParams[k][2].length; l++) {
-                            linkInformation[linkIndex][2].push(linkParams[k][2][l]); //resources
-                            linkInformation[linkIndex][3].push(linkParams[k][3][l]); //event info
+                            linkInformation[linkIndex][2].push(linkParams[k][2][l]); // resources
+                            linkInformation[linkIndex][3].push(linkParams[k][3][l]); // event info
                         }
                     }
                 }
@@ -225,6 +225,6 @@ function drawModel(data) {
 
     $('g.edgePath').click(function() {
         var events = $.parseJSON(this.id);
-        highlightEvents(events); //highlightInput.js
+        highlightEvents(events); // highlightInput.js
     });
 }
