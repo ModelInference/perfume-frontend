@@ -35,6 +35,5 @@ function write() {
 
 //whenever input changes, clear everything
 $( '.input' ).on('input', function() {
-    unhighlight(); //highlightInput.js
     clearData(); //index.js
 });
