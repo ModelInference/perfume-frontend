@@ -7,8 +7,8 @@ function generateStates(data) {
 }
 
 
-function link(source, target, label, traceID) {
-    newLink = {source:source, target:target, label:"", traceID:traceID}
+function link(source, target, label, data) {
+    newLink = {source:source, target:target, label:"", data:data}
     if (source.index == init.index || target.index == term.index) {
         label = "";
         var smallest = 0;
@@ -201,16 +201,16 @@ function drawModel(data) {
     }
     for (i = 0; i < links.length; i++) {
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].traceID), style:'stroke:fuchsia'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data), style:'stroke:fuchsia'});
         }
         else if (pathAnnotations.maxpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].traceID), style:'stroke:red'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data), style:'stroke:red'});
         }
         else if (pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].traceID), style:'stroke:blue'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data), style:'stroke:blue'});
         }
         else {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].traceID)});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data)});
         }
     }
     var svg = d3.select("svg"),
@@ -225,6 +225,6 @@ function drawModel(data) {
 
     $('g.edgePath').click(function() {
         var events = $.parseJSON(this.id);
-        highlightEvents(events); //form.js
+        highlightEvents(events); //highlightInput.js
     });
 }
