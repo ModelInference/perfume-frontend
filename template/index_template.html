@@ -4,12 +4,10 @@
 		<title>Perfume</title>
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<!-- REPLACED DURING DEPLOYMENT: -->
         #include "./template/css_template.html"
 	</head>
 
 	<body>
-	    Revison:$commitSha
 		<div class="navbar navbar-inverse navbar-fixed-top">
 	      <div class="navbar-inner">
 	        <div class="container">
@@ -21,6 +19,9 @@
 	              <li id='expand-controls'><a href="#" data-index='2'>Invariants</a></li>
 	              <li><a href="http://cs.umass.edu/~ohmann/perfume/">Learn more about Perfume</a></li>
 	            </ul>
+	            <div id='version-container'><a>
+					Revison:$commitSha
+				</a></div>
 	          </div><!--/.nav-collapse -->
 	        </div>
 	      </div>
@@ -41,6 +42,5 @@
 	    </div>
 	</body>
 
-<!-- REPLACED DURING DEPLOYMENT: -->
 #include "./template/javascript_template.html"
 </html>
