@@ -226,7 +226,13 @@ function drawModel(data) {
     render(inner, g);
 
     $('g.edgePath, g.node').click(function() {
-        var events = $.parseJSON(this.id);
+        var events;
+        if(this.id) {
+            events = $.parseJSON(this.id);
+        }
+        else {
+            events = [];
+        }
         highlightEvents(events); // highlightInput.js
     });
 }
