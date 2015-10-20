@@ -4,20 +4,18 @@ function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 
-function highlight(lines) {
-    var regexps = lines.map(escapeRegExp);
+// given an array of strings, highlight matching text
+function highlight(strings) {
+    var regexps = strings.map(escapeRegExp);
     $('#logtext').highlightTextarea('setWords', regexps);
-    prevHighlightedLines = lines;
+    prevHighlightedStrings = strings;
 }
 
 // pass in array of event objects, where each object has a traceID and a eventIndex
+// example: [ {traceID: 1, eventIndex: 2}, {traceID: 2, eventIndex: 4} ]
 function highlightEvents(events) {
-    var lineNumbers = [];
-    for (var i=0; i<events.length; i++) {
-        var newLineNumbers = getLineNumbers(events[i].traceID, events[i].eventIndex); // traverseData.js
-        lineNumbers.push.apply(lineNumbers, newLineNumbers);
-    }
-    var lines = getLines(lineNumbers); // traverseData.js
+    var lineNumbers = getLineNumbersForArray(events); // traverseData.js
+    var lines = getLines(lineNumbers); // form.js
     highlight(lines);
 }
 
@@ -25,10 +23,10 @@ function unhighlight() {
 	$('#logtext').highlightTextarea('setWords', '');
 }
 
-var prevHighlightedLines = [''];
+var prevHighlightedStrings = [''];
 
 function rehighlight() {
-    highlight(prevHighlightedLines);
+    highlight(prevHighlightedStrings);
 }
 
 // get it setup upon startub

@@ -33,15 +33,13 @@ function getLineNumbers(traceID, eventIndex) {
     return lineNumbers;
 }
 
-function getLines(lineNumbers) {
-    var allLines = $('textarea').val().split('\n'); // all lines, with the first line at index 0
-    var selectedLines = [];
-
-    for(var i=0; i<allLines.length; i++) {
-        if(lineNumbers.indexOf(i+1) !== -1){ // line numbers in the log start at 1
-            selectedLines.push(allLines[i]);
-        }
+// pass in array of event objects, where each object has a traceID and a eventIndex
+// example: [ {traceID: 1, eventIndex: 2}, {traceID: 2, eventIndex: 4} ]
+function getLineNumbersForArray(events) {
+    var lineNumbers = [];
+    for (var i=0; i<events.length; i++) {
+        var newLineNumbers = getLineNumbers(events[i].traceID, events[i].eventIndex); // traverseData.js
+        lineNumbers.push.apply(lineNumbers, newLineNumbers);
     }
-
-    return selectedLines;
+    return lineNumbers;
 }

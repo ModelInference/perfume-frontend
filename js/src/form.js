@@ -33,7 +33,21 @@ function write() {
     $("#argsfield").val(argstring);
 }
 
-//whenever input changes, clear everything
+// gven an array of line numbers, returns the corresponding array of strings from the input logs
+function getLines(lineNumbers) {
+    var allLines = $('textarea').val().split('\n'); // all lines, with the first line at index 0
+    var selectedLines = [];
+
+    for(var i=0; i<allLines.length; i++) {
+        if(lineNumbers.indexOf(i+1) !== -1){ // line numbers in the log start at 1
+            selectedLines.push(allLines[i]);
+        }
+    }
+
+    return selectedLines;
+}
+
+// whenever input changes, clear everything
 $( '.input' ).on('input', function() {
-    clearData(); //index.js
+    clearData(); // index.js
 });
