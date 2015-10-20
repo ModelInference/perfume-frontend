@@ -1,7 +1,6 @@
 var data = { "log": [], "partitions": [], "invariants": [] };
 
 function fetchModel (id) {
-    data = { "log": [], "partitions": [], "invariants": [] }
     var parameters =  {logfile:$("#logtext").val(),
             args:$("#argsfield").val(),
         };
@@ -47,34 +46,9 @@ function clearForm()  {
     $("#args").val('');
 }
 
-var $container;
-
-//kwicks multi-page view
-
-$(function() {
-    //upon initialization
-    $container = $('.kwicks').kwicks({
-        maxSize : '95%',
-        spacing : 5
-    });
-    handleExpand(0);
-
-    //whenever clicked
-    $('#expand-controls a').click(function(e) {
-        e.preventDefault();
-        var selectedIndex = $(this).data('index');
-        handleExpand(selectedIndex);
-    });
-});
-
-function handleExpand(selectedIndex) {
-    var currentIndex = $container.kwicks('expanded');
-    //revert back to viewing all
-    if(selectedIndex === currentIndex) {
-        $container.kwicks('expand', -1);
-    }
-    //view selected one
-    else {
-        $container.kwicks('expand', selectedIndex);
-    }
+function clearData() {
+    data = { "log": [], "partitions": [], "invariants": [] };
+    drawModel(data);
+    drawCanvas();
+    drawInvariants(data);
 }

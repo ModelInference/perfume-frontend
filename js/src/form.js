@@ -33,79 +33,8 @@ function write() {
     $("#argsfield").val(argstring);
 }
 
-function findTrace(traceID){
-    var traces = data.log;
-    for(var i=0; i<traces.length; i++) {
-        var trace = traces[i];
-        if(trace.traceID === traceID) {
-            return trace;
-        }
-    }
-    return null;
-}
-
-function getEvents(traceID) {
-    var trace = findTrace(traceID);
-    if(trace !== null){
-        return trace.events;
-    }
-    return null;
-}
-
-//captures either a specific event for a trace, OR all events if eventIndex is null
-function getLineNumbers(traceID, eventIndex) {
-    var lineNumbers = [];
-    var events = getEvents(traceID);
-    if(events != null) {
-        for(var i=0; i<events.length; i++) {
-            if(eventIndex === undefined || events[i].eventIndex === eventIndex){
-                lineNumbers.push(events[i].logLine);
-            }
-        }
-    }
-    return lineNumbers;
-}
-
-function getLines(lineNumbers) {
-    var allLines = $('textarea').val().split('\n');
-    var selectedLines = [];
-
-    for(var i=0; i<allLines.length; i++) {
-        if(lineNumbers.indexOf(i) !== -1){
-            selectedLines.push(allLines[i]);
-        }
-    }
-
-    return selectedLines;
-}
-
-function escapeRegExp(str) {
-  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
-}
-
-function highlight(lines) {
-    var regexps = lines.map(escapeRegExp);
-    $('#logtext').highlightTextarea('setWords', regexps);
-}
-
-//pass in array of objects, where each object has a traceID and a eventIndex
-function highlightEvents(events) {
-    var lineNumbers = [];
-    for (var i=0; i<events.length; i++) {
-        var newLineNumbers = getLineNumbers(events[i].traceID, events[i].eventIndex);
-        lineNumbers.push.apply(lineNumbers, newLineNumbers);
-    }
-    var lines = getLines(lineNumbers);
-    highlight(lines);
-}
-
-// //get it setup upon startub
-$('#logtext').highlightTextarea({
-    resizable: true
+//whenever input changes, clear everything
+$( '.input' ).on('input', function() {
+    unhighlight(); //highlightInput.js
+    clearData(); //index.js
 });
-$('#logtext').resizable("option", "maxWidth", 500);
-$('#logtext').resizable("option", "maxWidth", 500);
-$('.highlightTextarea').css("width", "100%");
-$('.ui-wrapper').css("width", "100%");
-$('.ui-resizable').css("width", "100%");
-$('.highlightTextarea-container').css("width", "100%");
