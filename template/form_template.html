@@ -1,87 +1,36 @@
-        <div id ="result"></div>
-      	<div id="form" class="span9" style="">
-      		<!-- <form id="my" class="bs-docs-example form-horizontal" action="http://localhost/json.php" name="form" method="post" enctype="multipart/form-data"> -->
-					<fieldset>
-					<!-- Textarea -->	
-    Examples:
-    <button id="bandwithform" onclick="writeBrowserModel();  data = test_bandwith_model;">Browser Caching</button>
-    <button id="browserform" onclick="writeConnectionModel();  data = browser_model;">Connection Tester</button>
-    <button id="browserform" onclick="writeRadiusModel();  data = radius_model;">RADIUS Authentication</button>
-                <form>
-					<div class="control-group">
-					  <label class="control-label" for="logtext"><span>Log</span></label>
+<div id="form" style="width: 100%">
+	<fieldset><div id="innerform" style="margin: 0 auto; max-width:500px;">
 
-					    <textarea id="logtext" name="logtext" rows=20 style="width:500px;"></textarea>
-					  <label class="control-label" for="argsfield"><span>Arguments</span></label>
-                        <textarea id="argsfield" name="args" rows="5"></textarea>
-					</div>
-					</form><br><br>
+		<label class="control-label" for="logtext">
+			<span>Examples:</span>
+		</label>
+		<div id="buttons">
+	    	<button id="bandwithform" onclick="clearData(); writeBrowserModel();">Browser Caching</button>
+	    	<button id="browserform" onclick="clearData(); writeConnectionModel();">Connection Tester</button>
+	    	<button id="browserform" onclick="clearData(); writeRadiusModel();">RADIUS Authentication</button>
+	    </div>
 
-					<!-- Text input-->
+        <form>
+			<div class="control-group" style="">
+				<label class="control-label" for="logtext">
+					<span>Log</span>
+				</label>
+				<textarea id="logtext" name="logtext" class="input" rows="20"></textarea>
+				<label class="control-label" for="argsfield">
+					<span>Arguments</span>
+				</label>
+                <textarea id="argsfield" name="args" class="input" rows="5" style="width:100%;"></textarea>
+			</div>
+		</form>
+		<br>
 
-					<!--   <div class="controls"> -->
-					<!--     <input id="regex" name="regex" type="text" placeholder="^(?&lt;TIME&gt;)(?&lt;nodename&gt;)(?&lt;TYPE&gt;)$" class="input-xlarge"> -->
-					    
-					<!--   </div> -->
-					<!-- </div> -->
+		<!-- Button (Double) -->
+		<div class="control-group">
+			<div class="controls">
+		    	<button id="fetchmodel" name="button1id" class="btn btn-primary" onclick="fetchModel(); ">Parse Log</button>
+		    	<button id="clear-form" name="button2id" class="btn btn-clear" onclick="clearForm()">Clear</button>
+			</div>
+		</div>
 
-					<!-- Text input-->
-
-					<!-- <div class="control-group"> -->
-					<!--   <label class="control-label" for="partex">Partition Expression</label> -->
-					<!--   <div class="controls"> -->
-					<!--     <input id="partex" name="partex" type="text" placeholder="\k&lt;nodename&gt;" class="input-xlarge"> -->
-					    
-					<!--   </div> -->
-					<!-- </div> -->
-
-					<!-- Text input-->
-
-					<!-- <div class="control-group"> -->
-					<!--   <label class="control-label" for="sepex">Separator expression</label> -->
-					<!--   <div class="controls"> -->
-					<!--     <input id="sepex" name="sepex" type="text" placeholder="" class="input-xlarge"> -->
-					    
-					<!--   </div> -->
-					<!-- </div> -->
-
-					<!-- Multiple Radios -->
-
-					<!-- <div class="control-group"> -->
-					<!--   <label class="control-label" for="parsing">Parsing Option</label> -->
-					<!--   <div class="controls"> -->
-					<!--     <label class="radio" for="parsing-0"> -->
-					<!--       <input type="radio" name="parsing" id="parsing-0" value="Ignore non-matched lines" checked="checked"> -->
-					<!--       Ignore non-matched lines -->
-					<!--     </label> -->
-					<!--   </div> -->
-					<!-- </div> -->
-
-					<!-- Multiple Checkboxes -->
-
-					<!-- <div class="control-group"> -->
-					<!--   <label class="control-label" for="checkboxes">Debugging Option</label> -->
-					<!--   <div class="controls"> -->
-					<!--     <label class="checkbox" for="checkboxes-0"> -->
-					<!--       <input type="checkbox" name="checkboxes" id="manual_refinement" value="Manual refinement/coarsening"> -->
-					<!--       Manual refinement/coarsening -->
-					<!--     </label> -->
-					<!--     <label class="checkbox" for="checkboxes-1"> -->
-					<!--       <input type="checkbox" name="checkboxes" id="invariants_only" value="Only mine invariants"> -->
-					<!--       Only mine invariants -->
-					<!--     </label> -->
-					<!--   </div> -->
-					<!-- </div> -->
-
-					<!-- Button (Double) -->
-					<div class="control-group">
-					  <div class="controls">
-					    <button id="fetchmodel" name="button1id" class="btn btn-primary" onclick="fetchModel(); ">Parse Log</button>
-					    <button id="clear-form" name="button2id" class="btn btn-clear" onclick="clearForm()">Clear</button>
-					  </div>
-					</div>
-
-					</fieldset>
-					<!-- </form> -->
-
-      	</div>
+	</div></fieldset>
+</div>

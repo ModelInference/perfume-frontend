@@ -1,40 +1,18 @@
 var data = { "log": [], "partitions": [], "invariants": [] };
 
-var mode = "form";
-
 function fetchModel (id) {
-    //graph.clear();
-    data = { "log": [], "partitions": [], "invariants": [] }
     var parameters =  {logfile:$("#logtext").val(),
             args:$("#argsfield").val(),
         };
-    $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {console.log(model); data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
+    $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
     return parameters;
 };
 
-function revealForm() {
-    if  (mode != "form")
-        $("#form").toggle();
-    if (mode == "model") {
-        $("#model").toggle();
-    }
-    if (mode == "invariant") {
-        //graph.clear();
-        $("#invariant").toggle();
-    }
-    mode = "form";
-}
-
 function revealModel() {
-    if  (mode != "model")
-        $("#model").toggle();
-    if (mode == "form")
-        $("#form").toggle();
-    if (mode == "invariant")
-        $("#invariant").toggle();
-    mode = "model";
     drawModel(data);
     drawCanvas();
+    drawInvariants(data);
+    handleExpand(1);
 }
 
 function drawCanvas() {
@@ -63,19 +41,15 @@ function drawCanvas() {
     ctx.closePath();
 };
 
-function revealInvariant() {
-    if  (mode != "invariant")
-        $("#invariant").toggle();
-    if (mode == "model")
-        $("#model").toggle();
-    if (mode == "form")
-        $("#form").toggle();
-    mode = "invariant";
-    drawInvariants(data);
-}
-
 function clearForm()  {
     $("#logtext").val('');
     $("#args").val('');
 }
 
+function clearData() {
+    unhighlight(); // highlightInput.js
+    data = { "log": [], "partitions": [], "invariants": [] };
+    drawModel(data);
+    drawCanvas();
+    drawInvariants(data);
+}
