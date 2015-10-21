@@ -26,6 +26,7 @@ fwrite($outputfh, $output);
 
 if ($json === "" || preg_match("/\nSEVERE:/", $output) || preg_match("/\nWARNING: Using a default regular expression to parse/", $output))  { //Check for SEVERE messages that indicate an error.
     header('HTTP/1.1 500 Internal Server Error');
+    header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json; charset=UTF-8');
     die( json_encode(array( message => $output)));
     }
