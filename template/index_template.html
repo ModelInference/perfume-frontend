@@ -2,69 +2,46 @@
 	<head>
 		<meta charset="utf-8" />
 		<title>Perfume</title>
-
 		<meta name="description" content="overview &amp; stats" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-		<!-- basic styles -->
-
-		<link href="css/bootstrap.min.css" rel="stylesheet" />
-		<link href="css/bootstrap-responsive.css" rel="stylesheet" />
-		<link href="css/docs.css" rel="stylesheet" />
-		<link href="css/custom.css" rel="stylesheet" />
-        <link href="css/joint.min.css" rel="stylesheet" />
         #include "./template/css_template.html"
 	</head>
 
 	<body>
-	    Revison:$commitSha
 		<div class="navbar navbar-inverse navbar-fixed-top">
 	      <div class="navbar-inner">
 	        <div class="container">
-	          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	            <span class="icon-bar"></span>
-	          </button>
-	          <a class="brand" href="#">Perfume</a>
-                  <div id=versionContainer>
-                    <!-- Filled in with versionText in index.js -->
-                  </div>
+	          <div id='expand-controls'> <a class="brand" href="#" data-index='-1'>Perfume</a></div>
 	          <div class="nav-collapse collapse">
                 <ul class="nav">
-	              <li class="active"><a href="#">Home</a></li>
+                  <li id='expand-controls'><a href="#" data-index='-1'>View All</a></li>
+	              <li id='expand-controls'><a href="#" data-index='0'>View Input</a></li>
+	              <li id='expand-controls'><a href="#" data-index='1'>View Model</a></li>
+	              <li id='expand-controls'><a href="#" data-index='2'>View Invariants</a></li>
 	              <li><a href="http://cs.umass.edu/~ohmann/perfume/">Learn more about Perfume</a></li>
 	            </ul>
+	            <div id='version-container'><a>
+					Revison:$commitSha
+				</a></div>
 	          </div><!--/.nav-collapse -->
 	        </div>
 	      </div>
 	    </div>
 
-    <div class="container" style="padding-top: 50px;">
-    <div class="row">
-    	<div class="span3 bs-docs-sidebar">
-        <ul class="nav nav-list bs-docs-sidenav">
-          <li><a onclick="revealForm();" href="#"><i class="icon-chevron-right"></i> Input</a></li>
-          <li><a onclick="revealInvariant();" href="#"><i class="icon-chevron-right"></i> Invariants</a></li>
-          <li><a onclick="revealModel();" href="#"><i class="icon-chevron-right"></i> Model</a></li>
-        </ul>
-      	</div>
-        <div id="content">
-            #include "./template/form_template.html"
-            #include "./template/model_template.html"
-            #include "./template/invariant_template.html"
-        </div>
-    </div>
-    </div>
-		
-
+    	<div style="padding-top: 20px;">
+	    	<ul class='kwicks kwicks-horizontal'>
+				<li>
+					#include "./template/form_template.html"
+				</li>
+				<li>
+					#include "./template/model_template.html"
+				</li>
+				<li>
+					#include "./template/invariant_template.html"
+				</li>
+			</ul>
+	    </div>
 	</body>
-<!-- REPLACED DURING DEPLOYMENT: -->
-#include "./template/javascript_template.html"
-<script src="./js/src/index.js"></script>
-<script type="text/javascript" src="./js/src/fsa2.js"></script>
-<script type="text/javascript" src="./js/src/form.js"></script>
-<script type="text/javascript" src="./js/src/invariant.js"></script>
-<script type="text/javascript" src="./js/src/index.js"></script>
 
+#include "./template/javascript_template.html"
 </html>
