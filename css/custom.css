@@ -57,6 +57,7 @@ table{
 }
 .kwicks > li {
   height: 90%;
+  bottom: 0px;
   /* overridden by kwicks but good for when JavaScript is disabled */
   width: 150px;
   overflow: auto;
