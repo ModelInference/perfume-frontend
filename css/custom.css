@@ -11,6 +11,37 @@
     font-family: monospace;
 }
 
+/*Model and legend*/
+g.node-initterm > rect {
+  fill: grey;
+}
+
+.node rect {
+    stroke: #333;
+    stroke-width: 1.5px;
+    fill: #fff;
+}
+
+.edgeLabel rect {
+    fill: #fff;
+}
+
+.edgePath {
+    stroke: #333;
+    stroke-width: 1.5px;
+    fill: none;
+}
+
+#legend {
+    position:absolute;
+    z-index:1;
+}
+
+#modelCanvas {
+    position:absolute;
+    z-index:2;
+}
+
 /*TODO: honestly not sure what this goes to*/
 .myholder{
   width: 600;
