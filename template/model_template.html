@@ -21,10 +21,20 @@ g.node-initterm > rect {
     stroke-width: 1.5px;
     fill: none;
 }
+
+#legend {
+    position:absolute;
+    z-index:1;
+}
+
+#modelCanvas {
+    position:absolute;
+    z-index:2;
+}
 </style>
-<div id="model" class="span9">
+<div id="model">
         <canvas id="legend" width="600px" height="100px"></canvas>
-        <svg width=100% height=100%>
+        <svg id="modelCanvas" width=100% height=100%>
                 <g transform="translate(20,20)"/>
         </svg>
 </div>
