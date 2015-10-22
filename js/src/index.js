@@ -31,7 +31,7 @@ function drawModelLegend() {
     drawSymbol(ctx, 10, 50, "#FF0000", "Longest Path");
     if (c.width > 250) {
         drawSymbol(ctx, 140, 50, "#0000FF", "Shortest Path");
-        if(c.width > 400) {
+        if(c.width > 460) {
             drawSymbol(ctx, 290, 50, "#FF00FF", "Longest and Shortest Path");
         }
         else {
