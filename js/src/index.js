@@ -10,12 +10,12 @@ function fetchModel (id) {
 
 function revealModel() {
     drawModel(data);
-    drawCanvas();
+    drawModelLegend();
     drawInvariants(data);
     handleExpand(1);
 }
 
-function drawCanvas() {
+function drawModelLegend() {
     var c = document.getElementById("legend");
     var ctx = c.getContext("2d");
     ctx.strokeStyle = "#FF0000";
@@ -50,6 +50,6 @@ function clearData() {
     unhighlight(); // highlightInput.js
     data = { "log": [], "partitions": [], "invariants": [] };
     drawModel(data);
-    drawCanvas();
+    drawModelLegend();
     drawInvariants(data);
 }
