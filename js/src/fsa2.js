@@ -175,10 +175,12 @@ function searchForShortestAndLongestPath(target) {
             }
         }
         else {
-            var nextStates = _.filter(links, function(link) {return link.source.index == curLink.target.index;});            
+            var nextStates = _.filter(links, function(link) {return link.source.index == curLink.target.index;});
             pathTo.push(links.indexOf(curLink));
-            for (i = 0; i < nextStates.length; i++) { 
-                if (nextStates[i].source.index !== nextStates[i].target.index) {
+            for (i = 0; i < nextStates.length; i++) {
+                // make sure that we dont go in an infinite loop!
+                var isPointingToAPrevPath = (pathTo.indexOf(links.indexOf(nextStates[i])) !== -1);
+                if (!isPointingToAPrevPath) {
                     frontier.push({path: pathTo, link: nextStates[i], weight : weight + nextStates[i].weight, largest : largest + nextStates[i].largest});
                 }
             }
