@@ -43,11 +43,9 @@ function link(source, target, label, data) {
 }
 
 function prettyPrintNumber (n) {
+    n = n.toFixed(3);
     var ns = String(n);
-    if(ns.match(/[0-9]*\.[0-9][0-9][0-9]*/)) {// matches floating point numbers
-        n = n.toFixed(3);
-        return n;
-    }
+    ns = roundString(ns); // index.js
     return ns;
 }
 
