@@ -1,4 +1,4 @@
-/* Style the repository revision/version container. */
+/* Style the repository revision/version container */
 #version-container{
     float:right;
     left:80%;
@@ -11,44 +11,18 @@
     font-family: monospace;
 }
 
-/*TODO: honestly not sure what this goes to*/
-.myholder{
-  width: 600;
-  height: 600;
+/* Invariants */
+#invars {
+  margin: 0 auto;
+  max-width: 500px;
+  padding-left:40px;
 }
-.link:hover{
-  opacity: 0;
-}
-table{
-  margin-top: 30px;
-}
-.inv_table{
-  border: none;
-  padding-left: 10px;
-  padding-top: 10px;
-}
-.inv_table th{
-  background-color: #e67e22;
-}
-.inv_table td{
-  text-align: center;
-  font-weight: bold;
-  padding: 5px 0px 5px 0px;
-  border-bottom: 2px;
-  border-color: #000;
-  background-color: #ecf0f1;
-}
-.inv_table td:hover{
-  background-color: #95B9C7;
-}
-.inv_table td:active{
-  background-color: #3498db;
-}
-.show{
-  display: none;
+.table {
+  font-size: 13;
+
 }
 
-/*kwicks multi-pane view*/
+/* Kwicks multi-pane view */
 .kwicks {
   width: 95%;
   height: 100%;
@@ -57,7 +31,8 @@ table{
 }
 .kwicks > li {
   height: 90%;
-  /* overridden by kwicks but good for when JavaScript is disabled */
+  bottom: 0px;
+  /* Overridden by kwicks but good for when JavaScript is disabled */
   width: 150px;
   overflow: auto;
 }
