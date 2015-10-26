@@ -4,7 +4,7 @@ function generateStates(data) {
     for (var i = 0; i < data.partitions.length; i++) {
         var partition = data.partitions[i];
         var events = JSON.stringify(partition.events);
-        states.push({partition: partition, label:partition.eventType, index:i+2, id:events});
+        states.push({partition: partition, shape:"rect", label:"", index:i+2, id:events});
     }
 }
 
@@ -191,8 +191,8 @@ function drawModel(data) {
     var g = new dagreD3.graphlib.Graph({multigraph:true}).setGraph({});
     states = [];
     links = [];
-    init = {partition: {eventType:"init",events:[]}, label:"init", index:0, nodeclass:"node-initterm"};
-    term = {partition: {eventType:"init",events:[]}, label:"term", index:1, nodeclass:"node-initterm"};
+    init = {partition: {eventType:"init",events:[]}, shape:"circle", label:"", index:0, nodeclass:"node-initterm"};
+    term = {partition: {eventType:"init",events:[]}, shape:"ellipse", label:"TERMINAL", index:1, nodeclass:"node-initterm"};
     states.push(init);
     states.push(term);
     generateStates(data);
@@ -202,17 +202,19 @@ function drawModel(data) {
         g.setNode(i.toString(), states[i]);
     }
     for (i = 0; i < links.length; i++) {
+        var newLabel = links[i].source.partition.eventType + " " + links[i].label;
+        var labelShadow = "text-shadow: 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff, 0 0 3px #fff";
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data), style:'stroke:fuchsia'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), style:'stroke:fuchsia', arrowhead: "vee"});
         }
         else if (pathAnnotations.maxpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data), style:'stroke:red'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), style:'stroke:red', arrowhead: "vee"});
         }
         else if (pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data), style:'stroke:blue'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), style:'stroke:blue', arrowhead: "vee"});
         }
         else {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data)});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), arrowhead: "vee"});
         }
     }
     var svg = d3.select("svg"),
