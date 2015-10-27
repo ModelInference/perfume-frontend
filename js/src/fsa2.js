@@ -27,7 +27,7 @@ function link(source, target, label, data) {
             }
             var smallestStr = prettyPrintNumber(smallest);
             var largestStr = prettyPrintNumber(largest);
-            if (smallest == largest) 
+            if (smallest == largest)
                 label = smallestStr;
             else
                 label = "[" + smallestStr + ", " + largestStr + "]";
@@ -54,7 +54,7 @@ function generateTransitions(data) {
     var transitionLabelMatrix = {};
     var linkInformation = [];
     for (i = 0; i < data.partitions.length; i++) {
-        var partition = data.partitions[i]; 
+        var partition = data.partitions[i];
         for (var j = 0; j < partition.events.length; j++) {
             var state = partition.events[j];
             var linkParams = createLink(data, state.traceID, state.eventIndex)
@@ -168,7 +168,7 @@ function searchForShortestAndLongestPath(target) {
             }
             if (weight < min) {
                 min = weight;
-                minPath = _.clone(pathTo);   
+                minPath = _.clone(pathTo);
                 minPath.push(links.indexOf(curLink));
             }
         }
@@ -185,6 +185,13 @@ function searchForShortestAndLongestPath(target) {
         }
     }
     return { min:min, max:max, minpath:minPath, maxpath:maxPath };
+}
+
+var lastClicked;
+function highlightModel(clicked){
+    if(lastClicked) $(lastClicked).css('opacity', '1.0');
+    $(clicked).css('opacity', '0.5');
+    lastClicked = clicked;
 }
 
 function drawModel(data) {
@@ -235,9 +242,11 @@ function drawModel(data) {
         var events;
         if(this.id) {
             events = $.parseJSON(this.id);
+            highlightModel(this);
         }
         else {
             events = [];
+            highlightModel();
         }
         highlightEvents(events); // highlightInput.js
     });
