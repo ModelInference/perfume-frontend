@@ -79,7 +79,7 @@ function getCol() {
     // AlwaysPrecedes
     for (var i = 0; i < alwaysPrecedes.length; i++) {
         if (alwaysPrecedes[i].predicates[0] !== undefined && alwaysPrecedes[i].predicates[1] !== undefined) {
-            $("#AlwaysPrecedes").append("<tr><td>" + alwaysPrecedes[i].predicates[0] +"</td><td>&rarr;</td><td>"+ alwaysPrecedes[i].predicates[1]
+            $("#AlwaysPrecedes").append("<tr><td>" + alwaysPrecedes[i].predicates[0] +"</td><td>&larr;</td><td>"+ alwaysPrecedes[i].predicates[1]
                 + "</td><td> " + alwaysPrecedes[i].lowerbound + "</td><td>" + alwaysPrecedes[i].upperbound + "<td></tr>");
         }
     }
@@ -95,7 +95,7 @@ function getCol() {
     // NeverFollowedBy
     for (var i = 0; i < neverFollowedBy.length; i++) {
         if (neverFollowedBy[i].predicates[0] !== undefined && neverFollowedBy[i].predicates[1] !== undefined) {
-            $("#NeverFollowedBy").append("<tr><td>" + neverFollowedBy[i].predicates[0] +"</td><td>&rarr;</td><td>"+ neverFollowedBy[i].predicates[1] + "<td></tr>");
+            $("#NeverFollowedBy").append("<tr><td>" + neverFollowedBy[i].predicates[0] +"</td><td>&nrarr;</td><td>"+ neverFollowedBy[i].predicates[1] + "<td></tr>");
         }
     }
 }
