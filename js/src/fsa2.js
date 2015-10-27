@@ -203,16 +203,16 @@ function drawModel(data) {
     }
     for (i = 0; i < links.length; i++) {
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data), style:'stroke:fuchsia'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label + '/' + i, id:JSON.stringify(links[i].data), style:'stroke:fuchsia'});
         }
         else if (pathAnnotations.maxpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data), style:'stroke:red'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label + '/' + i, id:JSON.stringify(links[i].data), style:'stroke:red'});
         }
         else if (pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data), style:'stroke:blue'});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label + '/' + i, id:JSON.stringify(links[i].data), style:'stroke:blue'});
         }
         else {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label, id:JSON.stringify(links[i].data)});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:links[i].label + '/' + i, id:JSON.stringify(links[i].data)});
         }
     }
     var svg = d3.select("svg"),
@@ -225,6 +225,7 @@ function drawModel(data) {
     var render = new dagreD3.render();
     render(inner, g);
 
+    // edges and nodes
     $('g.edgePath, g.node').click(function() {
         var events;
         if(this.id) {
@@ -234,5 +235,21 @@ function drawModel(data) {
             events = [];
         }
         highlightEvents(events); // highlightInput.js
+    });
+
+    //edge labels
+    $('g.edgeLabel > g > text > tspan').text(function(){
+        var labelText = $(this).text().split('/');
+        $(this).click(function(){
+            var events;
+            if(labelText.length > 1 && labelText[1] !== '') {
+                events = links[labelText[1]].data; //each edge label has the index of the link array it was created from
+            }
+            else {
+                events = [];
+            }
+            highlightEvents(events); // highlightInput.js
+        });
+        return labelText[0];
     });
 }
