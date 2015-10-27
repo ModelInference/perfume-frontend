@@ -189,8 +189,8 @@ function searchForShortestAndLongestPath(target) {
 
 var lastClicked;
 function highlightModel(clicked){
-    if(lastClicked) $(lastClicked).css('opacity', 1);
-    $(clicked).css('opacity', 0.6);
+    if(lastClicked) $(lastClicked).css('fill', '#000');
+    $(clicked).css('fill', '#f90');
     lastClicked = clicked;
 }
 
