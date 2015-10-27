@@ -227,6 +227,9 @@ function drawModel(data) {
     var render = new dagreD3.render();
     render(inner, g);
 
+    zoom.translate([75, 75])
+        .event(svg);
+
     $('g.edgePath, g.node').click(function() {
         var events;
         if(this.id) {
