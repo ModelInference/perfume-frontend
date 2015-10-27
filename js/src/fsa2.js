@@ -212,16 +212,16 @@ function drawModel(data) {
         var newLabel = links[i].source.partition.eventType + " " + links[i].label + '/' + i;
         var labelShadow = "text-shadow: 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff";
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), style:'stroke:fuchsia', arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id, style:'stroke:fuchsia', arrowhead: "vee"});
         }
         else if (pathAnnotations.maxpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), style:'stroke:red', arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id, style:'stroke:red', arrowhead: "vee"});
         }
         else if (pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), style:'stroke:blue', arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id, style:'stroke:blue', arrowhead: "vee"});
         }
         else {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id, arrowhead: "vee"});
         }
     }
     var svg = d3.select("svg"),
