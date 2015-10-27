@@ -12,7 +12,7 @@ function revealModel() {
     drawModel(data);
     drawCanvas();
     drawInvariants(data);
-    handleExpand(1);
+    handleExpand(-1);
 }
 
 function drawCanvas() {
