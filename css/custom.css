@@ -19,7 +19,9 @@
 }
 .table {
   font-size: 13;
-
+}
+.invarrow {
+  font-size: 1.5em;
 }
 
 /* Kwicks multi-pane view */
