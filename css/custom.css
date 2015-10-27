@@ -15,14 +15,14 @@
 .node circle, .node ellipse {
     stroke: #333;
     stroke-width: 1.5px;
-    fill: #fff;
+    fill: #eee;
 }
 
 .edgeLabel rect {
     fill: #fff;
 }
 
-.edgePath {
+.edgePath marker {
     fill: #333;
 }
 
