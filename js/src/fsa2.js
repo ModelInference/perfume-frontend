@@ -187,6 +187,13 @@ function searchForShortestAndLongestPath(target) {
     return { min:min, max:max, minpath:minPath, maxpath:maxPath };
 }
 
+var lastClicked;
+function highlightModel(clicked){
+    if(lastClicked) $(lastClicked).css('opacity', 1);
+    $(clicked).css('opacity', 0.6);
+    lastClicked = clicked;
+}
+
 function drawModel(data) {
     var g = new dagreD3.graphlib.Graph({multigraph:true}).setGraph({});
     states = [];
@@ -229,9 +236,11 @@ function drawModel(data) {
         var events;
         if(this.id) {
             events = $.parseJSON(this.id);
+            highlightModel(this);
         }
         else {
             events = [];
+            highlightModel();
         }
         highlightEvents(events); // highlightInput.js
     });
