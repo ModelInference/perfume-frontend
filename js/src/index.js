@@ -12,7 +12,7 @@ function revealModel() {
     drawModel(data);
     drawModelLegend();
     drawInvariants(data);
-    handleExpand(1);
+    handleExpand(-1);
 }
 
 function drawSymbol(ctx, startx, starty, color, string) {

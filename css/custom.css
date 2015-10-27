@@ -12,11 +12,7 @@
 }
 
 /*Model and legend*/
-g.node-initterm > rect {
-  fill: grey;
-}
-
-.node rect {
+.node circle, .node ellipse {
     stroke: #333;
     stroke-width: 1.5px;
     fill: #fff;
@@ -27,8 +23,12 @@ g.node-initterm > rect {
 }
 
 .edgePath {
+    fill: #333;
+}
+
+.edgePath path.path {
     stroke: #333;
-    stroke-width: 1.5px;
+    stroke-width: 6px;
     fill: none;
 }
 
@@ -57,6 +57,12 @@ g.node-initterm > rect {
   margin: 0 auto;
   max-width: 500px;
   padding-left:40px;
+}
+.table {
+  font-size: 13;
+}
+.invarrow {
+  font-size: 1.5em;
 }
 
 /* Kwicks multi-pane view */
