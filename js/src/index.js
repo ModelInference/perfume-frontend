@@ -56,3 +56,26 @@ function clearData() {
     drawModelLegend();
     drawInvariants(data);
 }
+
+// Round a number in string format
+function roundString(numString) {
+    // If is no decimal, we are already rounded correctly
+    if (numString.indexOf('.') === -1) {
+        return numString;
+    }
+
+    var removeAmount = 0;
+    for (var i = numString.length-1 ; i >= 0; i--) {
+        if (numString[i] === '0') {
+            removeAmount++;
+        }
+        else if (numString[i] === '.') {
+            removeAmount++;
+            break;
+        }
+        else {
+            break;
+        }
+    }
+    return numString.substring(0, numString.length - removeAmount);
+}
