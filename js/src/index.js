@@ -10,35 +10,38 @@ function fetchModel (id) {
 
 function revealModel() {
     drawModel(data);
-    drawCanvas();
+    drawModelLegend();
     drawInvariants(data);
     handleExpand(-1);
 }
 
-function drawCanvas() {
+function drawSymbol(ctx, startx, starty, color, string) {
+    ctx.strokeStyle = color;
+    ctx.beginPath();
+    ctx.moveTo(startx, starty - 5);
+    ctx.lineTo(startx + 50, starty - 5);
+    ctx.stroke();
+    ctx.fillText(string, startx + 60, starty);
+    ctx.closePath();
+}
+
+function drawModelLegend() {
     var c = document.getElementById("legend");
     var ctx = c.getContext("2d");
-    ctx.strokeStyle = "#FF0000";
-    ctx.beginPath();
-    ctx.moveTo(0,45);
-    ctx.lineTo(50,45);
-    ctx.stroke();
-    ctx.closePath();
-    ctx.beginPath();
-    ctx.fillText("Longest Path", 60,50);
-    ctx.strokeStyle = "#0000FF";
-    ctx.moveTo(130,45);
-    ctx.lineTo(180,45);
-    ctx.stroke();
-    ctx.fillText("Shortest Path", 190,50);
-    ctx.closePath();
-    ctx.beginPath();
-    ctx.strokeStyle = "#FF00FF";
-    ctx.moveTo(280,45);
-    ctx.lineTo(330,45);
-    ctx.stroke();
-    ctx.fillText("Longest and shortest Path", 340,50);
-    ctx.closePath();
+    drawSymbol(ctx, 10, 50, "#FF0000", "Longest Path");
+    if (c.width > 250) {
+        drawSymbol(ctx, 140, 50, "#0000FF", "Shortest Path");
+        if(c.width > 460) {
+            drawSymbol(ctx, 290, 50, "#FF00FF", "Longest and Shortest Path");
+        }
+        else {
+            drawSymbol(ctx, 10, 75, "#FF00FF", "Longest and Shortest Path");
+        }
+    }
+    else {
+        drawSymbol(ctx, 10, 75, "#0000FF", "Shortest Path");
+        drawSymbol(ctx, 10, 100, "#FF00FF", "Longest and Shortest Path");
+    }
 };
 
 function clearForm()  {
@@ -50,7 +53,7 @@ function clearData() {
     unhighlight(); // highlightInput.js
     data = { "log": [], "partitions": [], "invariants": [] };
     drawModel(data);
-    drawCanvas();
+    drawModelLegend();
     drawInvariants(data);
 }
 

@@ -7,8 +7,49 @@
     width:19%;
     text-align:right;
     color:grey;
-    font-size: 10px;   
+    font-size: 10px;
     font-family: monospace;
+}
+
+/*Model and legend*/
+.node circle, .node ellipse {
+    stroke: #333;
+    stroke-width: 1.5px;
+    fill: #fff;
+}
+
+.edgeLabel rect {
+    fill: #fff;
+}
+
+.edgePath {
+    fill: #333;
+}
+
+.edgePath path.path {
+    stroke: #333;
+    stroke-width: 6px;
+    fill: none;
+}
+
+#legend {
+    position:absolute;
+    z-index:1;
+}
+
+#modelCanvas {
+    position:absolute;
+    z-index:2;
+}
+
+/*TODO: honestly not sure what this goes to*/
+.myholder{
+  width: 600;
+  height: 600;
+}
+.table {
+  font-size: 13;
+
 }
 
 /* Invariants */
@@ -33,7 +74,8 @@
 }
 .kwicks > li {
   height: 90%;
-  bottom: 0px;
+  bottom: 5px;
+  box-shadow: 0 0 1px;
   /* Overridden by kwicks but good for when JavaScript is disabled */
   width: 150px;
   overflow: auto;
