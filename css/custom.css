@@ -7,7 +7,7 @@
     width:19%;
     text-align:right;
     color:grey;
-    font-size: 10px;   
+    font-size: 10px;
     font-family: monospace;
 }
 
@@ -74,7 +74,8 @@
 }
 .kwicks > li {
   height: 90%;
-  bottom: 0px;
+  bottom: 5px;
+  box-shadow: 0 0 1px;
   /* Overridden by kwicks but good for when JavaScript is disabled */
   width: 150px;
   overflow: auto;
