@@ -22,9 +22,17 @@ $(function() {
     });
     handleExpand(0);
 
-    // when finished expanding, fix highlighting from being cutoff
+    // when finished expanding, fix things from being cutoff
     $container.on('expand-complete.kwicks', function(e, data) {
+        //highlighted text needs help resizing
         rehighlight(); // highlightInput.js
+
+        //legend needs help resizing
+        $('#legend').attr('width', function() {
+            var parentWidth =  $(this).parent().width();
+            return parentWidth;
+        });
+        drawModelLegend(); // index.js
     });
 
     // whenever a main button is clicked
