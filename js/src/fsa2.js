@@ -187,6 +187,17 @@ function searchForShortestAndLongestPath(target) {
     return { min:min, max:max, minpath:minPath, maxpath:maxPath };
 }
 
+function findCommonEvents(array1, array2) {
+    return array1.filter(function(n) {
+        for(var i=0; i<array2.length; i++){
+            if(n.eventIndex === array2[i].eventIndex && n.traceID === array2[i].traceID){
+                return true;
+            }
+        }
+        return false;
+    });
+}
+
 var lastClicked;
 var lastClickedLabel;
 function highlightModel(clicked, clickedLabel){
@@ -226,17 +237,21 @@ function drawModel(data) {
     for (i = 0; i < links.length; i++) {
         var newLabel = links[i].source.partition.eventType + " " + links[i].label + '/' + i;
         var labelShadow = "text-shadow: 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff";
+        var events = [];
+        if(links[i].source.id) 
+            events = findCommonEvents(JSON.parse(links[i].source.id), links[i].data);
+        var metadata = JSON.stringify(events) + '/edge/' + i;
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, style:'stroke:fuchsia', arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:metadata, style:'stroke:fuchsia', arrowhead: "vee"});
         }
         else if (pathAnnotations.maxpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, style:'stroke:red', arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:metadata, style:'stroke:red', arrowhead: "vee"});
         }
         else if (pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, style:'stroke:blue', arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:metadata, style:'stroke:blue', arrowhead: "vee"});
         }
         else {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:metadata, arrowhead: "vee"});
         }
     }
     var svg = d3.select("svg"),
