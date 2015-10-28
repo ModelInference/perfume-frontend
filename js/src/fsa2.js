@@ -198,6 +198,18 @@ function findCommonEvents(array1, array2) {
     });
 }
 
+// returns events from array1 that precede events in array2
+function findPrecedingEvents(array1, array2) {
+    return array1.filter(function(n) {
+        for(var i=0; i<array2.length; i++){
+            if(n.eventIndex + 1 === array2[i].eventIndex && n.traceID === array2[i].traceID){
+                return true;
+            }
+        }
+        return false;
+    });
+}
+
 var lastClicked;
 var lastClickedLabel;
 function highlightModel(clicked, clickedLabel){
@@ -243,7 +255,7 @@ function drawModel(data) {
             var common = findCommonEvents(JSON.parse(links[i].source.id), links[i].data)
             if(common.length === 0) { //top of model
                 console.log(links[i]);
-                //events = links[i].data;//JSON.parse(links[i].source.id);
+                events = findPrecedingEvents(JSON.parse(links[i].source.id), JSON.parse(links[i].target.id));
             }
             else { //middle of model
                 events = findCommonEvents(JSON.parse(links[i].source.id), links[i].data);
