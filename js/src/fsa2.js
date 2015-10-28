@@ -213,7 +213,7 @@ function drawModel(data) {
     var g = new dagreD3.graphlib.Graph({multigraph:true}).setGraph({});
     states = [];
     links = [];
-    init = {partition: {eventType:"INITIAL",events:[]}, shape:"circle", label:"", index:0, nodeclass:"node-initterm"};
+    init = {partition: {eventType:"INITIAL",events:[]}, shape:"ellipse", label:"INITIAL", index:0, nodeclass:"node-initterm"};
     term = {partition: {eventType:"TERMINAL",events:[]}, shape:"ellipse", label:"TERMINAL", index:1, nodeclass:"node-initterm"};
     states.push(init);
     states.push(term);
@@ -224,8 +224,13 @@ function drawModel(data) {
         g.setNode(i.toString(), states[i]);
     }
     for (i = 0; i < links.length; i++) {
-        var newLabel = links[i].source.partition.eventType + " " + links[i].label + '/' + i;
+        // Set edge label (skipping INITIAL) and formatting
+        var type = links[i].source.partition.eventType;
+        var newLabel = (type == "INITIAL"
+                        ? ""
+                        : links[i].source.partition.eventType + " " + links[i].label + '/' + i);
         var labelShadow = "text-shadow: 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff";
+
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
             g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, style:'stroke:fuchsia', arrowhead: "vee"});
         }
