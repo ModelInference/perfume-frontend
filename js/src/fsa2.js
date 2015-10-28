@@ -188,10 +188,25 @@ function searchForShortestAndLongestPath(target) {
 }
 
 var lastClicked;
-function highlightModel(clicked){
-    if(lastClicked) $(lastClicked).css('opacity', '1.0');
+var lastClickedLabel;
+function highlightModel(clicked, clickedLabel){
+    // reset old ones
+    if(lastClicked){
+         $(lastClicked).css('opacity', '1.0');
+         if(lastClickedLabel){
+            $(lastClickedLabel).css('opacity', '1.0');
+         }
+    }
+
+    // "highlight" new ones
     $(clicked).css('opacity', '0.5');
+    if(clickedLabel){
+        $(clickedLabel).css('opacity', '0.5');
+    }
+
+    // save last ones for next iteration
     lastClicked = clicked;
+    lastClickedLabel = clickedLabel;
 }
 
 function drawModel(data) {
@@ -212,16 +227,16 @@ function drawModel(data) {
         var newLabel = links[i].source.partition.eventType + " " + links[i].label + '/' + i;
         var labelShadow = "text-shadow: 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff";
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), style:'stroke:fuchsia', arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, style:'stroke:fuchsia', arrowhead: "vee"});
         }
         else if (pathAnnotations.maxpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), style:'stroke:red', arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, style:'stroke:red', arrowhead: "vee"});
         }
         else if (pathAnnotations.minpath.indexOf(i) !== -1) {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), style:'stroke:blue', arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, style:'stroke:blue', arrowhead: "vee"});
         }
         else {
-            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:JSON.stringify(links[i].data), arrowhead: "vee"});
+            g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, arrowhead: "vee"});
         }
     }
     var svg = d3.select("svg"),
@@ -239,28 +254,48 @@ function drawModel(data) {
 
     // edges and nodes
     $('g.edgePath, g.node').click(function() {
-        var events;
+        var events = [];
         if(this.id) {
-            events = $.parseJSON(this.id);
-            highlightModel(this);
+            var metadata = this.id.split('/');
+            if(metadata[0] !== 'undefined'){
+                events = $.parseJSON(metadata[0]);
+                highlightModel(this, $("[id$='label/" + metadata[2] + "']"));
+            }
+            else {
+                highlightModel();
+            }
         }
         else {
-            events = [];
             highlightModel();
         }
         highlightEvents(events); // highlightInput.js
     });
 
-    //edge labels
+    // edge labels
     $('g.edgeLabel > g > text > tspan').text(function(){
         var labelText = $(this).text().split('/');
+
+        // set the id so edges and nodes can find it
+        if(labelText.length > 1 && labelText[1] !== '') {
+            $(this).attr('id', 'label/' + labelText[1]);
+        }
+
         $(this).click(function(){
-            var events;
+            var events = [];
             if(labelText.length > 1 && labelText[1] !== '') {
-                events = links[labelText[1]].data; //each edge label has the index of the link array it was created from
+                // highlight the text
+                events = links[labelText[1]].source.id; // each edge label has the index of the link array it was created from
+                if(events !== undefined){
+                    events = JSON.parse(events);
+                    highlightModel($("[id$='edge/" + labelText[1] + "']"), this); // highlight this and the edge on the model
+                }
+                else{
+                    events = [];
+                    highlightModel();
+                }
             }
             else {
-                events = [];
+                highlightModel();
             }
             highlightEvents(events); // highlightInput.js
         });
