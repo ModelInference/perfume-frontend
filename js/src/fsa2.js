@@ -237,10 +237,21 @@ function drawModel(data) {
     for (i = 0; i < links.length; i++) {
         var newLabel = links[i].source.partition.eventType + " " + links[i].label + '/' + i;
         var labelShadow = "text-shadow: 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff";
+        
         var events = [];
-        if(links[i].source.id) 
-            events = findCommonEvents(JSON.parse(links[i].source.id), links[i].data);
+        if(links[i].source.id) {
+            if(links[i].source.id === undefined) { //top of model
+                events = links[i].data;
+            }
+            else if(links[i].target.id === undefined) { //bottom of model
+                events = JSON.parse(links[i].source.id);
+            }
+            else { //middle of model
+                events = findCommonEvents(JSON.parse(links[i].source.id), links[i].data);
+            }
+        }
         var metadata = JSON.stringify(events) + '/edge/' + i;
+        
         if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
             g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:metadata, style:'stroke:fuchsia', arrowhead: "vee"});
         }
@@ -276,6 +287,7 @@ function drawModel(data) {
                 events = $.parseJSON(metadata[0]);
                 var label = $("[id$='label/" + metadata[2] + "']");
                 highlightModel(this, label);
+                console.log(links[metadata[2]]);
             }
             else {
                 highlightModel();
