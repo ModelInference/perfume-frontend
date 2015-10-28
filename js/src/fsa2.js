@@ -239,16 +239,19 @@ function drawModel(data) {
         var labelShadow = "text-shadow: 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff";
         
         var events = [];
-        if(links[i].source.id) {
-            if(links[i].source.id === undefined) { //top of model
-                events = links[i].data;
-            }
-            else if(links[i].target.id === undefined) { //bottom of model
-                events = JSON.parse(links[i].source.id);
+        if(links[i].source.id && links[i].target.id) {
+            var common = findCommonEvents(JSON.parse(links[i].source.id), links[i].data)
+            if(common.length === 0) { //top of model
+                console.log(links[i]);
+                //events = links[i].data;//JSON.parse(links[i].source.id);
             }
             else { //middle of model
                 events = findCommonEvents(JSON.parse(links[i].source.id), links[i].data);
             }
+            // events = findCommonEvents(links[i].source.partition.events, JSON.parse(links[i].source.id));
+        }
+        else if(links[i].source.id && links[i].target.id === undefined) { //bottom of model
+                events = JSON.parse(links[i].source.id);
         }
         var metadata = JSON.stringify(events) + '/edge/' + i;
         
@@ -288,6 +291,7 @@ function drawModel(data) {
                 var label = $("[id$='label/" + metadata[2] + "']");
                 highlightModel(this, label);
                 console.log(links[metadata[2]]);
+                console.log(this);
             }
             else {
                 highlightModel();
