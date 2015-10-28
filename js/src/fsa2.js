@@ -274,7 +274,8 @@ function drawModel(data) {
             var metadata = this.id.split('/');
             if(metadata[0] !== 'undefined'){
                 events = $.parseJSON(metadata[0]);
-                highlightModel(this, $("[id$='label/" + metadata[2] + "']"));
+                var label = $("[id$='label/" + metadata[2] + "']");
+                highlightModel(this, label);
             }
             else {
                 highlightModel();
@@ -299,13 +300,18 @@ function drawModel(data) {
             var events = [];
             if(labelText.length > 1 && labelText[1] !== '') {
                 // highlight the text
-                events = links[labelText[1]].source.id; // each edge label has the index of the link array it was created from
-                if(events !== undefined){
-                    events = JSON.parse(events);
-                    highlightModel($("[id$='edge/" + labelText[1] + "']"), this); // highlight this and the edge on the model
+                var edge = $("[id$='edge/" + labelText[1] + "']");
+                if(edge.attr('id')){
+                    var metadata = edge.attr('id').split('/');
+                    if(metadata[0] !== 'undefined'){
+                        events = $.parseJSON(metadata[0]);
+                        highlightModel(edge, this); // highlight this and the edge on the model
+                    }
+                    else {
+                        highlightModel();
+                    }
                 }
-                else{
-                    events = [];
+                else {
                     highlightModel();
                 }
             }
