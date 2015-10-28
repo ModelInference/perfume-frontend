@@ -187,17 +187,6 @@ function searchForShortestAndLongestPath(target) {
     return { min:min, max:max, minpath:minPath, maxpath:maxPath };
 }
 
-function findCommonEvents(array1, array2) {
-    return array1.filter(function(n) {
-        for(var i=0; i<array2.length; i++){
-            if(n.eventIndex === array2[i].eventIndex && n.traceID === array2[i].traceID){
-                return true;
-            }
-        }
-        return false;
-    });
-}
-
 // returns events from array1 that precede events in array2
 function findPrecedingEvents(array1, array2) {
     return array1.filter(function(n) {
@@ -252,15 +241,7 @@ function drawModel(data) {
         
         var events = [];
         if(links[i].source.id && links[i].target.id) {
-            var common = findCommonEvents(JSON.parse(links[i].source.id), links[i].data)
-            if(common.length === 0) { //top of model
-                console.log(links[i]);
                 events = findPrecedingEvents(JSON.parse(links[i].source.id), JSON.parse(links[i].target.id));
-            }
-            else { //middle of model
-                events = findCommonEvents(JSON.parse(links[i].source.id), links[i].data);
-            }
-            // events = findCommonEvents(links[i].source.partition.events, JSON.parse(links[i].source.id));
         }
         else if(links[i].source.id && links[i].target.id === undefined) { //bottom of model
                 events = JSON.parse(links[i].source.id);
@@ -302,8 +283,6 @@ function drawModel(data) {
                 events = $.parseJSON(metadata[0]);
                 var label = $("[id$='label/" + metadata[2] + "']");
                 highlightModel(this, label);
-                console.log(links[metadata[2]]);
-                console.log(this);
             }
             else {
                 highlightModel();
