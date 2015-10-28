@@ -261,6 +261,9 @@ function drawModel(data) {
                 events = $.parseJSON(metadata[0]);
                 highlightModel(this, $("[id$='label/" + metadata[2] + "']"));
             }
+            else {
+                highlightModel();
+            }
         }
         else {
             highlightModel();
@@ -278,22 +281,21 @@ function drawModel(data) {
         }
 
         $(this).click(function(){
-            var events;
+            var events = [];
             if(labelText.length > 1 && labelText[1] !== '') {
-                // highlight this and the edge on the model
-                highlightModel($("[id$='edge/" + labelText[1] + "']"), this);
-
                 // highlight the text
-                events = links[labelText[1]].source.id; //each edge label has the index of the link array it was created from
+                events = links[labelText[1]].source.id; // each edge label has the index of the link array it was created from
                 if(events !== undefined){
                     events = JSON.parse(events);
+                    highlightModel($("[id$='edge/" + labelText[1] + "']"), this); // highlight this and the edge on the model
                 }
                 else{
                     events = [];
+                    highlightModel();
                 }
             }
             else {
-                events = [];
+                highlightModel();
             }
             highlightEvents(events); // highlightInput.js
         });
