@@ -34,11 +34,18 @@ function getLineNumbers(traceID, eventIndex) {
 }
 
 // pass in array of event objects, where each object has a traceID and a eventIndex
+// pass in boolean 'true' to get full execution traces for each event
 // example: [ {traceID: 1, eventIndex: 2}, {traceID: 2, eventIndex: 4} ]
-function getLineNumbersForArray(events) {
+function getLineNumbersForArray(events, getFullTraces) {
     var lineNumbers = [];
     for (var i=0; i<events.length; i++) {
-        var newLineNumbers = getLineNumbers(events[i].traceID, events[i].eventIndex); // traverseData.js
+        var newLineNumbers;
+        if(getFullTraces) {
+            newLineNumbers = getLineNumbers(events[i].traceID);
+        }
+        else {
+            newLineNumbers = getLineNumbers(events[i].traceID, events[i].eventIndex);
+        }
         lineNumbers.push.apply(lineNumbers, newLineNumbers);
     }
     return lineNumbers;
