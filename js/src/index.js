@@ -1,6 +1,6 @@
 var data = { "log": [], "partitions": [], "invariants": [] };
 
-function fetchModel (id) {
+function fetchModel() {
     var parameters =  {logfile:$("#logtext").val(),
             args:$("#argsfield").val(),
         };

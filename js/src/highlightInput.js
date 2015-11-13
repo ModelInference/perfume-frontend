@@ -30,10 +30,12 @@ function rehighlight() {
 }
 
 function removeHighlightedLines(){
-    removeLines(prevHighlightedStrings); // form.js
-    prevHighlightedStrings = [''];
-    rehighlight();
-    revealModel(); // index.js
+    if(prevHighlightedStrings.length !== 1 && prevHighlightedStrings[0] !== ''){
+        removeLines(prevHighlightedStrings); // form.js
+        prevHighlightedStrings = [''];
+        rehighlight();
+        fetchModel(); // index.js
+    }
 }
 
 // get it setup upon startub
