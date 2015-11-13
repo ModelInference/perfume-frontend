@@ -226,13 +226,13 @@ function drawModel(data) {
     for (i = 0; i < links.length; i++) {
         var newLabel = links[i].source.partition.eventType + " " + links[i].label + '/' + i;
         var labelShadow = "text-shadow: 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff, 0 0 0.4em #fff";
-        if (pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
+        if (pathAnnotations.maxpath && pathAnnotations.minpath && pathAnnotations.maxpath.indexOf(i) !== -1 && pathAnnotations.minpath.indexOf(i) !== -1) {
             g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, style:'stroke:fuchsia', arrowhead: "vee"});
         }
-        else if (pathAnnotations.maxpath.indexOf(i) !== -1) {
+        else if (pathAnnotations.maxpath && pathAnnotations.maxpath.indexOf(i) !== -1) {
             g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, style:'stroke:red', arrowhead: "vee"});
         }
-        else if (pathAnnotations.minpath.indexOf(i) !== -1) {
+        else if (pathAnnotations.minpath &&pathAnnotations.minpath.indexOf(i) !== -1) {
             g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:links[i].source.id + '/edge/' + i, style:'stroke:blue', arrowhead: "vee"});
         }
         else {
