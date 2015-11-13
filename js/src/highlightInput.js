@@ -1,5 +1,8 @@
 // highlightTextArea input box highlighter
 
+var prevHighlightedStrings = [''];
+var prevHighlightedEvents = [];
+
 function escapeRegExp(str) {
   return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
@@ -17,22 +20,23 @@ function highlightEvents(events) {
     var lineNumbers = getLineNumbersForArray(events); // traverseData.js
     var lines = getLines(lineNumbers); // form.js
     highlight(lines);
+    prevHighlightedEvents = events;
 }
 
 function unhighlight() {
 	$('#logtext').highlightTextarea('setWords', '');
 }
 
-var prevHighlightedStrings = [''];
-
 function rehighlight() {
     highlight(prevHighlightedStrings);
 }
 
-function removeHighlightedLines(){
-    if(prevHighlightedStrings.length !== 1 && prevHighlightedStrings[0] !== ''){
-        removeLines(prevHighlightedStrings); // form.js
+function removeHighlightedExecutionTraces(){
+    if(prevHighlightedEvents.length !== 0){
+        var lineNumbers = getLineNumbersForArray(prevHighlightedEvents, true); // traverseData.js
+        removeLines(lineNumbers); // form.js
         prevHighlightedStrings = [''];
+        prevHighlightedEvents = [];
         rehighlight();
         fetchModel(); // index.js
     }

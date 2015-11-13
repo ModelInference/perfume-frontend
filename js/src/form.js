@@ -48,16 +48,17 @@ function getLines(lineNumbers) {
 }
 
 //given an array of lines, removes said lines from the input logs
-function removeLines(lines) {
+function removeLines(lineNumbers) {
     var allLines = $('#logtext').val().split('\n');
+    var newLines = [];
 
     for(var i=0; i<allLines.length; i++) {
-        if(lines.indexOf(allLines[i]) !== -1){
-            allLines.splice(i,1);
+        if(lineNumbers.indexOf(i+1) === -1) { // line numbers in the log start at 1
+            newLines.push(allLines[i]);
         }
     }
 
-    $('#logtext').val(allLines.join('\n'));
+    $('#logtext').val(newLines.join('\n'));
 }
 
 // whenever input changes, clear everything
