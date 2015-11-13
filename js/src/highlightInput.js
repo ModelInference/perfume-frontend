@@ -29,6 +29,13 @@ function rehighlight() {
     highlight(prevHighlightedStrings);
 }
 
+function removeHighlightedLines(){
+    removeLines(prevHighlightedStrings); // form.js
+    prevHighlightedStrings = [''];
+    rehighlight();
+    revealModel(); // index.js
+}
+
 // get it setup upon startub
 $('#logtext').highlightTextarea({
     resizable: true

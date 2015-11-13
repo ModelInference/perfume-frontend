@@ -35,16 +35,29 @@ function write() {
 
 // gven an array of line numbers, returns the corresponding array of strings from the input logs
 function getLines(lineNumbers) {
-    var allLines = $('textarea').val().split('\n'); // all lines, with the first line at index 0
+    var allLines = $('#logtext').val().split('\n'); // all lines, with the first line at index 0
     var selectedLines = [];
 
     for(var i=0; i<allLines.length; i++) {
-        if(lineNumbers.indexOf(i+1) !== -1){ // line numbers in the log start at 1
+        if(lineNumbers.indexOf(i+1) !== -1) { // line numbers in the log start at 1
             selectedLines.push(allLines[i]);
         }
     }
 
     return selectedLines;
+}
+
+//given an array of lines, removes said lines from the input logs
+function removeLines(lines) {
+    var allLines = $('#logtext').val().split('\n');
+
+    for(var i=0; i<allLines.length; i++) {
+        if(lines.indexOf(allLines[i]) !== -1){
+            allLines.splice(i,1);
+        }
+    }
+
+    $('#logtext').val(allLines.join('\n'));
 }
 
 // whenever input changes, clear everything
