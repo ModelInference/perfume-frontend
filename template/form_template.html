@@ -1,14 +1,17 @@
 <div id="form" style="width: 100%">
 	<fieldset><div id="innerform" style="margin: 0 auto; max-width:500px;">
 
-		<label class="control-label" for="logtext">
-			<span>Examples:</span>
-		</label>
-		<div id="buttons">
-	    	<button id="bandwithform" onclick="clearData(); writeBrowserModel();">Browser Caching</button>
-	    	<button id="browserform" onclick="clearData(); writeConnectionModel();">Connection Tester</button>
-	    	<button id="browserform" onclick="clearData(); writeRadiusModel();">RADIUS Authentication</button>
-	    </div>
+	    <div id="examples" class="dropdown pull-right">
+		  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Examples
+		  <span class="caret"></span></button>
+		  <ul class="dropdown-menu">
+		    <li><a onclick="clearData(); writeBrowserModel();">Browser Caching</a></li>
+		    <li><a onclick="clearData(); writeConnectionModel();">Connection Tester</a></li>
+		    <li><a onclick="clearData(); writeRadiusModel();">RADIUS Authentication</a></li>
+		  </ul>
+		</div>
+
+		<div style="clear:both"></div>
 
         <form>
 			<div class="control-group" style="">
