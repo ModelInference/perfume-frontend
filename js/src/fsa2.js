@@ -285,17 +285,14 @@ function drawModel(data) {
             var metadata = this.id.split('/');
             if(metadata[0] !== 'undefined'){
                 events = $.parseJSON(metadata[0]);
+
+                if(events.length === 0) return; // do not unhighlight initial nodes/edges or terminal node
+
                 var label = $("[id$='label/" + metadata[2] + "']");
-                highlightModel(this, label);
-            }
-            else {
-                highlightModel();
+                highlightModel(this, label); // highlight this and the label on the model
+                highlightEvents(events); // highlightInput.js
             }
         }
-        else {
-            highlightModel();
-        }
-        highlightEvents(events); // highlightInput.js
     });
 
     // edge labels
@@ -317,19 +314,10 @@ function drawModel(data) {
                     if(metadata[0] !== 'undefined'){
                         events = $.parseJSON(metadata[0]);
                         highlightModel(edge, this); // highlight this and the edge on the model
-                    }
-                    else {
-                        highlightModel();
+                        highlightEvents(events); // highlightInput.js
                     }
                 }
-                else {
-                    highlightModel();
-                }
             }
-            else {
-                highlightModel();
-            }
-            highlightEvents(events); // highlightInput.js
         });
         return labelText[0];
     });
