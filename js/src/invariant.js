@@ -1,16 +1,19 @@
 var alwaysPrecedes;
 var alwaysFollowedBy;
 var neverFollowedBy;
+var interruptedBy;
 
 function initialize() {
     // Clear old invariants
     alwaysPrecedes = [];
     alwaysFollowedBy = [];
     neverFollowedBy = [];
+    interruptedBy = [];
     // Removes all rows currently on the page, except for the first
     $("#AlwaysPrecedes").find("tr:not(:first)").remove();
     $("#AlwaysFollowedBy").find("tr:not(:first)").remove();
     $("#NeverFollowedBy").find("tr:not(:first)").remove();
+    $("#InterruptedBy").find("tr:not(:first)").remove();
 }
 
 // To get rid of the duplicates in the invariants
@@ -37,6 +40,9 @@ function getPredicates(data) {
         }
         if (data.invariants[i].invariantType === "NeverFollowedBy") {
             neverFollowedBy.push(data.invariants[i]);
+        }
+        if (data.invariants[i].invariantType === "InterruptedBy") {
+            interruptedBy.push(data.invariants[i]);
         }
     }
 }
@@ -96,6 +102,13 @@ function getCol() {
     for (var i = 0; i < neverFollowedBy.length; i++) {
         if (neverFollowedBy[i].predicates[0] !== undefined && neverFollowedBy[i].predicates[1] !== undefined) {
             $("#NeverFollowedBy").append("<tr><td>" + neverFollowedBy[i].predicates[0] +"</td><td class=\"invarrow\">&nrarr;</td><td>"+ neverFollowedBy[i].predicates[1] + "<td></tr>");
+        }
+    }
+
+    // InterruptedBy
+    for (var i = 0; i < interruptedBy.length; i++) {
+        if (interruptedBy[i].predicates[0] !== undefined && interruptedBy[i].predicates[1] !== undefined) {
+            $("#InterruptedBy").append("<tr><td>" + interruptedBy[i].predicates[0] +"</td><td class=\"invarrow\">&nrarr;</td><td>"+ interruptedBy[i].predicates[1] + "<td></tr>");
         }
     }
 }
