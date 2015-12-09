@@ -11,6 +11,11 @@
     font-family: monospace;
 }
 
+/*Input*/
+#examples {
+  top: 20px;
+}
+
 /*Model and legend*/
 .node circle, .node ellipse {
     stroke: #333;
