@@ -108,7 +108,7 @@ function getCol() {
     // InterruptedBy
     for (var i = 0; i < interruptedBy.length; i++) {
         if (interruptedBy[i].predicates[0] !== undefined && interruptedBy[i].predicates[1] !== undefined) {
-            $("#InterruptedBy").append("<tr><td>" + interruptedBy[i].predicates[0] +"</td><td class=\"invarrow\">&nrarr;</td><td>"+ interruptedBy[i].predicates[1] + "<td></tr>");
+            $("#InterruptedBy").append("<tr><td>" + interruptedBy[i].predicates[0] +"</td><td class=\"invarrow\">⇻</td><td>"+ interruptedBy[i].predicates[1] + "<td></tr>");
         }
     }
 }
