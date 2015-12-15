@@ -9,10 +9,17 @@ function fetchModel() {
 };
 
 function revealModel() {
+    unhighlight(); // highlightInput.js
     drawModel(data);
     drawModelLegend();
     drawInvariants(data);
     handleExpand(-1);
+}
+
+function clearModelLegend() {
+    var c = document.getElementById("legend");
+    var ctx = c.getContext("2d");
+    ctx.clearRect(0, 0, c.width, c.height);
 }
 
 function drawSymbol(ctx, startx, starty, color, string) {
@@ -26,6 +33,7 @@ function drawSymbol(ctx, startx, starty, color, string) {
 }
 
 function drawModelLegend() {
+    clearModelLegend();
     var c = document.getElementById("legend");
     var ctx = c.getContext("2d");
     drawSymbol(ctx, 10, 50, "#FF0000", "Longest Path");
@@ -46,14 +54,15 @@ function drawModelLegend() {
 
 function clearForm()  {
     $("#logtext").val('');
-    $("#args").val('');
+    $("#argsfield").val('');
 }
 
 function clearData() {
+    clearForm();
     unhighlight(); // highlightInput.js
     data = { "log": [], "partitions": [], "invariants": [] };
-    drawModel(data);
-    drawModelLegend();
+    clearModel();
+    clearModelLegend();
     drawInvariants(data);
 }
 
