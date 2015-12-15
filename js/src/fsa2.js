@@ -286,12 +286,19 @@ function drawModel(data) {
             if(metadata[0] !== 'undefined'){
                 events = $.parseJSON(metadata[0]);
 
-                if(events.length === 0) return; // do not unhighlight initial nodes/edges or terminal node
+                if(events.length === 0){ // do not highlight initial edges
+                    highlightModel();
+                    unhighlight(); // highlightInput.js
+                    return;
+                }
 
                 var label = $("[id$='label/" + metadata[2] + "']");
                 highlightModel(this, label); // highlight this and the label on the model
                 highlightEvents(events); // highlightInput.js
             }
+        } else { // do not highlight initial or terminal nodes
+            highlightModel();
+            unhighlight(); // highlightInput.js
         }
     });
 
