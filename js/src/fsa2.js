@@ -266,7 +266,7 @@ function drawModel(data) {
         }
     }
     var svg = d3.select("svg"),
-    inner = svg.select("g");
+        inner = svg.select("g");
     var zoom = d3.behavior.zoom().on("zoom", function() {
         inner.attr("transform", "translate(" + d3.event.translate + ")" +
                                     "scale(" + d3.event.scale + ")");
@@ -333,4 +333,12 @@ function drawModel(data) {
         });
         return labelText[0];
     });
+}
+
+function clearModel() {
+    var g = new dagreD3.graphlib.Graph({multigraph:true}).setGraph({});
+    var svg = d3.select("svg"),
+        inner = svg.select("g");
+    var render = new dagreD3.render();
+    render(inner, g);
 }
