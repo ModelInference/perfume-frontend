@@ -83,33 +83,49 @@ function roundBounds(invariants) {
 // Post invariants to the page
 function getCol() {
     // AlwaysPrecedes
-    for (var i = 0; i < alwaysPrecedes.length; i++) {
-        if (alwaysPrecedes[i].predicates[0] !== undefined && alwaysPrecedes[i].predicates[1] !== undefined) {
-            $("#AlwaysPrecedes").append("<tr><td>" + alwaysPrecedes[i].predicates[0] +"</td><td class=\"invarrow\">&larr;</td><td>"+ alwaysPrecedes[i].predicates[1]
-                + "</td><td> " + alwaysPrecedes[i].lowerbound + "</td><td>" + alwaysPrecedes[i].upperbound + "<td></tr>");
+    if (alwaysPrecedes.length > 0) {
+        for (var i = 0; i < alwaysPrecedes.length; i++) {
+            if (alwaysPrecedes[i].predicates[0] !== undefined && alwaysPrecedes[i].predicates[1] !== undefined) {
+                $("#AlwaysPrecedes").append("<tr><td>" + alwaysPrecedes[i].predicates[0] +"</td><td class=\"invarrow\">&larr;</td><td>"+ alwaysPrecedes[i].predicates[1]
+                    + "</td><td> " + alwaysPrecedes[i].lowerbound + "</td><td>" + alwaysPrecedes[i].upperbound + "<td></tr>");
+            }
         }
+    } else {
+        $("#AlwaysPrecedes").append("<tr><td>None</td><td></td><td></td><td></td><td></td></tr>");
     }
 
     // AlwaysFollowedBy
-    for (var i = 0; i < alwaysFollowedBy.length; i++) {
-        if (alwaysFollowedBy[i].predicates[0] !== undefined && alwaysFollowedBy[i].predicates[1] !== undefined) {
-            $("#AlwaysFollowedBy").append("<tr><td>" + alwaysFollowedBy[i].predicates[0] +"</td><td class=\"invarrow\">&rarr;</td><td>"+ alwaysFollowedBy[i].predicates[1]
-                + "</td><td> " + alwaysFollowedBy[i].lowerbound + "</td><td>" + alwaysFollowedBy[i].upperbound + "<td></tr>");
+    if (alwaysFollowedBy.length > 0) {
+        for (var i = 0; i < alwaysFollowedBy.length; i++) {
+            if (alwaysFollowedBy[i].predicates[0] !== undefined && alwaysFollowedBy[i].predicates[1] !== undefined) {
+                $("#AlwaysFollowedBy").append("<tr><td>" + alwaysFollowedBy[i].predicates[0] +"</td><td class=\"invarrow\">&rarr;</td><td>"+ alwaysFollowedBy[i].predicates[1]
+                    + "</td><td> " + alwaysFollowedBy[i].lowerbound + "</td><td>" + alwaysFollowedBy[i].upperbound + "<td></tr>");
+            }
         }
+    } else {
+        $("#AlwaysFollowedBy").append("<tr><td>None</td><td></td><td></td><td></td><td></td></tr>");
     }
 
     // NeverFollowedBy
-    for (var i = 0; i < neverFollowedBy.length; i++) {
-        if (neverFollowedBy[i].predicates[0] !== undefined && neverFollowedBy[i].predicates[1] !== undefined) {
-            $("#NeverFollowedBy").append("<tr><td>" + neverFollowedBy[i].predicates[0] +"</td><td class=\"invarrow\">&nrarr;</td><td>"+ neverFollowedBy[i].predicates[1] + "<td></tr>");
+    if (neverFollowedBy.length > 0) {
+        for (var i = 0; i < neverFollowedBy.length; i++) {
+            if (neverFollowedBy[i].predicates[0] !== undefined && neverFollowedBy[i].predicates[1] !== undefined) {
+                $("#NeverFollowedBy").append("<tr><td>" + neverFollowedBy[i].predicates[0] +"</td><td class=\"invarrow\">&nrarr;</td><td>"+ neverFollowedBy[i].predicates[1] + "<td></tr>");
+            }
         }
+    } else {
+        $("#NeverFollowedBy").append("<tr><td>None</td><td></td><td></td></tr>");
     }
 
     // InterruptedBy
-    for (var i = 0; i < interruptedBy.length; i++) {
-        if (interruptedBy[i].predicates[0] !== undefined && interruptedBy[i].predicates[1] !== undefined) {
-            $("#InterruptedBy").append("<tr><td>" + interruptedBy[i].predicates[0] +"</td><td class=\"invarrow\">⇻</td><td>"+ interruptedBy[i].predicates[1] + "<td></tr>");
+    if (interruptedBy.length > 0) {
+        for (var i = 0; i < interruptedBy.length; i++) {
+            if (interruptedBy[i].predicates[0] !== undefined && interruptedBy[i].predicates[1] !== undefined) {
+                $("#InterruptedBy").append("<tr><td>" + interruptedBy[i].predicates[0] +"</td><td class=\"invarrow\">⇻</td><td>"+ interruptedBy[i].predicates[1] + "<td></tr>");
+            }
         }
+    } else {
+        $("#InterruptedBy").append("<tr><td>None</td><td></td><td></td></tr>");
     }
 }
 
