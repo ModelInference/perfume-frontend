@@ -333,4 +333,11 @@ function drawModel(data) {
         });
         return labelText[0];
     });
+
+    // canvas, minus edges, nodes, and lav
+    $('#modelCanvas').not('g.edgeLabel > g > text > tspan').click(function(){
+        console.log(this);
+        highlightModel();
+        highlightEvents([]); // highlightInput.js
+    });
 }
