@@ -11,6 +11,17 @@
     font-family: monospace;
 }
 
+/*Input*/
+#examples-button {
+  position: relative;
+  top: 20px;
+  float: right;
+}
+
+#examples {
+  position: fixed;
+}
+
 /*Model and legend*/
 .node circle, .node ellipse {
     stroke: #333;
