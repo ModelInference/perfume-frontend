@@ -59,6 +59,10 @@ function clearForm()  {
 
 function clearData() {
     clearForm();
+    clearDataExceptForm();
+}
+
+function clearDataExceptForm() {
     unhighlight(); // highlightInput.js
     data = { "log": [], "partitions": [], "invariants": [] };
     clearModel();
