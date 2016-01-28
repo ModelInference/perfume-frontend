@@ -1,7 +1,7 @@
 var data = { "log": [], "partitions": [], "invariants": [] };
 
 function formIsFilledOut() {
-    return ($('#logtext').val().length > 0) && ($('#argsfield').val().length > 0);
+    return ($('#logtext').val().trim().length > 0) && ($('#argsfield').val().trim().length > 0);
 }
 
 function fetchModel() {
