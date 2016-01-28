@@ -199,6 +199,21 @@ function findPrecedingEvents(array1, array2) {
     });
 }
 
+function renderGraph(g) {
+    var svg = d3.select("svg"),
+        inner = svg.select("g");
+    var zoom = d3.behavior.zoom().on("zoom", function() {
+        inner.attr("transform", "translate(" + d3.event.translate + ")" +
+                                    "scale(" + d3.event.scale + ")");
+    });
+    svg.call(zoom);
+    var render = new dagreD3.render();
+    render(inner, g);
+
+    zoom.translate([75, 75])
+        .event(svg);
+}
+
 var lastClicked;
 var lastClickedLabel;
 function highlightModel(clicked, clickedLabel){
@@ -223,6 +238,7 @@ function highlightModel(clicked, clickedLabel){
 
 function drawModel(data) {
     var g = new dagreD3.graphlib.Graph({multigraph:true}).setGraph({});
+
     states = [];
     links = [];
     init = {partition: {eventType:"INITIAL",events:[]}, shape:"ellipse", label:"INITIAL", index:0, nodeclass:"node-initterm"};
@@ -265,18 +281,8 @@ function drawModel(data) {
             g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:metadata, arrowhead: "vee"});
         }
     }
-    var svg = d3.select("svg"),
-        inner = svg.select("g");
-    var zoom = d3.behavior.zoom().on("zoom", function() {
-        inner.attr("transform", "translate(" + d3.event.translate + ")" +
-                                    "scale(" + d3.event.scale + ")");
-    });
-    svg.call(zoom);
-    var render = new dagreD3.render();
-    render(inner, g);
 
-    zoom.translate([75, 75])
-        .event(svg);
+    renderGraph(g);
 
     // edges and nodes
     $('g.edgePath, g.node').click(function() {
@@ -337,8 +343,5 @@ function drawModel(data) {
 
 function clearModel() {
     var g = new dagreD3.graphlib.Graph({multigraph:true}).setGraph({});
-    var svg = d3.select("svg"),
-        inner = svg.select("g");
-    var render = new dagreD3.render();
-    render(inner, g);
+    renderGraph(g);
 }
