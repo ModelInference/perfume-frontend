@@ -1,11 +1,18 @@
 var data = { "log": [], "partitions": [], "invariants": [] };
 
+function formIsFilledOut() {
+    return ($('#logtext').val().length > 0) && ($('#argsfield').val().length > 0);
+}
+
 function fetchModel() {
-    var parameters =  {logfile:$("#logtext").val(),
-            args:$("#argsfield").val(),
-        };
-    $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
-    return parameters;
+    if(formIsFilledOut()) {
+        var parameters =  { logfile: $("#logtext").val(), args: $("#argsfield").val() };
+        $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
+        return parameters;
+    }
+    else {
+        alert("You must enter both a log and a regular expression before parsing the log.");
+    }
 };
 
 function revealModel() {
