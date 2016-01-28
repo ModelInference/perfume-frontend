@@ -61,7 +61,11 @@ function removeLines(lineNumbers) {
     $('#logtext').val(newLines.join('\n'));
 }
 
-// whenever input changes, clear everything
+// if input changes and the model is already inferred, clear everything
 $( '.input' ).on('input', function() {
-    clearData(); // index.js
+    var graphExists = $('.nodes').length;
+    var modelIsInferred = $('.nodes').children().length;
+    if(graphExists && modelIsInferred) {
+        clearData(); // index.js
+    }
 });
