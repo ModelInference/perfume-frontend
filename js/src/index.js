@@ -11,7 +11,7 @@ function fetchModel() {
         return parameters;
     }
     else {
-        alert("You must enter both a log and a regular expression before parsing the log.");
+        alert("You must enter both a log and regular expressions before Perfume can infer a model.");
     }
 };
 
