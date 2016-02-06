@@ -110,6 +110,7 @@ function buildLink(state1, state2, resourceDelta, id) {
     return link
 }
 
+// add the link before the event
 function createLink(data, traceID, eventIndex) {
     var ret = [];
     var trace = data.log[traceID].events;
@@ -120,16 +121,14 @@ function createLink(data, traceID, eventIndex) {
     if (eventIndex == 0) {
         ret.push(buildLink(init, currentState, 0, id));
     }
-    // otherwise add the link before the event
     else {
         var previousState = findState(traceID, trace[eventIndex-1]);
         var resourceDelta = [(trace[eventIndex].timestamp - trace[eventIndex-1].timestamp)];
         ret.push(buildLink(previousState, currentState, resourceDelta, id));
-
-        // if last event, add the terminal link
-        if (eventIndex == trace.length - 1){
-            ret.push(buildLink(currentState, term, 0, id));
-        }
+    }
+    // if last event, add the terminal link
+    if (eventIndex == trace.length - 1){
+        ret.push(buildLink(currentState, term, 0, id));
     }
 
     return ret;
