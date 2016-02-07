@@ -57,7 +57,7 @@ function generateTransitions(data) {
         var partition = data.partitions[i];
         for (var j = 0; j < partition.events.length; j++) {
             var state = partition.events[j];
-            var linkParams = createLink(data, state.traceID, state.eventIndex)
+            var linkParams = createLink(data, state.traceID, state.eventIndex);
             for (var k = 0; k < linkParams.length; k++) {
                 var linkIndex = findLinkInLinkInformation(linkInformation, linkParams[k][0], linkParams[k][1]);
                 // we are creating a new transition
@@ -91,35 +91,46 @@ function findLinkInLinkInformation(linkInformation, start, end) {
     return -1;
 }
 
+/*
+ *  resourceDelta is either:
+ *      0 for initial or terminal links
+ *      an array with only the delta between state1 and state2's resources
+ *
+ *  id is an array consisting of one object with the following attributes:
+ *      traceID
+ *      eventIndex
+ *  it is used to highlight lines after an edge has been clicked
+ */
+function buildLink(state1, state2, resourceDelta, id) {
+    var link = [];
+    link.push(state1);
+    link.push(state2);
+    link.push(resourceDelta);
+    link.push(id);
+    return link
+}
+
+// add the link before the event
 function createLink(data, traceID, eventIndex) {
     var ret = [];
-    var placeholder = [];
     var trace = data.log[traceID].events;
+    var currentState = findState(traceID, trace[eventIndex]);
+    var id = [{traceID:traceID, eventIndex:eventIndex}];
+
+    // if initial event, add the initial link
     if (eventIndex == 0) {
-        placeholder.push(init);
-        placeholder.push(findState(traceID, trace[eventIndex]));
-        placeholder.push(0);
-        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
-        ret.push(placeholder);
-    } else if (eventIndex == trace.length - 1){
-        placeholder.push(findState(traceID, trace[eventIndex]));
-        placeholder.push(term);
-        placeholder.push(0);
-        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
-        ret.push(placeholder);
-    } else {
-        placeholder.push(findState(traceID, trace[eventIndex-1]));
-        placeholder.push(findState(traceID, trace[eventIndex]));
-        placeholder.push([(trace[eventIndex].timestamp - trace[eventIndex-1].timestamp)]);
-        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
-        ret.push(placeholder);
-        placeholder = [];
-        placeholder.push(findState(traceID, trace[eventIndex]));
-        placeholder.push(findState(traceID, trace[eventIndex+1]));
-        placeholder.push([(trace[eventIndex+1].timestamp - trace[eventIndex].timestamp)]);
-        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
-        ret.push(placeholder);
+        ret.push(buildLink(init, currentState, 0, id));
     }
+    else {
+        var previousState = findState(traceID, trace[eventIndex-1]);
+        var resourceDelta = [(trace[eventIndex].timestamp - trace[eventIndex-1].timestamp)];
+        ret.push(buildLink(previousState, currentState, resourceDelta, id));
+    }
+    // if last event, add the terminal link
+    if (eventIndex == trace.length - 1){
+        ret.push(buildLink(currentState, term, 0, id));
+    }
+
     return ret;
 }
 
