@@ -1,14 +1,19 @@
 <div id="form" style="width: 100%">
 	<fieldset><div id="innerform" style="margin: 0 auto; max-width:500px;">
 
-		<label class="control-label" for="logtext">
-			<span>Examples:</span>
-		</label>
-		<div id="buttons">
-	    	<button id="bandwithform" onclick="clearData(); writeBrowserModel();">Browser Caching</button>
-	    	<button id="browserform" onclick="clearData(); writeConnectionModel();">Connection Tester</button>
-	    	<button id="browserform" onclick="clearData(); writeRadiusModel();">RADIUS Authentication</button>
-	    </div>
+		<button id="examples-button" class="btn btn-primary dropdown-toggle" type="button" href="#"  data-jq-dropdown="#examples">Examples
+		<span class="caret"></span></button>
+
+	    <div id="examples" class="jq-dropdown jq-dropdown-tip jq-dropdown-anchor-right">
+		  <ul class="jq-dropdown-menu">
+		    <li><a onclick="clearData(); writeBrowserModel();">Browser Caching</a></li>
+		    <li><a onclick="clearData(); writeConnectionModel();">Connection Tester</a></li>
+		    <li><a onclick="clearData(); writeRadiusModel();">RADIUS Authentication</a></li>
+		    <li><a onclick="clearData(); writedjQModel();">djQ Music Player</a></li>
+		  </ul>
+		</div>
+
+		<div style="clear:both"></div>
 
         <form>
 			<div class="control-group" style="">
@@ -27,9 +32,9 @@
 		<!-- Button (Triple) -->
 		<div class="control-group">
 			<div class="controls">
-		    	<button id="fetchmodel" name="button1id" class="btn btn-primary" onclick="fetchModel(); ">Parse Log</button>
-		    	<button id="clear-form" name="button2id" class="btn btn-clear" onclick="clearForm()">Clear</button>
-		    	<button id="remove-highlighted-logs" name="button3id" class="btn btn-clear" onclick="removeHighlightedExecutionTraces()">Remove Traces with Highlighted Lines</button>
+		    	<button id="fetchmodel" name="button1id" class="btn btn-primary" onclick="fetchModel(); ">Infer model</button>
+		    	<button id="clear-form" name="button2id" class="btn btn-clear" onclick="clearData()">Clear</button>
+		    	<button id="remove-highlighted-logs" name="button3id" class="btn btn-clear" onclick="removeHighlightedExecutionTraces()">Remove traces with highlighted lines</button>
 			</div>
 		</div>
 

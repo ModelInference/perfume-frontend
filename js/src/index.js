@@ -1,18 +1,32 @@
 var data = { "log": [], "partitions": [], "invariants": [] };
 
+function formIsFilledOut() {
+    return ($('#logtext').val().trim().length > 0) && ($('#argsfield').val().trim().length > 0);
+}
+
 function fetchModel() {
-    var parameters =  {logfile:$("#logtext").val(),
-            args:$("#argsfield").val(),
-        };
-    $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
-    return parameters;
+    if(formIsFilledOut()) {
+        var parameters =  { logfile: $("#logtext").val(), args: $("#argsfield").val() };
+        $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
+        return parameters;
+    }
+    else {
+        alert("You must enter both a log and regular expressions before Perfume can infer a model.");
+    }
 };
 
 function revealModel() {
+    unhighlight(); // highlightInput.js
     drawModel(data);
     drawModelLegend();
     drawInvariants(data);
     handleExpand(-1);
+}
+
+function clearModelLegend() {
+    var c = document.getElementById("legend");
+    var ctx = c.getContext("2d");
+    ctx.clearRect(0, 0, c.width, c.height);
 }
 
 function drawSymbol(ctx, startx, starty, color, string) {
@@ -26,6 +40,7 @@ function drawSymbol(ctx, startx, starty, color, string) {
 }
 
 function drawModelLegend() {
+    clearModelLegend();
     var c = document.getElementById("legend");
     var ctx = c.getContext("2d");
     drawSymbol(ctx, 10, 50, "#FF0000", "Longest Path");
@@ -46,14 +61,19 @@ function drawModelLegend() {
 
 function clearForm()  {
     $("#logtext").val('');
-    $("#args").val('');
+    $("#argsfield").val('');
 }
 
 function clearData() {
+    clearForm();
+    clearDataExceptForm();
+}
+
+function clearDataExceptForm() {
     unhighlight(); // highlightInput.js
     data = { "log": [], "partitions": [], "invariants": [] };
-    drawModel(data);
-    drawModelLegend();
+    clearModel();
+    clearModelLegend();
     drawInvariants(data);
 }
 

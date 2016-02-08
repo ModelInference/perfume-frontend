@@ -57,7 +57,7 @@ function generateTransitions(data) {
         var partition = data.partitions[i];
         for (var j = 0; j < partition.events.length; j++) {
             var state = partition.events[j];
-            var linkParams = createLink(data, state.traceID, state.eventIndex)
+            var linkParams = createLink(data, state.traceID, state.eventIndex);
             for (var k = 0; k < linkParams.length; k++) {
                 var linkIndex = findLinkInLinkInformation(linkInformation, linkParams[k][0], linkParams[k][1]);
                 // we are creating a new transition
@@ -91,35 +91,46 @@ function findLinkInLinkInformation(linkInformation, start, end) {
     return -1;
 }
 
+/*
+ *  resourceDelta is either:
+ *      0 for initial or terminal links
+ *      an array with only the delta between state1 and state2's resources
+ *
+ *  id is an array consisting of one object with the following attributes:
+ *      traceID
+ *      eventIndex
+ *  it is used to highlight lines after an edge has been clicked
+ */
+function buildLink(state1, state2, resourceDelta, id) {
+    var link = [];
+    link.push(state1);
+    link.push(state2);
+    link.push(resourceDelta);
+    link.push(id);
+    return link
+}
+
+// add the link before the event
 function createLink(data, traceID, eventIndex) {
     var ret = [];
-    var placeholder = [];
     var trace = data.log[traceID].events;
+    var currentState = findState(traceID, trace[eventIndex]);
+    var id = [{traceID:traceID, eventIndex:eventIndex}];
+
+    // if initial event, add the initial link
     if (eventIndex == 0) {
-        placeholder.push(init);
-        placeholder.push(findState(traceID, trace[eventIndex]));
-        placeholder.push(0);
-        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
-        ret.push(placeholder);
-    } else if (eventIndex == trace.length - 1){
-        placeholder.push(findState(traceID, trace[eventIndex]));
-        placeholder.push(term);
-        placeholder.push(0);
-        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
-        ret.push(placeholder);
-    } else {
-        placeholder.push(findState(traceID, trace[eventIndex-1]));
-        placeholder.push(findState(traceID, trace[eventIndex]));
-        placeholder.push([(trace[eventIndex].timestamp - trace[eventIndex-1].timestamp)]);
-        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
-        ret.push(placeholder);
-        placeholder = [];
-        placeholder.push(findState(traceID, trace[eventIndex]));
-        placeholder.push(findState(traceID, trace[eventIndex+1]));
-        placeholder.push([(trace[eventIndex+1].timestamp - trace[eventIndex].timestamp)]);
-        placeholder.push([{traceID:traceID, eventIndex:eventIndex}]);
-        ret.push(placeholder);
+        ret.push(buildLink(init, currentState, 0, id));
     }
+    else {
+        var previousState = findState(traceID, trace[eventIndex-1]);
+        var resourceDelta = [(trace[eventIndex].timestamp - trace[eventIndex-1].timestamp)];
+        ret.push(buildLink(previousState, currentState, resourceDelta, id));
+    }
+    // if last event, add the terminal link
+    if (eventIndex == trace.length - 1){
+        ret.push(buildLink(currentState, term, 0, id));
+    }
+
     return ret;
 }
 
@@ -199,6 +210,21 @@ function findPrecedingEvents(array1, array2) {
     });
 }
 
+function renderGraph(g) {
+    var svg = d3.select("svg"),
+        inner = svg.select("g");
+    var zoom = d3.behavior.zoom().on("zoom", function() {
+        inner.attr("transform", "translate(" + d3.event.translate + ")" +
+                                    "scale(" + d3.event.scale + ")");
+    });
+    svg.call(zoom);
+    var render = new dagreD3.render();
+    render(inner, g);
+
+    zoom.translate([75, 75])
+        .event(svg);
+}
+
 var lastClicked;
 var lastClickedLabel;
 function highlightModel(clicked, clickedLabel){
@@ -223,6 +249,7 @@ function highlightModel(clicked, clickedLabel){
 
 function drawModel(data) {
     var g = new dagreD3.graphlib.Graph({multigraph:true}).setGraph({});
+
     states = [];
     links = [];
     init = {partition: {eventType:"INITIAL",events:[]}, shape:"ellipse", label:"INITIAL", index:0, nodeclass:"node-initterm"};
@@ -265,18 +292,8 @@ function drawModel(data) {
             g.setEdge(links[i].source.index.toString(), links[i].target.index.toString(), {label:newLabel, labelStyle:labelShadow, id:metadata, arrowhead: "vee"});
         }
     }
-    var svg = d3.select("svg"),
-    inner = svg.select("g");
-    var zoom = d3.behavior.zoom().on("zoom", function() {
-        inner.attr("transform", "translate(" + d3.event.translate + ")" +
-                                    "scale(" + d3.event.scale + ")");
-    });
-    svg.call(zoom);
-    var render = new dagreD3.render();
-    render(inner, g);
 
-    zoom.translate([75, 75])
-        .event(svg);
+    renderGraph(g);
 
     // edges and nodes
     $('g.edgePath, g.node').click(function() {
@@ -285,17 +302,21 @@ function drawModel(data) {
             var metadata = this.id.split('/');
             if(metadata[0] !== 'undefined'){
                 events = $.parseJSON(metadata[0]);
+
+                if(events.length === 0){ // do not highlight initial edges
+                    highlightModel();
+                    unhighlight(); // highlightInput.js
+                    return;
+                }
+
                 var label = $("[id$='label/" + metadata[2] + "']");
-                highlightModel(this, label);
+                highlightModel(this, label); // highlight this and the label on the model
+                highlightEvents(events); // highlightInput.js
             }
-            else {
-                highlightModel();
-            }
-        }
-        else {
+        } else { // do not highlight initial or terminal nodes
             highlightModel();
+            unhighlight(); // highlightInput.js
         }
-        highlightEvents(events); // highlightInput.js
     });
 
     // edge labels
@@ -317,19 +338,10 @@ function drawModel(data) {
                     if(metadata[0] !== 'undefined'){
                         events = $.parseJSON(metadata[0]);
                         highlightModel(edge, this); // highlight this and the edge on the model
-                    }
-                    else {
-                        highlightModel();
+                        highlightEvents(events); // highlightInput.js
                     }
                 }
-                else {
-                    highlightModel();
-                }
             }
-            else {
-                highlightModel();
-            }
-            highlightEvents(events); // highlightInput.js
         });
         return labelText[0];
     });
@@ -340,4 +352,9 @@ function drawModel(data) {
         highlightModel();
         highlightEvents([]); // highlightInput.js
     });
+}
+
+function clearModel() {
+    var g = new dagreD3.graphlib.Graph({multigraph:true}).setGraph({});
+    renderGraph(g);
 }
