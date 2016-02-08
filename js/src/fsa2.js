@@ -296,7 +296,7 @@ function drawModel(data) {
     renderGraph(g);
 
     // edges and nodes
-    $('g.edgePath, g.node').click(function() {
+    $('g.edgePath, g.node').click(function(e) {
         var events = [];
         if(this.id) {
             var metadata = this.id.split('/');
@@ -317,6 +317,7 @@ function drawModel(data) {
             highlightModel();
             unhighlight(); // highlightInput.js
         }
+        e.stopPropagation();
     });
 
     // edge labels
@@ -328,7 +329,7 @@ function drawModel(data) {
             $(this).attr('id', 'label/' + labelText[1]);
         }
 
-        $(this).click(function(){
+        $(this).click(function(e) {
             var events = [];
             if(labelText.length > 1 && labelText[1] !== '') {
                 // highlight the text
@@ -342,13 +343,13 @@ function drawModel(data) {
                     }
                 }
             }
+            e.stopPropagation();
         });
         return labelText[0];
     });
 
-    // canvas, minus edges, nodes, and lav
-    $('#modelCanvas').not('g.edgeLabel > g > text > tspan').click(function(){
-        console.log(this);
+    // canvas, but not the labels, edges, or nodes
+    $('#modelCanvas').not('tspan, .path, circle').click(function(e) {
         highlightModel();
         highlightEvents([]); // highlightInput.js
     });
