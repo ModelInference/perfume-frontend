@@ -30,6 +30,12 @@
 #argument-tip {
   position: relative;
   float: right;
+  top: 1px;
+}
+
+#argument-help {
+  position: relative;
+  float: right;
 }
 
 /*Model and legend*/
