@@ -22,6 +22,16 @@
   position: fixed;
 }
 
+.ui-resizable-handle {
+  bottom: 25px  !important;
+  right: 3px    !important;
+}
+
+#argument-tip {
+  position: relative;
+  float: right;
+}
+
 /*Model and legend*/
 .node circle, .node ellipse {
     stroke: #333;
