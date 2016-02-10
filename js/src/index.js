@@ -6,6 +6,7 @@ function formIsFilledOut() {
 
 function openParsingDialog() {
     $("#parsing-dialog").dialog({
+        modal: true,
         open: function(event, ui){
           $(".ui-dialog-titlebar-close").hide();
         }
