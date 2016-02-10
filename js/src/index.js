@@ -24,9 +24,10 @@ function fetchModel() {
 function revealModel() {
     $("#parsing-dialog").dialog("close");
     unhighlight(); // highlightInput.js
-    drawModel(data);
+    clearModel(); // fsa2.js - added to fix dagre-d3 failure, issue 104
+    drawModel(data); // fsa2.js
     drawModelLegend();
-    drawInvariants(data);
+    drawInvariants(data); // invariants.js
     handleExpand(-1);
 }
 

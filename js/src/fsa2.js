@@ -127,7 +127,7 @@ function createLink(data, traceID, eventIndex) {
         ret.push(buildLink(previousState, currentState, resourceDelta, id));
     }
     // if last event, add the terminal link
-    if (eventIndex == trace.length - 1){
+    if (eventIndex == trace.length - 1) {
         ret.push(buildLink(currentState, term, 0, id));
     }
 
@@ -201,8 +201,8 @@ function searchForShortestAndLongestPath(target) {
 // returns events from array1 that precede events in array2
 function findPrecedingEvents(array1, array2) {
     return array1.filter(function(n) {
-        for(var i=0; i<array2.length; i++){
-            if(n.eventIndex + 1 === array2[i].eventIndex && n.traceID === array2[i].traceID){
+        for(var i=0; i<array2.length; i++) {
+            if(n.eventIndex + 1 === array2[i].eventIndex && n.traceID === array2[i].traceID) {
                 return true;
             }
         }
@@ -227,18 +227,18 @@ function renderGraph(g) {
 
 var lastClicked;
 var lastClickedLabel;
-function highlightModel(clicked, clickedLabel){
+function highlightModel(clicked, clickedLabel) {
     // reset old ones
-    if(lastClicked){
+    if(lastClicked) {
          $(lastClicked).css('opacity', '1.0');
-         if(lastClickedLabel){
+         if(lastClickedLabel) {
             $(lastClickedLabel).css('opacity', '1.0');
          }
     }
 
     // "highlight" new ones
     $(clicked).css('opacity', '0.5');
-    if(clickedLabel){
+    if(clickedLabel) {
         $(clickedLabel).css('opacity', '0.5');
     }
 
@@ -296,14 +296,14 @@ function drawModel(data) {
     renderGraph(g);
 
     // edges and nodes
-    $('g.edgePath, g.node').click(function() {
+    $('g.edgePath, g.node').click(function(e) {
         var events = [];
         if(this.id) {
             var metadata = this.id.split('/');
-            if(metadata[0] !== 'undefined'){
+            if(metadata[0] !== 'undefined') {
                 events = $.parseJSON(metadata[0]);
 
-                if(events.length === 0){ // do not highlight initial edges
+                if(events.length === 0) { // do not highlight initial edges
                     highlightModel();
                     unhighlight(); // highlightInput.js
                     return;
@@ -317,10 +317,11 @@ function drawModel(data) {
             highlightModel();
             unhighlight(); // highlightInput.js
         }
+        e.stopPropagation();
     });
 
     // edge labels
-    $('g.edgeLabel > g > text > tspan').text(function(){
+    $('g.edgeLabel > g > text > tspan').text(function() {
         var labelText = $(this).text().split('/');
 
         // set the id so edges and nodes can find it
@@ -328,22 +329,29 @@ function drawModel(data) {
             $(this).attr('id', 'label/' + labelText[1]);
         }
 
-        $(this).click(function(){
+        $(this).click(function(e) {
             var events = [];
             if(labelText.length > 1 && labelText[1] !== '') {
                 // highlight the text
                 var edge = $("[id$='edge/" + labelText[1] + "']");
-                if(edge.attr('id')){
+                if(edge.attr('id')) {
                     var metadata = edge.attr('id').split('/');
-                    if(metadata[0] !== 'undefined'){
+                    if(metadata[0] !== 'undefined') {
                         events = $.parseJSON(metadata[0]);
                         highlightModel(edge, this); // highlight this and the edge on the model
                         highlightEvents(events); // highlightInput.js
                     }
                 }
             }
+            e.stopPropagation();
         });
         return labelText[0];
+    });
+
+    // canvas, but not the labels, edges, or nodes
+    $('#modelCanvas').not('tspan, .path, circle').click(function(e) {
+        highlightModel();
+        highlightEvents([]); // highlightInput.js
     });
 }
 
