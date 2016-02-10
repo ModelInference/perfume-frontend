@@ -79,3 +79,8 @@ $( '.input' ).on('input', function() {
         clearDataExceptForm(); // index.js
     }
 });
+
+// enable tooltip
+$(function() {
+    $(document).tooltip();
+});
