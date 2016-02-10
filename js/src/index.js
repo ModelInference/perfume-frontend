@@ -5,12 +5,7 @@ function formIsFilledOut() {
 }
 
 function openParsingDialog() {
-    $("#parsing-dialog").dialog({
-        modal: true,
-        open: function(event, ui){
-          $(".ui-dialog-titlebar-close").hide();
-        }
-    });
+    $("#parsing-dialog").dialog({ modal: true });
     $("#parsing-progressbar").progressbar({ value: false });
 }
 
