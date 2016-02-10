@@ -4,7 +4,17 @@ function formIsFilledOut() {
     return ($('#logtext').val().trim().length > 0) && ($('#argsfield').val().trim().length > 0);
 }
 
+function openParsingDialog() {
+    $("#parsing-dialog").dialog({
+        open: function(event, ui){
+          $(".ui-dialog-titlebar-close").hide();
+        }
+    });
+    $("#parsing-progressbar").progressbar({ value: false });
+}
+
 function fetchModel() {
+    openParsingDialog();
     if(formIsFilledOut()) {
         var parameters =  { logfile: $("#logtext").val(), args: $("#argsfield").val() };
         $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
@@ -16,6 +26,7 @@ function fetchModel() {
 };
 
 function revealModel() {
+    $("#parsing-dialog").dialog("close");
     unhighlight(); // highlightInput.js
     drawModel(data);
     drawModelLegend();
