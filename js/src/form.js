@@ -80,7 +80,7 @@ $( '.input' ).on('input', function() {
     }
 });
 
-// enable tooltip
+// enable argument tooltip
 $(function() {
-    $(document).tooltip();
+    $("#argument-tip").tooltip();
 });
