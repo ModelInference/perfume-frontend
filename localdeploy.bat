@@ -4,7 +4,7 @@
 :: localdeploy.bat "desired-deploy-location"    (with quotes)
 
 :: Deployment location
-set wwwlocation="C:\Program Files\Apache24\htdocs"
+set wwwlocation="C:\Program Files\Apache24\htdocs\perfume"
 if "%~1" neq "" set wwwlocation="%~1"
 echo ===== DEPLOYING PERFUME TO %wwwlocation% =====
 
