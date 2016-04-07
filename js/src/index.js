@@ -51,19 +51,19 @@ function drawModelLegend() {
     clearModelLegend();
     var c = document.getElementById("legend");
     var ctx = c.getContext("2d");
-    drawSymbol(ctx, 10, 50, "#FF0000", "Longest Path");
+    drawSymbol(ctx, 10, 50, "#FF0000", "Longest path");
     if (c.width > 250) {
-        drawSymbol(ctx, 140, 50, "#0000FF", "Shortest Path");
+        drawSymbol(ctx, 140, 50, "#0000FF", "Shortest path");
         if(c.width > 460) {
-            drawSymbol(ctx, 290, 50, "#FF00FF", "Longest and Shortest Path");
+            drawSymbol(ctx, 290, 50, "#FF00FF", "Longest and shortest path");
         }
         else {
-            drawSymbol(ctx, 10, 75, "#FF00FF", "Longest and Shortest Path");
+            drawSymbol(ctx, 10, 75, "#FF00FF", "Longest and shortest path");
         }
     }
     else {
-        drawSymbol(ctx, 10, 75, "#0000FF", "Shortest Path");
-        drawSymbol(ctx, 10, 100, "#FF00FF", "Longest and Shortest Path");
+        drawSymbol(ctx, 10, 75, "#0000FF", "Shortest path");
+        drawSymbol(ctx, 10, 100, "#FF00FF", "Longest and shortest path");
     }
 };
 
