@@ -47,7 +47,7 @@ function removeHighlightedExecutionTraces() {
     }
 }
 
-// get it setup upon startup
+// set up highlighting upon startup
 $('#logtext').highlightTextarea({
     resizable: true
 });
