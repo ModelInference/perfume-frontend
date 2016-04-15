@@ -31,18 +31,23 @@ function rehighlight() {
     highlight(prevHighlightedStrings);
 }
 
-function removeHighlightedExecutionTraces(){
-    if(prevHighlightedEvents.length !== 0){
+function removeHighlightedExecutionTraces() {
+    if(prevHighlightedEvents.length !== 0) {
         var lineNumbers = getLineNumbersForArray(prevHighlightedEvents, true); // traverseData.js
         removeLines(lineNumbers); // form.js
         prevHighlightedStrings = [''];
         prevHighlightedEvents = [];
         rehighlight();
-        fetchModel(); // index.js
+        if(formIsFilledOut()) { //index.js
+            fetchModel(); // index.js
+        }
+        else {
+            clearData(); //index.js
+        }
     }
 }
 
-// get it setup upon startub
+// get it setup upon startup
 $('#logtext').highlightTextarea({
     resizable: true
 });
