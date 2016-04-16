@@ -1,4 +1,5 @@
 var data = { "log": [], "partitions": [], "invariants": [] };
+var requestID = 0;
 
 function formIsFilledOut() {
     return ($('#logtext').val().trim().length > 0) && ($('#argsfield').val().trim().length > 0);
@@ -12,8 +13,8 @@ function openParsingDialog() {
 function fetchModel() {
     if(formIsFilledOut()) {
         openParsingDialog();
-        var parameters =  { logfile: $("#logtext").val(), args: $("#argsfield").val() };
-        $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
+        var parameters =  { logfile: $("#logtext").val(), args: $("#argsfield").val(), request: requestID };
+        $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {requestID++; data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
         return parameters;
     }
     else {
