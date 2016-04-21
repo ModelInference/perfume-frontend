@@ -6,7 +6,7 @@ function formIsFilledOut() {
 }
 
 function openParsingDialog() {
-    $("#parsing-dialog").dialog({ modal: true });
+    $("#parsing-dialog").dialog({ modal: true, close: function(event) { if(event.originalEvent) { requestID++; }} });
     $("#parsing-progressbar").progressbar({ value: false });
 }
 
@@ -14,7 +14,19 @@ function fetchModel() {
     if(formIsFilledOut()) {
         openParsingDialog();
         var parameters =  { logfile: $("#logtext").val(), args: $("#argsfield").val(), requestID: requestID };
-        $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {requestID++; data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
+        $.ajax({
+            type:"POST", 
+            url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", 
+            data:parameters
+        }).done(function(model) {
+            if(requestID == model.responseID) {
+                requestID++; 
+                data = model; 
+                revealModel();
+            }
+        }).error(function(model) {
+            alert("An error occured. Please try again later."); 
+            alert(model.responseText);});
         return parameters;
     }
     else {
