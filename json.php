@@ -2,9 +2,11 @@
 
 function main(){
 
-$outputfh = fopen('/tmp/json.json', 'w') or die("can't open file"); //Delete old json object to avoid it being returned.
+// Delete old json object to avoid it being returned
+$outputfh = fopen('/tmp/json.json', 'w') or die("can't open file");
 fwrite($outputfh, "");
 $a = $_POST['args'];
+$reqID = $_POST['requestID'];
 $jsonFile = "/tmp/jsonargs.txt";
 $logfile = "/tmp/log.txt";
 $logfh =  fopen($logfile, 'w') or die("can't open file");
@@ -23,18 +25,21 @@ $json = file_get_contents('/tmp/json.json');
 $outputfh = fopen("/tmp/jsonout.txt", 'w') or die("can't open file");
 fwrite($outputfh, $output);
 
-
-if ($json === "" || preg_match("/\nSEVERE:/", $output) || preg_match("/\nWARNING: Using a default regular expression to parse/", $output))  { //Check for SEVERE messages that indicate an error.
+// Check for SEVERE messages that indicate an error
+if ($json === "" || preg_match("/\nSEVERE:/", $output)
+      || preg_match("/\nWARNING: Using a default regular expression to parse/", $output))  {
     header('HTTP/1.1 500 Internal Server Error');
     header('Access-Control-Allow-Origin:*');
     header('Content-Type: application/json; charset=UTF-8');
-    die( json_encode(array( message => $output)));
-    }
+    die(json_encode(array("message" => $output, "responseID" => $reqID)));
+}
 else {
-        header('Access-Control-Allow-Origin:*');
-        header('Content-Type: application/json');
-        echo $json;
-    }
+    $jsonArr = json_decode($json, true);
+    $jsonArr["responseID"] = $reqID;
+    header('Access-Control-Allow-Origin:*');
+    header('Content-Type: application/json');
+    echo json_encode($jsonArr);
+}
 }
 
 main();

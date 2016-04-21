@@ -13,7 +13,7 @@ function openParsingDialog() {
 function fetchModel() {
     if(formIsFilledOut()) {
         openParsingDialog();
-        var parameters =  { logfile: $("#logtext").val(), args: $("#argsfield").val(), request: requestID };
+        var parameters =  { logfile: $("#logtext").val(), args: $("#argsfield").val(), requestID: requestID };
         $.ajax({type:"POST", url:"http://kramer.nss.cs.ubc.ca/perfume/json.php", data:parameters}).done(function(model) {requestID++; data=model; revealModel();}).error(function(model) {alert("An error occured. Please try again later."); alert(model.responseText);});
         return parameters;
     }
