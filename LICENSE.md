@@ -1,4 +1,4 @@
-Unless otherwise noted, projects in the perfume-frontend repository are distributed under the MIT license, which appears below. Libraries within "js/lib/" may be distributed under different licenses, as specified within each js file.
+Except where otherwise noted, the perfume-frontend project is distributed under the MIT license, which appears below. Libraries within "js/lib/" may be distributed under different licenses, as specified within each js file.
 
 The MIT License (MIT)
 Copyright (c) 2016 University of Massachusetts, Amherst
