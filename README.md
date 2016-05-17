@@ -20,3 +20,5 @@ For example,
 `  #include "./template/css_template.html"` includes the css files into the template. The main template is index_template.html, which generates index.html.
 
 To deploy, see [how to deploy Perfume](https://bitbucket.org/bestchai/perfume-frontend/wiki/How%20to%20deploy%20Perfume).
+
+This project is distributed under the MIT license. For more info, see LICENSE.md.
