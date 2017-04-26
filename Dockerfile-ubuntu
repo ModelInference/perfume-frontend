@@ -12,9 +12,6 @@ RUN apt-get update && apt-get install -y \
 COPY . /src
 WORKDIR /src
 
-# weird permissions error
-RUN chmod 755 dockerdeploy.sh
-
 # build and deploy
 RUN ./dockerdeploy.sh /var/www/html/
 WORKDIR /var/www/html/

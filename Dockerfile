@@ -12,9 +12,6 @@ RUN apk --no-cache add \
 COPY . /src
 WORKDIR /src
 
-# weird permissions error
-RUN chmod 755 dockerdeploy.sh
-
 # build and deploy
 RUN ./dockerdeploy.sh /var/www/localhost/htdocs/
 WORKDIR /var/www/localhost/htdocs/
