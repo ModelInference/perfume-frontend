@@ -1,4 +1,4 @@
-#Perfume#
+# Perfume #
 ***
 
 **Perfume** is a tool for extracting performance models of systems from logs of the systems' behavior.
@@ -7,7 +7,7 @@
 
 * [Read more](http://cs.umass.edu/~ohmann/perfume/) about how Perfume works.
 
-###Compiling and deploying Perfume###
+### Compiling and deploying Perfume ###
 Perfume requires the cheetah python library. 
 
 Install with `$pip install cheetah`
