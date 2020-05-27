@@ -3,7 +3,7 @@
 
 **Perfume** is a tool for extracting performance models of systems from logs of the systems' behavior.
 
-* [Try out the web deployment!](http://kramer.nss.cs.ubc.ca/perfume/)
+* [Try out the web deployment!](http://model.cs.umass.edu/perfume/)
 
 * [Read more](http://cs.umass.edu/~ohmann/perfume/) about how Perfume works.
 
@@ -19,6 +19,6 @@ For example,
 
 `  #include "./template/css_template.html"` includes the css files into the template. The main template is index_template.html, which generates index.html.
 
-To deploy, see [how to deploy Perfume](https://bitbucket.org/bestchai/perfume-frontend/wiki/How%20to%20deploy%20Perfume).
+To deploy, see [how to deploy Perfume](https://github.com/ModelInference/perfume-frontend/wiki/HowtodeployPerfume).
 
 This project is distributed under the MIT license. For more info, see LICENSE.md.
